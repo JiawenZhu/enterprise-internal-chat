@@ -1,6 +1,6 @@
 package Controller;
 
-public class LogController {
+public class Logger {
 	public static void saveLog() {
 		
 	}
