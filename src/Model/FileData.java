@@ -32,4 +32,21 @@ public class FileData implements Serializable {
          
       }
    }
+   
+   /**
+    * method to save file to specific location
+    * @param path          full path of destination
+    * @return              true if success
+    */
+   public boolean SaveTo(String path) {
+      try {
+         FileOutputStream fos = new FileOutputStream(path);
+         fos.write(fileData);
+         fos.close();
+         return true;
+      }
+      catch (Exception ex) {
+         return false;
+      }
+   }
 }
