@@ -1,7 +1,5 @@
 package Controller;
 
-import javax.swing.JFileChooser;
-
 import Model.MessageData;
 
 public class TestServer {
@@ -13,7 +11,7 @@ public class TestServer {
 			new MessageListener() {
 				@Override
 				public void processMessage(MessageData e) {
-					System.out.println(e.getMessage());
+					System.out.println(e.getMessage() + ", " + e.getFiles().size());
 				} 
 		    }
 		);		
