@@ -1,5 +1,7 @@
 package Controller;
 
+import javax.swing.JFileChooser;
+
 import Model.MessageData;
 
 public class TestServer {
@@ -14,8 +16,7 @@ public class TestServer {
 					System.out.println(e.getMessage());
 				} 
 		    }
-		);
-		
+		);		
 		receiver.run();
 	}
 }
