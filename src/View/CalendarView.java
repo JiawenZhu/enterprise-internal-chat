@@ -20,42 +20,57 @@ public class CalendarView {
 	public CalendarView(){
 		JFrame calendarFrame= new JFrame("Calendar");
 		calendarFrame.setLayout(null);
-		
-		
+	
 		JPanel date= new JPanel();
-		FlowLayout layout=new FlowLayout(FlowLayout.LEADING, 65, 10);
-		
+		GridLayout layout=new GridLayout(1,7);	
 		date.setLayout(layout);
-	    date.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		date.add(new JLabel("Sun"));
-		date.add(new JLabel("Mon"));
-		date.add(new JLabel("Tue"));
-		date.add(new JLabel("Wed"));
-		date.add(new JLabel("Thu"));
-		date.add(new JLabel("Fri"));
-		date.add(new JLabel("Sat"));
-		
+		JLabel sun= new JLabel("Sun");
+		date.add(sun);
+		sun.setHorizontalAlignment(JLabel.RIGHT);
+		JLabel mon=new JLabel("Mon");
+		date.add(mon);
+		mon.setHorizontalAlignment(JLabel.RIGHT);
+		JLabel tue=new JLabel("Tue");
+		date.add(tue);
+		tue.setHorizontalAlignment(JLabel.RIGHT);
+		JLabel wed=new JLabel("Wed");
+		date.add(wed);
+		wed.setHorizontalAlignment(JLabel.RIGHT);
+		JLabel thu=new JLabel("Thu");
+		date.add(thu);
+		thu.setHorizontalAlignment(JLabel.RIGHT);
+		JLabel fri=new JLabel("Fri");
+		date.add(fri);
+		fri.setHorizontalAlignment(JLabel.RIGHT);
+		JLabel sat= new JLabel("Sat");
+		date.add(sat);
+		sat.setHorizontalAlignment(JLabel.RIGHT);
 		date.setLocation(0,0);
-		date.setSize(700, 40);
+		date.setSize(650, 40);
 		
 		JPanel day = new JPanel();
 		day.setLayout(new GridLayout(5, 7));
-		day.setLocation(0,40);
-		day.setSize(700,400);
-		day.setBorder(
-				 BorderFactory.createLineBorder(Color.black));
+		setBorder(day);
+		day.setLocation(20,40);
+		day.setSize(650,400);
+		day.setBorder(BorderFactory.createLineBorder(Color.black));
 		
 		
 		calendarFrame.add(date);
-		
 		calendarFrame.add(day);
 		calendarFrame.setSize(700, 500);
 		calendarFrame.setVisible(true);
 		
 	}
 	
-	
-	
+	void setBorder(JPanel p){
+		for(int i=0; i<(5*7);i++){
+			JLabel day= new JLabel(i+"");
+			day.setBorder(BorderFactory.createLineBorder(Color.gray));
+			p.add(day);
+		}
+		
+	}
 	
 	
  public void getLogData(File eventData){
