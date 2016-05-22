@@ -5,7 +5,7 @@ import java.io.*;
 import Model.*;
 
 /**
- * class send message to IP address
+ * class to send message to IP address
  * @author Sean
  *
  */
