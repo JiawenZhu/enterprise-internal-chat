@@ -2,7 +2,7 @@
 
 ###Project 1 Proposal###
 
-####HHZX Trading Simulator####
+####iChat####
 
 __Team Composition:__<br>
 Rong Huang,Shuai Huang,Jiawen Zhu,Tianrong Xiao
@@ -33,23 +33,22 @@ Rong Huang,Shuai Huang,Jiawen Zhu,Tianrong Xiao
 ## 1.0	Project Overview
 ### 1.1 Abstract
 
-Trading stock for profit is hard to carry out and very risky. Students will gain experience of and deeper understanding about the stock market by utilizing this software. As an old saying goes 'a picture is worth a thousand words'.Charts are the footprints of past stock movement and may help to predict the future. The software simulates the stock movement, and users are allowed to make trading decisions based on the charts. This software will help students to practice their trading skills.This software also would help students understand the significance of the stock market
+In some companies with high security concern,it is important to keep all the communications within the company. This chatting software helps to achieve this by allowing peer to peer connection via IP address. It allows both one to one chatting and also group chatting. 
+It has other features such as file sending and chat log saving that would better help the employee during work.
 
 
+### 1.2. Target Customer [LOOK LATER]
 
-### 1.2. Target Customer 
-
-The client is Business and Social Science Division of Foothill. The software will help their students understand the stock market.
-Our direct customers are students who are taking the Principles of Macroeconomics and Principle of Microeconomics classes. They will try out the game after class to gain a better understanding of the stock market.
+The client is companies with concern of their security.This software helps to keep the security while allowing their employees to have conversations with each other.Our direct customers are employees in the comapanies. They will use this for their daily conversations.
 
 
 
 ### 1.3.	Search Words 
-Stock Trading, Game, Software, Trading Simulator
+Chatting Application, Peer to Peer Connection, IP Connection, File Sending
 
-### 1.4.	Assumptions 
-  * Past stock movement has predictive value in the future movement
-  * Students have little idea of how the stock market works
+### 1.4.	Assumptions [NOT SURE NEED CHANGE]
+  * There is multiples ports for connection.
+  * Employee prefer chatting via the internet instead of face to face.
 
 
 ###1.5.	Scope and Objectives 
