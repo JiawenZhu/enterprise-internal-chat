@@ -2,6 +2,11 @@ package Model;
 
 import java.io.*;
 
+/**
+ * Class to store file data
+ * @author Sean
+ *
+ */
 public class FileData implements Serializable {
    private static final long serialVersionUID = 1L;
    private String file_name;
@@ -30,6 +35,23 @@ public class FileData implements Serializable {
       }
       catch (Exception ex) {
          
+      }
+   }
+   
+   /**
+    * method to save file to specific location
+    * @param path          full path of destination
+    * @return              true if success
+    */
+   public boolean SaveTo(String path) {
+      try {
+         FileOutputStream fos = new FileOutputStream(path);
+         fos.write(fileData);
+         fos.close();
+         return true;
+      }
+      catch (Exception ex) {
+         return false;
       }
    }
 }
