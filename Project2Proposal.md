@@ -52,24 +52,26 @@ Chatting Application, Peer to Peer Connection, IP Connection, File Sending
 
 
 ###1.5.	Scope and Objectives 
-This software teaches student how to trade in a simulated stock market. The software uses historical data from real stock on the market right now to create a chart.First, the user would be given a certain amount of principal. Each day, only certain amount of the chart would be revealed to the users. The user will then rely on the chart to make trading decisions which are buying or selling his/her stock. Their performance would be assessed by the percentage of principal remained in their account. Then, the users would be ranked based on the percentage.The username, stock information, and the ranking would all be recorded in a database. 
+This software allow users to chat with others by finding other person's IP address. It allows for both one-to-one chatting and group chatting. It also allows users to sent file to the other party. Everyday, the chatting history would be saved as a .txt file where users could access to daily chat log via a calendar. The software also support other thing such as gaming.
 
 The design of the software is the following:
 
-The first window is the login window. It allows users to login to the game by inputing username and password:
-If the user is new, the user can click the right corner of the window. 
-![Image of first login page](https://github.com/FH-Sp16-CS40A-40820/team02-project01/blob/master/Design-Document/gui/1.png)
+The first window is the chat window. It allows users find other party via port and IP address by typing in the other party's IP adress and port. When the other party is connected,both party could chat by typing into the text box. The user could also sent file to other party by pressing the sent file button. Lastly, the user could check past coversation by pressing the Log button
+![Image of Chat page](https://github.com/FH-Sp16-CS40A-40820/team02-project02/blob/GameV/Design/ChatView.png)
 
-This is the same login window but for first time user only. It allow users to create a new account.
-![Image of first time user login page](https://github.com/FH-Sp16-CS40A-40820/team02-project01/blob/master/Design-Document/gui/2.png)
+This is the window that pops up if the user press "File" button in the Chat window. It allow users to find a file from directory and pick the file to open and sent.
+![Image of Send Folder Page ](https://github.com/FH-Sp16-CS40A-40820/team02-project02/blob/GameV/Design/FolderView.png)
 
-This is our main window. First time users choose the stock they want to buy by looking at the chart. If they are satisfied with the current stock chart shown, they can start the game. Else, they can choose to see the next stock.When beginning the game, a user firstly has a principle of $10000. When the user decides to purchase certain stock, this money would all go into the market. Then the user can decide to see the next day or the next week or the next year’s data. Judging from the data and the amount of money the user has, the user can decide to hold on to the stock or sell the stock. The user’s performance in the game will be determined by the rate which calculated with the amount of money gained or lost by the user. This rate would then be used to rank different users. The ranking could be checked via the leaderboard:
-![Image of the main window](https://github.com/FH-Sp16-CS40A-40820/team02-project01/blob/master/Design-Document/gui/3.jpg)
+This is the Calendar that the user could check the different logs saved in the different dates.This window would show up if the User press the log button.
+![Image of the Calendar](https://github.com/FH-Sp16-CS40A-40820/team02-project02/blob/GameV/Design/CalendarView.png)
 
 The last part of the design is the rank board which ranks users with the rate. The techniques that we could use during the project include building up a database, connecting the database to the java program, coding the GUI of the software, and developing algorithms:
 
 ![Image of the rankboard](https://github.com/FH-Sp16-CS40A-40820/team02-project01/blob/master/Design-Document/gui/4.png)
 
+This is the easter egg window that would pop up if both party types in a command.Both party could play a simple Go game called Gomuku.
+
+![Image of the rankboard](https://github.com/FH-Sp16-CS40A-40820/team02-project02/blob/GameV/Design/GameView.png)
 We would document the progress of our project through meeting minutes and work on each part of project on our own and share our code on the Github repository.
 The priority task we have right now is to design a database that could hold the data and also designing the GUI of the software.
 
@@ -100,14 +102,13 @@ The priority task we have right now is to design a database that could hold the 
 * Non-Technical Constraints:
   *There is little time to fully develop to a grand project
 * Technical Constraints:
-  * We will use SQL database as our back-end data store
+  * We will use researched open source code and used it in our code
   *The software is developed using Java and thus can be run under any operating system
 
 ### 2.3. Challenges
-* Design a database schema that supports the application
-* Collect stock historical price data and store it in the SQL server database along with other application data
-* Game has reasonable equal difficulty levels for every player. The stock with low volatility is considered more difficult to profit from than the one with high volatility.
-* Connecting the database with the software.
+* Design a connection tool to do peer to peer connection
+* Design a calendar interface
+
 
 
 ---
