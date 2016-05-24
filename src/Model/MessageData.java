@@ -19,7 +19,7 @@ public class MessageData implements Serializable {
    
    /**
     * 2-parameter constructor
-    * @param sender        sender ip address
+    * @param sender        sender IP address
     * @param msg           message body
     */
    public MessageData(String sender, String msg) {
