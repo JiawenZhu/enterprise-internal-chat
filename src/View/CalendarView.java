@@ -19,24 +19,24 @@ import javax.swing.border.Border;
 public class CalendarView {
 	
 	File event;
-	public CalendarView(){
-		
-		JFrame calendarFrame= new JFrame("Calendar");
+	String month;
+	public CalendarView(String month){
+		this.month=month;
+		JFrame calendarFrame= new JFrame(month);
 		calendarFrame.setLayout(null);
 		
 		JPanel buttons = new JPanel();
 		SpringLayout spring = new SpringLayout();
+		
 		buttons.setLayout(spring);
 		buttons.setLocation(0,0);
 		buttons.setSize(650, 40);
 		JButton previous= new JButton("previous");
+		previous.addActionListener(new previousActionListener());
 	    buttons.add(previous);
 		JButton next = new JButton("next");
-	
 		next.addActionListener(new nextActionListener());
-		
-		
-		
+	
 		buttons.add(next);
 		spring.putConstraint(SpringLayout.WEST,previous,5,SpringLayout.WEST, buttons);
 		spring.putConstraint(SpringLayout.NORTH,previous,15,SpringLayout.NORTH, buttons);
@@ -71,54 +71,44 @@ public class CalendarView {
 		date.setLocation(20,40);
 		date.setSize(650, 40);
 		
-		JPanel day = new JPanel();
-		day.setLayout(new GridLayout(5, 7));
-		setBorder(day);
-		day.setLocation(20,80);
-		day.setSize(650,400);
-		day.setBorder(BorderFactory.createLineBorder(Color.black));
-		
 		calendarFrame.add(date);
-		calendarFrame.add(day);
+		
+		
+		//calendarFrame.add(new Calendar(650, 400));
+		
+		
 		calendarFrame.setSize(700, 600);
 		calendarFrame.setResizable(false);
 		calendarFrame.setVisible(true);	
-	}
-	
-	
-void makeCalendar(){
-	
-	}
-	
-	void setBorder(JPanel p){
-		for(int i=0; i<(5*7);i++){
-			JLabel day= new JLabel(i+"");
-			day.setBorder(BorderFactory.createLineBorder(Color.gray));
-			p.add(day);
-		}
 	}
 	
  public void getLogData(File eventData){
 	event=eventData;
  }
  
+ 
+ 
+ 
  class nextActionListener implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-		// repaint the calendar and add to the calendarList
-		if(next==null){
-		CalendarView nextCalendar = new CalendarView();
-		CalendarAgent.addToTheList(nextCalendar);}
-		else{
-			getNext();
-		}
-		
+	
 		
 		// this shoudld be calendar.getNext();
 
+	}
+	 
+ }
+ class previousActionListener implements ActionListener{
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+	
+		
+		// need to get the current display of the CalendarView
+		
 	}
 	 
  }
