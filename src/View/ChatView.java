@@ -18,6 +18,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import javax.swing.JScrollBar;
+import java.awt.CardLayout;
+import javax.swing.SwingConstants;
+import java.awt.GridLayout;
 
 public class ChatView {
 
@@ -69,7 +72,6 @@ public class ChatView {
 		
 		// top panel //
 		panel_top = new JPanel();
-		panel_top.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		//  middle panel //
 		panel_middle = new JPanel();
@@ -79,10 +81,13 @@ public class ChatView {
 		panel_bottom = new JPanel();
 		panel_bottom.setBackground(new Color(238, 238, 238));
 		panel_bottom.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panel_top.setLayout(new GridLayout(0, 4, 0, 0));
 		
 		
 		lblPortNumber = new JLabel("Port Number");
+		lblPortNumber.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_top.add(lblPortNumber);
+		panel_top.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{lblPortNumber, textField_portNumber, textField_IPAddress, lblIpAddress}));
 		
 		textField_portNumber = new JTextField();
 		textField_portNumber.setText("8823");
@@ -98,7 +103,6 @@ public class ChatView {
 		
 		
 		frame.getContentPane().add(panel_top, BorderLayout.NORTH);
-		panel_top.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{lblPortNumber, textField_portNumber, textField_IPAddress, lblIpAddress}));
 		frame.getContentPane().add(panel_middle, BorderLayout.CENTER);
 		frame.getContentPane().add(panel_bottom, BorderLayout.SOUTH);
 		
