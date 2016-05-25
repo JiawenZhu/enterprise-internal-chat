@@ -11,7 +11,7 @@ import Model.MessageData;
 public class Logger {
 	public static String LOG_PATH = "LOG.txt";
 	
-	public static void saveLog() {
+	public static void saveLog(ArrayList<MessageData> data) {
 		
 	}
 	
