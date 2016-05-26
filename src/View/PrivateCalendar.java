@@ -21,12 +21,11 @@ public class PrivateCalendar extends JPanel{
     JFrame  importFrame;
 	String month;
 	
-	public PrivateCalendar(JFrame frame){
-		this.importFrame= frame;
-	}
-	     public PrivateCalendar(String name,JFrame frame){		
+//	public PrivateCalendar(JFrame frame){
+	//	this.importFrame= frame;
+	//}
+	     public PrivateCalendar(String name){		
 	    	 month=name;
-	    	 
 	    	 this.addMouseListener( new InnerCalMouseListener());
 	    	SpringLayout spring= new SpringLayout();
 	    	 this.setLayout(spring);
@@ -50,7 +49,8 @@ public class PrivateCalendar extends JPanel{
 		     spring.putConstraint(SpringLayout.WEST, cal, 40, SpringLayout.WEST, this);
 		     this.setBorder(BorderFactory.createLineBorder(Color.black));
 	}
-     	void setDays(JPanel p){
+     
+		void setDays(JPanel p){
      		
      		for(int i=0; i<(5*7);i++){
      			JLabel label= new JLabel(i+"");
@@ -75,9 +75,9 @@ public class PrivateCalendar extends JPanel{
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			// TODO Auto-generated method stub
-		importFrame.setVisible(false);
+		    CalendarOverview.hideWindow();
 			CalendarMaker maker= new CalendarMaker();
-			maker.drawCurrentMonth(month, importFrame);
+			maker.drawCurrentMonth(month);
 			
 		}
 
