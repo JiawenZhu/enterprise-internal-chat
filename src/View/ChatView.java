@@ -222,7 +222,7 @@ public class ChatView {
 						public void processMessage(MessageData e) {
 							//System.out.println(e.getMessage());
 							DefaultListModel mod = (DefaultListModel)lstChat.getModel();
-							mod.addElement("[" + e.getSenderIP() + "]: " + e.getMessage());
+							mod.addElement("[" + e.getDateTime() + "][" + e.getSenderIP() + "]: " + e.getMessage());
 						}
 					});
 					
