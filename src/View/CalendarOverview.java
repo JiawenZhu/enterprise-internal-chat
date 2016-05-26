@@ -6,11 +6,12 @@ import java.awt.GridLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class CalendarOverview {
+public class CalendarOverview  {
 
 	public CalendarOverview(){
-		JFrame overView= new JFrame("calendar");
-		overView.setLayout(null);
+		
+JFrame calendar= new JFrame("calendar");
+calendar.setLayout(null);
 		JPanel background= new JPanel();
 		background.setSize(new Dimension(750, 650));
 		background.setLocation(20, 20);
@@ -22,19 +23,13 @@ public class CalendarOverview {
 		 String[] months = {"January", "February", "March","April","May","June","July", "August",
 					"September", "October", "November","December"};
 			     for(int i=0; i< months.length; i++){
-			         background.add(new Calendar(months[i]));	
+			    	 //PrivateCalendar passFrame = new PrivateCalendar(calendar);
+			         background.add(new PrivateCalendar(months[i], calendar));	
 			         }		
-		overView.add(background);
-		overView.setSize(800, 700);
-		overView.setResizable(false);
-		overView.setVisible(true);
-		
-		
-		
-		
-		
-		
-		
-	}
+		calendar.add(background);
+		calendar.setSize(800, 700);
+		calendar.setResizable(false);
+		calendar.setVisible(true);
+	}	
 
 }
