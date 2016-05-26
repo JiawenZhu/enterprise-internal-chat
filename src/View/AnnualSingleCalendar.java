@@ -17,14 +17,14 @@ import javax.swing.JTextPane;
 import javax.swing.SpringLayout;
 import javax.swing.border.LineBorder;
 
-public class PrivateCalendar extends JPanel{
+public class AnnualSingleCalendar extends JPanel{
     JFrame  importFrame;
 	String month;
 	
 //	public PrivateCalendar(JFrame frame){
 	//	this.importFrame= frame;
 	//}
-	     public PrivateCalendar(String name){		
+	     public AnnualSingleCalendar(String name){		
 	    	 month=name;
 	    	 this.addMouseListener( new InnerCalMouseListener());
 	    	SpringLayout spring= new SpringLayout();
@@ -76,7 +76,7 @@ public class PrivateCalendar extends JPanel{
 		public void mouseReleased(MouseEvent e) {
 			// TODO Auto-generated method stub
 		    CalendarOverview.hideWindow();
-			CalendarMaker maker= new CalendarMaker();
+			MonthlyCalendarMaker maker= new MonthlyCalendarMaker();
 			maker.drawCurrentMonth(month);
 			
 		}
