@@ -10,7 +10,10 @@ import java.awt.Color;
 
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
+import Controller.Logger;
 import Controller.OpenFile;
+import Model.LogData;
+import Model.MessageData;
 
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -41,15 +44,14 @@ public class ChatView {
 	private JLabel lblIpAddress;
 	private JTextField textField_IPAddress;
 	private JPanel panel_top;
-	private JPanel panel_middle;
+	private JPanel panel_middle;		
 	private JPanel panel_bottom;
 	private JTextField txt;
 	private JButton send;
 	private JButton selectFile;
-	
-	private JTextArea displayName;
+	private JTextArea textArea;
 	private JLabel displaytxtLabel;
-	
+	private JButton btnConnect;
 
 	/**
 	 * Launch the application.
@@ -83,95 +85,102 @@ public class ChatView {
 		frame.setBackground(new Color(238, 238, 238));
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		
+		
 		// top panel //
 		panel_top = new JPanel();
-
-		// middle panel //
+		
+		//  middle panel //
 		panel_middle = new JPanel();
 		panel_middle.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-
+		
 		// bottom panel //
 		panel_bottom = new JPanel();
 		panel_bottom.setBackground(new Color(238, 238, 238));
 		panel_bottom.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		panel_top.setLayout(new GridLayout(0, 4, 0, 0));
-
+		panel_top.setLayout(new GridLayout(0, 5, 0, 0));
+		
+		
 		lblPortNumber = new JLabel("Port Number");
 		lblPortNumber.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_top.add(lblPortNumber);
-		panel_top.setFocusTraversalPolicy(new FocusTraversalOnArray(
-				new Component[] { lblPortNumber, textField_portNumber,
-						textField_IPAddress, lblIpAddress }));
-
+		panel_top.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{lblPortNumber, textField_portNumber, textField_IPAddress, lblIpAddress}));
+		
 		textField_portNumber = new JTextField();
 		textField_portNumber.setText("8823");
-		textField_portNumber.setColumns(4);
+		textField_portNumber.setColumns(5);
 		panel_top.add(textField_portNumber);
-
+		
 		lblIpAddress = new JLabel("IP address");
 		panel_top.add(lblIpAddress);
-
+		
 		textField_IPAddress = new JTextField();
 		textField_IPAddress.setText("192.168.1.1");
 		panel_top.add(textField_IPAddress);
-
+		
+		
 		frame.getContentPane().add(panel_top, BorderLayout.NORTH);
+		
+		btnConnect = new JButton("Connect");
+		panel_top.add(btnConnect);
 		frame.getContentPane().add(panel_middle, BorderLayout.CENTER);
 		frame.getContentPane().add(panel_bottom, BorderLayout.SOUTH);
-
+		
+		textArea = new JTextArea();
+		panel_middle.add(textArea);
+		
+		
+		// text field port number listener // 
+		textField_portNumber.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			// connect to the port //
+			}
+		});
+		
+		// text field IP address listener //
+		textField_IPAddress.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//				if (e.getSource()==Connec)
+			}
+		});
+		
 		txt = new JTextField();
 		txt.setText("Text here");
 		panel_bottom.add(txt);
 		txt.setColumns(20);
-		
-		displayName = new JTextArea();
-		
-		// name passed in there...
-		displayName.setText("You");
-		displayName.setBackground(Color.green);
-		panel_middle.add(displayName, BorderLayout.WEST);
-
-		// text field port number listener //
-		textField_portNumber.addActionListener(new ActionListener() {
+		txt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				// connect to the port //
+				if (e.getSource()==txt){
+					// set message into the messageData //
+					MessageData md = new MessageData(null, null);
+					
+				}
 			}
 		});
-
-		// text field IP address listener //
-		textField_IPAddress.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				// ... connect to the IP address //
-			}
-		});
-
-		// send button //
+		
+		
+		
+		
+		// send button // 
 		send = new JButton("Send");
 		panel_bottom.add(send);
 		send.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (e.getSource()== txt || e.getSource() == send) {
-					
+				if(e.getSource()==txt || e.getSource()==send){
 					displaytxtLabel = new JLabel();
 					displaytxtLabel.setText(txt.getText());
 					panel_middle.add(displaytxtLabel);
-					panel_middle.add(displayName);
-					
 				}
 				
-				panel_middle.setVisible(true);
 			}
 		});
 		selectFile = new JButton("Select file");
 		panel_bottom.add(selectFile);
-
+		
 		selectFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				if (e.getSource() == selectFile) {
+				if(e.getSource()==selectFile){
 					OpenFile openFile = new OpenFile();
 					try {
 						openFile.pickAFile();
@@ -179,14 +188,16 @@ public class ChatView {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-
-//					displayFileArea.setText(openFile.sb.toString());
-
-					// create a file image on the middle panel....//
+					
+					textArea.setText(openFile.sb.toString());
+					
+					// create a file image on the middle panel....// 
 				}
 			}
 		});
-
+		
+		
+	
 	}
 
 }
