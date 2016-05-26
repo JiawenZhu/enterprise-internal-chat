@@ -35,6 +35,7 @@ public GameView() {
    setResizable(true);
    setTitle("Gokumu");
    setDefaultCloseOperation(3);
+   setSize(800, 650);
    setLocationRelativeTo(null);
    getContentPane().setLayout(null);
 
