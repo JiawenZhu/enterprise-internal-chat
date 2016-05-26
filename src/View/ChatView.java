@@ -36,6 +36,13 @@ import javax.swing.SwingConstants;
 
 import java.awt.GridLayout;
 
+/**
+ * class of main chatting window
+ * 
+ * @author Jiawen
+ * @author Sean
+ *
+ */
 public class ChatView {
 
 	private JFrame frame;
