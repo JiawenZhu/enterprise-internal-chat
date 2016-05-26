@@ -10,8 +10,6 @@ import java.awt.Color;
 
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
-import Controller.Logger;
-import Controller.OpenFile;
 import Model.LogData;
 import Model.MessageData;
 
@@ -35,6 +33,12 @@ import java.awt.CardLayout;
 import javax.swing.SwingConstants;
 
 import java.awt.GridLayout;
+import Controller.*;
+import javax.swing.JList;
+import javax.swing.ListSelectionModel;
+import javax.swing.AbstractListModel;
+import javax.swing.DefaultListModel;
+import javax.swing.border.LineBorder;
 
 /**
  * class of main chatting window
@@ -53,13 +57,12 @@ public class ChatView {
 	private JPanel panel_top;
 	private JPanel panel_middle;		
 	private JPanel panel_bottom;
-	private JTextField txt;
-	private JButton send;
-	private JButton selectFile;
-	private JTextArea textArea;
+	private JTextField txtMessage;
+	private JButton btnSendMsg;
+	private JButton btnSelectFile;
 	private JLabel displaytxtLabel;
 	private JButton btnConnect;
-
+	private JList lstChat;
 	/**
 	 * Launch the application.
 	 */
@@ -99,7 +102,6 @@ public class ChatView {
 		
 		//  middle panel //
 		panel_middle = new JPanel();
-		panel_middle.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		// bottom panel //
 		panel_bottom = new JPanel();
@@ -122,7 +124,7 @@ public class ChatView {
 		panel_top.add(lblIpAddress);
 		
 		textField_IPAddress = new JTextField();
-		textField_IPAddress.setText("192.168.1.1");
+		textField_IPAddress.setText("localhost");
 		panel_top.add(textField_IPAddress);
 		
 		
@@ -131,10 +133,16 @@ public class ChatView {
 		btnConnect = new JButton("Connect");
 		panel_top.add(btnConnect);
 		frame.getContentPane().add(panel_middle, BorderLayout.CENTER);
-		frame.getContentPane().add(panel_bottom, BorderLayout.SOUTH);
+		panel_middle.setLayout(new BorderLayout(0, 0));
 		
-		textArea = new JTextArea();
-		panel_middle.add(textArea);
+		lstChat = new JList();
+		lstChat.setVisibleRowCount(20);
+		lstChat.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		lstChat.setBorder(new LineBorder(new Color(0, 0, 0)));
+		lstChat.setModel(new DefaultListModel());
+		lstChat.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		panel_middle.add(lstChat);
+		frame.getContentPane().add(panel_bottom, BorderLayout.SOUTH);
 		
 		
 		// text field port number listener // 
@@ -152,13 +160,13 @@ public class ChatView {
 			}
 		});
 		
-		txt = new JTextField();
-		txt.setText("Text here");
-		panel_bottom.add(txt);
-		txt.setColumns(20);
-		txt.addActionListener(new ActionListener() {
+		txtMessage = new JTextField();
+		txtMessage.setText("Text here");
+		panel_bottom.add(txtMessage);
+		txtMessage.setColumns(20);
+		txtMessage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (e.getSource()==txt){
+				if (e.getSource()==txtMessage){
 					// set message into the messageData //
 					MessageData md = new MessageData(null, null);
 					
@@ -166,28 +174,28 @@ public class ChatView {
 			}
 		});
 		
-		
-		
-		
 		// send button // 
-		send = new JButton("Send");
-		panel_bottom.add(send);
-		send.addActionListener(new ActionListener() {
+		btnSendMsg = new JButton("Send");
+		panel_bottom.add(btnSendMsg);
+		btnSendMsg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(e.getSource()==txt || e.getSource()==send){
-					displaytxtLabel = new JLabel();
-					displaytxtLabel.setText(txt.getText());
-					panel_middle.add(displaytxtLabel);
+				if(e.getSource()==txtMessage || e.getSource()==btnSendMsg){
+					String address = textField_IPAddress.getText();
+					MessageData msg = new MessageData(address, txtMessage.getText());
+					MessageSender sender = new MessageSender("localhost", 8823, msg);
+					(new Thread(sender)).start();
 				}
 				
 			}
 		});
-		selectFile = new JButton("Select file");
-		panel_bottom.add(selectFile);
+		btnSelectFile = new JButton("Attach File");
+		panel_bottom.add(btnSelectFile);
 		
-		selectFile.addActionListener(new ActionListener() {
+		
+		btnSelectFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(e.getSource()==selectFile){
+				if(e.getSource()==btnSelectFile){
+					DefaultListModel<String> mod = (DefaultListModel<String>)lstChat.getModel();
 					OpenFile openFile = new OpenFile();
 					try {
 						openFile.pickAFile();
@@ -196,14 +204,32 @@ public class ChatView {
 						e1.printStackTrace();
 					}
 					
-					textArea.setText(openFile.sb.toString());
+					mod.addElement(openFile.sb.toString());
 					
 					// create a file image on the middle panel....// 
 				}
 			}
 		});
 		
-		
+		btnConnect.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == btnConnect) {
+					int port = Integer.parseInt(textField_portNumber.getText());
+					MessageReceiver rec = new MessageReceiver(port);
+					rec.addMessageListener(new MessageListener() {
+
+						@Override
+						public void processMessage(MessageData e) {
+							//System.out.println(e.getMessage());
+							DefaultListModel mod = (DefaultListModel)lstChat.getModel();
+							mod.addElement("[" + e.getSenderIP() + "]: " + e.getMessage());
+						}
+					});
+					
+					(new Thread(rec)).start();
+				}
+			}
+		});
 	
 	}
 

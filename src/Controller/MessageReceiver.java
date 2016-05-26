@@ -6,10 +6,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import Model.MessageData;
 
-interface MessageListener {
-    public void processMessage(MessageData e);
-}
-
 /**
  * class to receive message
  * @author Sean
