@@ -5,27 +5,20 @@ import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 public class CalendarOverview {
 static JFrame frame;
 	public CalendarOverview(){
 		JFrame CalFrame= new JFrame("Calendar");
         CalFrame.setLayout(null);
-		JPanel background= new JPanel();
-		background.setSize(new Dimension(750, 650));
-		background.setLocation(20, 20);
-		GridLayout layout=new GridLayout(4,3);
-		layout.setHgap(30);
-        layout.setVgap(30);
-        background.setLayout(layout);
+        
+        // add a list box for different years    
+        JRadioButton yearOption= new JRadioButton("Year");
+
+        // changing the Panel when different year is selected.
+		CalFrame.add(new CalendarOverview_calendar());
 		
-		 String[] months = {"January", "February", "March","April","May","June","July", "August",
-					"September", "October", "November","December"};
-			     for(int i=0; i< months.length; i++){
-			    	 //PrivateCalendar passFrame = new PrivateCalendar(calendar);
-			         background.add(new PrivateCalendar(months[i]));	
-			         }		
-		CalFrame.add(background);
 		CalFrame.setSize(800, 700);
 		CalFrame.setResizable(false);
 		CalFrame.setVisible(true);

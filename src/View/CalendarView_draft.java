@@ -16,11 +16,11 @@ import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import javax.swing.border.Border;
 
-public class CalendarView {
+public class CalendarView_draft {
 	
 	File event;
 	String month;
-	public CalendarView(String month){
+	public CalendarView_draft(String month){
 		this.month=month;
 		JFrame calendarFrame= new JFrame(month);
 		calendarFrame.setLayout(null);
