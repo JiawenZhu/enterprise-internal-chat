@@ -9,7 +9,7 @@ import Model.*;
  * @author Sean
  *
  */
-class MessageSender implements Runnable {
+public class MessageSender implements Runnable {
 	private String ip_address;
 	private int port;
 	private MessageData message;

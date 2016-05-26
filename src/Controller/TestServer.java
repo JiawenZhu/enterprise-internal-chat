@@ -6,7 +6,7 @@ public class TestServer {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		MessageReceiver receiver  = new MessageReceiver(8876);
+		MessageReceiver receiver  = new MessageReceiver(8823);
 		receiver.addMessageListener(
 			new MessageListener() {
 				@Override
