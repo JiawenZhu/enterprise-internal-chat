@@ -19,6 +19,7 @@ public class MonthlyCalendarMaker{
 	void drawCurrentMonth(String Month){
 		
 		JFrame newFrame = new JFrame(Month);
+		importFrame= newFrame;
 		BorderLayout layout = new BorderLayout();
 		
 		newFrame.setLayout(layout);
@@ -63,6 +64,9 @@ buttons.add(comment);
     	newFrame.setSize(new Dimension(500, 500));
 		newFrame.setVisible(true);
 		newFrame.setResizable(false);
+		
+		
+		
 	   }
 	public class backActionListener implements ActionListener{
 
@@ -70,6 +74,7 @@ buttons.add(comment);
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			//importFrame.setVisible(true);
+			importFrame.setVisible(false);
 			CalendarOverview.ShowWindow();
 		}
 		
