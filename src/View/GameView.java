@@ -29,22 +29,29 @@ private static final int PAWN_Y_POSITION  = 60;
 private static final int PAWN_SIZE = 40;
 private static final int SQUARE_SIZE= 40;
 Graphics board;
-private JFrame mainFrame;
+private JButton start;
+private JButton stop;
+//private JButton reset;
+//private JLabel reset;
 public GameView() {
   
    setResizable(true);
    setTitle("Gokumu");
    setDefaultCloseOperation(3);
-   setSize(800, 650);
+   setSize(850, 650);
    setLocationRelativeTo(null);
    getContentPane().setLayout(null);
 
    JPanel chessPanel = chessBoard();
    getContentPane().add(chessPanel);
+   
+  
+   JPanel timer = timer();
+   getContentPane().add(timer);
    setVisible(true);
    //board = chessPanel.getGraphics();
 }
-public JPanel chessBoard()
+private JPanel chessBoard()
 {
    JPanel chessPanel = new JPanel()
    {
@@ -52,14 +59,14 @@ public JPanel chessBoard()
       public void paint(Graphics g) {
          g.setColor(Color.BLACK);
          super.paint(g);
-         // ?
+         // rows
          for (int i = 0; i < 15; i++) 
          {
             g.drawLine(20, 20 + i * SQUARE_SIZE, 20
                   + (COLUMN - 1) *SQUARE_SIZE,
                   20 + i * SQUARE_SIZE);
          }
-         // ?
+         // columns
          for (int i = 0; i < 15; i++) 
          {
             g.drawLine(20 + i * SQUARE_SIZE, 20, 20 + i
@@ -67,6 +74,7 @@ public JPanel chessBoard()
                   + (COLUMN - 1) * SQUARE_SIZE);
          }
          g.setColor(Color.BLACK);
+         //this is the pointer/decoration on the board
          g.fillOval(133, 133, 15, 15);
          g.fillOval(293, 133, 15, 15);
          g.fillOval(453, 133, 15, 15);
@@ -81,6 +89,21 @@ public JPanel chessBoard()
    chessPanel.setBackground(new Color(209, 167, 78));
    chessPanel.setBounds(10, 10, 602, 602);
    return chessPanel;
+}
+private JPanel timer()
+{
+   
+   JPanel timer = new JPanel();
+   timer.setBounds(622, 11, 202, 185);
+   timer.setLayout(new FlowLayout());
+  // timeLbl = new JLabel();
+   start = new JButton("Start");
+   timer.add(start);
+   stop = new JButton("Stop");
+   timer.add(stop);
+   //reset = new JButton("Reset");
+   //timer.add(reset);
+   return timer;
 }
 }
 
