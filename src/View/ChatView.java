@@ -51,7 +51,7 @@ public class ChatView {
 
 	private JFrame frame;
 	private JLabel lblPortNumber;
-	private JTextField textField_portNumber;
+	private JTextField txtSendPort;
 	private JLabel lblIpAddress;
 	private JTextField textField_IPAddress;
 	private JPanel panel_top;
@@ -63,6 +63,7 @@ public class ChatView {
 	private JLabel displaytxtLabel;
 	private JButton btnConnect;
 	private JList lstChat;
+	private JTextField txtListenPort;
 	/**
 	 * Launch the application.
 	 */
@@ -107,18 +108,18 @@ public class ChatView {
 		panel_bottom = new JPanel();
 		panel_bottom.setBackground(new Color(238, 238, 238));
 		panel_bottom.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		panel_top.setLayout(new GridLayout(0, 5, 0, 0));
+		panel_top.setLayout(new GridLayout(0, 4, 0, 0));
 		
 		
-		lblPortNumber = new JLabel("Port Number");
+		lblPortNumber = new JLabel("Send Port");
 		lblPortNumber.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_top.add(lblPortNumber);
-		panel_top.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{lblPortNumber, textField_portNumber, textField_IPAddress, lblIpAddress}));
+		panel_top.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{lblPortNumber, txtSendPort, textField_IPAddress, lblIpAddress}));
 		
-		textField_portNumber = new JTextField();
-		textField_portNumber.setText("8823");
-		textField_portNumber.setColumns(5);
-		panel_top.add(textField_portNumber);
+		txtSendPort = new JTextField();
+		txtSendPort.setText("8823");
+		txtSendPort.setColumns(5);
+		panel_top.add(txtSendPort);
 		
 		lblIpAddress = new JLabel("IP address");
 		panel_top.add(lblIpAddress);
@@ -132,6 +133,31 @@ public class ChatView {
 		
 		btnConnect = new JButton("Connect");
 		panel_top.add(btnConnect);
+		
+		txtListenPort = new JTextField();
+		txtListenPort.setText("8822");
+		panel_top.add(txtListenPort);
+		txtListenPort.setColumns(10);
+		
+		btnConnect.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == btnConnect) {
+					int port = Integer.parseInt(txtListenPort.getText());
+					MessageReceiver rec = new MessageReceiver(port);
+					rec.addMessageListener(new MessageListener() {
+
+						@Override
+						public void processMessage(MessageData e) {
+							//System.out.println(e.getMessage());
+							DefaultListModel mod = (DefaultListModel)lstChat.getModel();
+							mod.addElement("[" + e.getDateTime() + "][" + e.getSenderIP() + "]: " + e.getMessage());
+						}
+					});
+					
+					(new Thread(rec)).start();
+				}
+			}
+		});
 		frame.getContentPane().add(panel_middle, BorderLayout.CENTER);
 		panel_middle.setLayout(new BorderLayout(0, 0));
 		
@@ -146,7 +172,7 @@ public class ChatView {
 		
 		
 		// text field port number listener // 
-		textField_portNumber.addActionListener(new ActionListener() {
+		txtSendPort.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 			// connect to the port //
@@ -181,8 +207,9 @@ public class ChatView {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==txtMessage || e.getSource()==btnSendMsg){
 					String address = textField_IPAddress.getText();
+					int port = Integer.parseInt(txtSendPort.getText());
 					MessageData msg = new MessageData(address, txtMessage.getText());
-					MessageSender sender = new MessageSender("localhost", 8823, msg);
+					MessageSender sender = new MessageSender("localhost",port , msg);
 					(new Thread(sender)).start();
 				}
 				
@@ -207,26 +234,6 @@ public class ChatView {
 					mod.addElement(openFile.sb.toString());
 					
 					// create a file image on the middle panel....// 
-				}
-			}
-		});
-		
-		btnConnect.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (e.getSource() == btnConnect) {
-					int port = Integer.parseInt(textField_portNumber.getText());
-					MessageReceiver rec = new MessageReceiver(port);
-					rec.addMessageListener(new MessageListener() {
-
-						@Override
-						public void processMessage(MessageData e) {
-							//System.out.println(e.getMessage());
-							DefaultListModel mod = (DefaultListModel)lstChat.getModel();
-							mod.addElement("[" + e.getDateTime() + "][" + e.getSenderIP() + "]: " + e.getMessage());
-						}
-					});
-					
-					(new Thread(rec)).start();
 				}
 			}
 		});
