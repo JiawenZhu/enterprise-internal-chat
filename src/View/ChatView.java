@@ -39,6 +39,12 @@ import javax.swing.ListSelectionModel;
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.border.LineBorder;
+import java.awt.Font;
+import javax.swing.BoxLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import net.miginfocom.swing.MigLayout;
 
 /**
  * class of main chatting window
@@ -107,8 +113,7 @@ public class ChatView {
 		// bottom panel //
 		panel_bottom = new JPanel();
 		panel_bottom.setBackground(new Color(238, 238, 238));
-		panel_bottom.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		panel_top.setLayout(new GridLayout(0, 4, 0, 0));
+		panel_top.setLayout(new GridLayout(0, 6, 0, 0));
 		
 		
 		lblPortNumber = new JLabel("Send Port");
@@ -121,23 +126,32 @@ public class ChatView {
 		txtSendPort.setColumns(5);
 		panel_top.add(txtSendPort);
 		
+		
+		// text field port number listener // 
+		txtSendPort.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			// connect to the port //
+			}
+		});
+		
 		lblIpAddress = new JLabel("IP address");
+		lblIpAddress.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		panel_top.add(lblIpAddress);
 		
 		textField_IPAddress = new JTextField();
 		textField_IPAddress.setText("localhost");
 		panel_top.add(textField_IPAddress);
 		
-		
-		frame.getContentPane().add(panel_top, BorderLayout.NORTH);
+		// text field IP address listener //
+		textField_IPAddress.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//				if (e.getSource()==Connec)
+			}
+		});
 		
 		btnConnect = new JButton("Connect");
 		panel_top.add(btnConnect);
-		
-		txtListenPort = new JTextField();
-		txtListenPort.setText("8822");
-		panel_top.add(txtListenPort);
-		txtListenPort.setColumns(10);
 		
 		btnConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -158,6 +172,14 @@ public class ChatView {
 				}
 			}
 		});
+		
+		txtListenPort = new JTextField();
+		txtListenPort.setText("8822");
+		panel_top.add(txtListenPort);
+		txtListenPort.setColumns(10);
+		
+		
+		frame.getContentPane().add(panel_top, BorderLayout.NORTH);
 		frame.getContentPane().add(panel_middle, BorderLayout.CENTER);
 		panel_middle.setLayout(new BorderLayout(0, 0));
 		
@@ -169,22 +191,7 @@ public class ChatView {
 		lstChat.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		panel_middle.add(lstChat);
 		frame.getContentPane().add(panel_bottom, BorderLayout.SOUTH);
-		
-		
-		// text field port number listener // 
-		txtSendPort.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			// connect to the port //
-			}
-		});
-		
-		// text field IP address listener //
-		textField_IPAddress.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-//				if (e.getSource()==Connec)
-			}
-		});
+		panel_bottom.setLayout(new BoxLayout(panel_bottom, BoxLayout.X_AXIS));
 		
 		txtMessage = new JTextField();
 		txtMessage.setText("Text here");
