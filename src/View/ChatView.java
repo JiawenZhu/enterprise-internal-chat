@@ -10,41 +10,22 @@ import java.awt.Color;
 
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
-import Model.LogData;
 import Model.MessageData;
-
 import java.awt.Component;
-import java.awt.FlowLayout;
-
 import javax.swing.JTextField;
 import javax.swing.JPanel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
-import javax.swing.JTextArea;
-import javax.swing.JScrollBar;
-
-import java.awt.CardLayout;
-
 import javax.swing.SwingConstants;
-
 import java.awt.GridLayout;
 import Controller.*;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
-import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.border.LineBorder;
 import java.awt.Font;
 import javax.swing.BoxLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import net.miginfocom.swing.MigLayout;
 
 /**
  * class of main chatting window
