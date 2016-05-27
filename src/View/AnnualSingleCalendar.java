@@ -1,6 +1,7 @@
 package View;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,18 +26,24 @@ public class AnnualSingleCalendar extends JPanel{
 	//	this.importFrame= frame;
 	//}
 	     public AnnualSingleCalendar(String name){		
+	    	 
+	    	 
+	    	 this.setBackground(Color.white);
 	    	 month=name;
 	    	 this.addMouseListener( new InnerCalMouseListener());
 	    	SpringLayout spring= new SpringLayout();
 	    	 this.setLayout(spring);
 	    	 
 	    	 JLabel nam= new JLabel(name);
+	    	 nam.setForeground(Color.red);
 	    	 nam.setBorder(BorderFactory.createEmptyBorder());
 	    	 
 	    	 this.add(nam);
 	    	 
 	    	 JPanel cal= new JPanel();
-	    	 GridLayout grid = new GridLayout(5, 7);
+	    	 cal.setOpaque(isOpaque());
+	    	 cal.setBackground(Color.white);
+	    	 GridLayout grid = new GridLayout(6, 7);
 		     cal.setLayout(grid);
 		     grid.setHgap(4);
 		     grid.setVgap(2);
@@ -45,15 +52,30 @@ public class AnnualSingleCalendar extends JPanel{
 		     this.add(cal);
 		     spring.putConstraint(SpringLayout.WEST, nam, 30, SpringLayout.WEST, this);
 		     spring.putConstraint(SpringLayout.NORTH, nam, 10, SpringLayout.NORTH, this);
-		     spring.putConstraint(SpringLayout.SOUTH, cal, 110, SpringLayout.NORTH, nam);
-		     spring.putConstraint(SpringLayout.WEST, cal, 40, SpringLayout.WEST, this);
-		     this.setBorder(BorderFactory.createLineBorder(Color.black));
+		     spring.putConstraint(SpringLayout.SOUTH, cal, 130, SpringLayout.NORTH, nam);
+		     spring.putConstraint(SpringLayout.WEST, cal, 25, SpringLayout.WEST, this);
+		    // this.setBorder(BorderFactory.createLineBorder(Color.black));
 	}
      
 		void setDays(JPanel p){
      		
+			String[] day= new String[]{"Sun","Mon","Tue", "Wed", "Thu", "Fri", "Sat"};
+			
+			for (int i=0; i<7;i++){
+				JLabel label= new JLabel(day[i]);
+				label.setBackground(Color.WHITE);
+     			label.setForeground(Color.gray);
+     			label.setOpaque(isOpaque());
+     			label.setFont(new Font("Chalkboard",Font.PLAIN, 12));
+				p.add(label);
+			}
+			
      		for(int i=0; i<(5*7);i++){
      			JLabel label= new JLabel(i+"");
+     			label.setBackground(Color.WHITE);
+     			label.setForeground(Color.gray);
+     			label.setOpaque(isOpaque());
+     			label.setFont(new Font("Chalkboard",Font.PLAIN, 12));
      			p.add(label);
      		}
      	}

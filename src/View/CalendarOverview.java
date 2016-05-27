@@ -1,5 +1,6 @@
 package View;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
@@ -11,6 +12,7 @@ public class CalendarOverview {
 static JFrame frame;
 	public CalendarOverview(){
 		JFrame CalFrame= new JFrame("Calendar");
+		CalFrame.setBackground(Color.WHITE);
         CalFrame.setLayout(null);
         
         // add a list box for different years    

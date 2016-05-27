@@ -63,6 +63,7 @@ public class ChatView {
 	private JLabel displaytxtLabel;
 	private JButton btnConnect;
 	private JList lstChat;
+	private JList list;
 	/**
 	 * Launch the application.
 	 */
@@ -142,6 +143,9 @@ public class ChatView {
 		lstChat.setModel(new DefaultListModel());
 		lstChat.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		panel_middle.add(lstChat);
+		
+		list = new JList();
+		panel_middle.add(list, BorderLayout.WEST);
 		frame.getContentPane().add(panel_bottom, BorderLayout.SOUTH);
 		
 		
