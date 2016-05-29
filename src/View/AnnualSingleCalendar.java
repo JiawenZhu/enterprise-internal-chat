@@ -45,21 +45,21 @@ public class AnnualSingleCalendar extends JPanel{
 	    	 cal.setBackground(Color.white);
 	    	 GridLayout grid = new GridLayout(6, 7);
 		     cal.setLayout(grid);
-		     grid.setHgap(4);
+		     grid.setHgap(6);
 		     grid.setVgap(2);
 		     
 		     setDays(cal);
 		     this.add(cal);
 		     spring.putConstraint(SpringLayout.WEST, nam, 30, SpringLayout.WEST, this);
 		     spring.putConstraint(SpringLayout.NORTH, nam, 10, SpringLayout.NORTH, this);
-		     spring.putConstraint(SpringLayout.SOUTH, cal, 130, SpringLayout.NORTH, nam);
-		     spring.putConstraint(SpringLayout.WEST, cal, 25, SpringLayout.WEST, this);
+		     spring.putConstraint(SpringLayout.SOUTH, cal, 120, SpringLayout.NORTH, nam);
+		     spring.putConstraint(SpringLayout.WEST, cal, 68, SpringLayout.WEST, this);
 		    // this.setBorder(BorderFactory.createLineBorder(Color.black));
 	}
      
 		void setDays(JPanel p){
      		
-			String[] day= new String[]{"Sun","Mon","Tue", "Wed", "Thu", "Fri", "Sat"};
+			String[] day= new String[]{"S","M","T", "W", "T", "F", "S"};
 			
 			for (int i=0; i<7;i++){
 				JLabel label= new JLabel(day[i]);

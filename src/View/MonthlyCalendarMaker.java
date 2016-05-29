@@ -24,7 +24,7 @@ public class MonthlyCalendarMaker{
 		
 		JFrame newFrame = new JFrame(Month);
 		
-		Graphics draw;
+	//	Graphics draw;
 	//	newFrame.paint(draw.setColor(color.););
 		
 		
@@ -70,7 +70,7 @@ buttons.add(comment);
 		
 	    
 	    
-    	newFrame.setSize(new Dimension(500, 500));
+        newFrame.setSize(new Dimension(500, 500));
 		newFrame.setVisible(true);
 		newFrame.setResizable(false);
 		
