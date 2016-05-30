@@ -1,17 +1,32 @@
 package Controller;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.io.Serializable;
+
+
 import Model.MessageData;
 
 /**
  * Class to save and load past messages
- * @author Sean
+ * @author Sean, Jiawen
  *
  */
-public class Logger {
+public class Logger implements Serializable{
+	/**
+	 * create a default serialVersionUID.
+	 */
+	private static final long serialVersionUID = 1L;
 	public static String LOG_PATH = "LOG.txt";
+	final static String FILENAME = "LOG.ser";
+
 	
 	public static void saveLog(ArrayList<MessageData> data) {
+		data = new ArrayList<MessageData>();
 		
 	}
 	
@@ -38,4 +53,30 @@ public class Logger {
 		list.add(msg);
 		return list;
 	}
+	/**
+	 * Saves information to the disk.
+	 * 
+	 * @author Jiawen
+	 */
+	public void saveInformationToDisk(MessageList list)
+			throws IOException {
+		FileOutputStream fout = new FileOutputStream(FILENAME);
+		ObjectOutputStream oos = new ObjectOutputStream(fout);
+		oos.writeObject(list);
+		oos.close();
+	}
+
+	/**
+	 * Loads information to the disk.
+	 * 
+	 * @author Jiawen
+	 */
+	public MessageData loadDataOnDisk() throws Exception {
+		FileInputStream finput = new FileInputStream(FILENAME);
+		ObjectInputStream oinput = new ObjectInputStream(finput);
+		MessageData result = (MessageData) oinput.readObject();
+		oinput.close();
+		return result;
+	}
+
 }

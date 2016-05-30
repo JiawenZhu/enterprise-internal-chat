@@ -11,20 +11,30 @@ import java.awt.Color;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
 import Model.MessageData;
+
 import java.awt.Component;
+
 import javax.swing.JTextField;
 import javax.swing.JPanel;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.SwingConstants;
+
 import java.awt.GridLayout;
+
 import Controller.*;
+
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 import javax.swing.DefaultListModel;
 import javax.swing.border.LineBorder;
+
 import java.awt.Font;
+import java.io.IOException;
+
 import javax.swing.BoxLayout;
 
 /**
@@ -51,6 +61,8 @@ public class ChatView {
 	private JButton btnConnect;
 	private JList lstChat;
 	private JTextField txtListenPort;
+	private JButton btnSaveMessage;
+	private JButton btnReadMessage;
 	/**
 	 * Launch the application.
 	 */
@@ -81,7 +93,7 @@ public class ChatView {
 		// main frame //
 		frame = new JFrame();
 		frame.setBackground(new Color(238, 238, 238));
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 550, 400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		
@@ -203,6 +215,43 @@ public class ChatView {
 				
 			}
 		});
+		
+		btnSaveMessage = new JButton("Save Message");
+		btnSaveMessage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource()==btnSaveMessage);
+				MessageData data =new MessageData(txtSendPort.getName(), txtSendPort.getText());					
+				MessageList list = new MessageList();
+				list.addToArrayList(data);
+				Logger logger = new Logger(); 
+				
+				try {
+					logger.saveInformationToDisk(list);
+				} catch (IOException e1) {
+					System.out.println("Failed to save message on disk.");
+					e1.printStackTrace();
+				}
+			}
+		});
+		panel_bottom.add(btnSaveMessage);
+		
+		btnReadMessage = new JButton("Read Message");
+		btnReadMessage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource()==btnReadMessage);
+//				MessageData data =new MessageData(txtSendPort.getName(), txtSendPort.getText());					
+//				MessageList list = new MessageList();
+//				list.addToArrayList(data);
+				Logger logger = new Logger(); 
+				try {
+					System.out.println(logger.loadDataOnDisk());
+				} catch (Exception e1) {
+					System.out.println("Failed to read message on disk.");
+					e1.printStackTrace();
+				}
+			}
+		});
+		panel_bottom.add(btnReadMessage);
 		btnSelectFile = new JButton("Attach File");
 		panel_bottom.add(btnSelectFile);
 		
