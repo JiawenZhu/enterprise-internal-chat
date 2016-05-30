@@ -7,7 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.time.Month;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Calendar;
 
 import javax.swing.BorderFactory;
@@ -20,26 +22,30 @@ import javax.swing.border.LineBorder;
 
 public class AnnualSingleCalendar extends JPanel{
     JFrame  importFrame;
-	String month;
+	int month;
 	
 //	public PrivateCalendar(JFrame frame){
 	//	this.importFrame= frame;
 	//}
-	     public AnnualSingleCalendar(String name){		
-	    	 
+	
+	
+	// pass in the month name
+	     public AnnualSingleCalendar(int month,int year){		
 	    	 
 	    	 this.setBackground(Color.white);
-	    	 month=name;
+	    	 this.month=month; 
+	         String stringMonth= Month.of(month).name();
+	    	 
 	    	 this.addMouseListener( new InnerCalMouseListener());
-	    	SpringLayout spring= new SpringLayout();
+	    	 SpringLayout spring= new SpringLayout();
 	    	 this.setLayout(spring);
 	    	 
-	    	 JLabel nam= new JLabel(name);
+	    	 JLabel nam= new JLabel(stringMonth);
 	    	 nam.setForeground(Color.red);
 	    	 nam.setBorder(BorderFactory.createEmptyBorder());
 	    	 
 	    	 this.add(nam);
-	    	 
+
 	    	 JPanel cal= new JPanel();
 	    	 cal.setOpaque(isOpaque());
 	    	 cal.setBackground(Color.white);
@@ -55,6 +61,8 @@ public class AnnualSingleCalendar extends JPanel{
 		     spring.putConstraint(SpringLayout.SOUTH, cal, 120, SpringLayout.NORTH, nam);
 		     spring.putConstraint(SpringLayout.WEST, cal, 68, SpringLayout.WEST, this);
 		    // this.setBorder(BorderFactory.createLineBorder(Color.black));
+		     Calendar newCalendar= new GregorianCalendar(year, month,1);
+		     
 	}
      
 		void setDays(JPanel p){
