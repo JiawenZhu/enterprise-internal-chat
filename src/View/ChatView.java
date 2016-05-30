@@ -10,35 +10,32 @@ import java.awt.Color;
 
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
-import Model.LogData;
 import Model.MessageData;
 
 import java.awt.Component;
-import java.awt.FlowLayout;
 
 import javax.swing.JTextField;
 import javax.swing.JPanel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-import javax.swing.JTextArea;
-import javax.swing.JScrollBar;
-
-import java.awt.CardLayout;
-
 import javax.swing.SwingConstants;
 
 import java.awt.GridLayout;
+
 import Controller.*;
+
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
-import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.border.LineBorder;
+
+import java.awt.Font;
+import java.io.IOException;
+
+import javax.swing.BoxLayout;
 
 /**
  * class of main chatting window
@@ -51,7 +48,7 @@ public class ChatView {
 
 	private JFrame frame;
 	private JLabel lblPortNumber;
-	private JTextField textField_portNumber;
+	private JTextField txtSendPort;
 	private JLabel lblIpAddress;
 	private JTextField textField_IPAddress;
 	private JPanel panel_top;
@@ -63,6 +60,9 @@ public class ChatView {
 	private JLabel displaytxtLabel;
 	private JButton btnConnect;
 	private JList lstChat;
+	private JTextField txtListenPort;
+	private JButton btnSaveMessage;
+	private JButton btnReadMessage;
 	/**
 	 * Launch the application.
 	 */
@@ -93,7 +93,7 @@ public class ChatView {
 		// main frame //
 		frame = new JFrame();
 		frame.setBackground(new Color(238, 238, 238));
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 550, 400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		
@@ -106,32 +106,73 @@ public class ChatView {
 		// bottom panel //
 		panel_bottom = new JPanel();
 		panel_bottom.setBackground(new Color(238, 238, 238));
-		panel_bottom.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		panel_top.setLayout(new GridLayout(0, 5, 0, 0));
+		panel_top.setLayout(new GridLayout(0, 6, 0, 0));
 		
 		
-		lblPortNumber = new JLabel("Port Number");
+		lblPortNumber = new JLabel("Send Port");
 		lblPortNumber.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_top.add(lblPortNumber);
-		panel_top.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{lblPortNumber, textField_portNumber, textField_IPAddress, lblIpAddress}));
+		panel_top.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{lblPortNumber, txtSendPort, textField_IPAddress, lblIpAddress}));
 		
-		textField_portNumber = new JTextField();
-		textField_portNumber.setText("8823");
-		textField_portNumber.setColumns(5);
-		panel_top.add(textField_portNumber);
+		txtSendPort = new JTextField();
+		txtSendPort.setText("8823");
+		txtSendPort.setColumns(5);
+		panel_top.add(txtSendPort);
+		
+		
+		// text field port number listener // 
+		txtSendPort.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			// connect to the port //
+			}
+		});
 		
 		lblIpAddress = new JLabel("IP address");
+		lblIpAddress.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		panel_top.add(lblIpAddress);
 		
 		textField_IPAddress = new JTextField();
 		textField_IPAddress.setText("localhost");
 		panel_top.add(textField_IPAddress);
 		
-		
-		frame.getContentPane().add(panel_top, BorderLayout.NORTH);
+		// text field IP address listener //
+		textField_IPAddress.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//				if (e.getSource()==Connec)
+			}
+		});
 		
 		btnConnect = new JButton("Connect");
 		panel_top.add(btnConnect);
+		
+		btnConnect.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == btnConnect) {
+					int port = Integer.parseInt(txtListenPort.getText());
+					MessageReceiver rec = new MessageReceiver(port);
+					rec.addMessageListener(new MessageListener() {
+
+						@Override
+						public void processMessage(MessageData e) {
+							//System.out.println(e.getMessage());
+							DefaultListModel mod = (DefaultListModel)lstChat.getModel();
+							mod.addElement("[" + e.getDateTime() + "][" + e.getSenderIP() + "]: " + e.getMessage());
+						}
+					});
+					
+					(new Thread(rec)).start();
+				}
+			}
+		});
+		
+		txtListenPort = new JTextField();
+		txtListenPort.setText("8822");
+		panel_top.add(txtListenPort);
+		txtListenPort.setColumns(10);
+		
+		
+		frame.getContentPane().add(panel_top, BorderLayout.NORTH);
 		frame.getContentPane().add(panel_middle, BorderLayout.CENTER);
 		panel_middle.setLayout(new BorderLayout(0, 0));
 		
@@ -143,22 +184,7 @@ public class ChatView {
 		lstChat.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		panel_middle.add(lstChat);
 		frame.getContentPane().add(panel_bottom, BorderLayout.SOUTH);
-		
-		
-		// text field port number listener // 
-		textField_portNumber.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			// connect to the port //
-			}
-		});
-		
-		// text field IP address listener //
-		textField_IPAddress.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-//				if (e.getSource()==Connec)
-			}
-		});
+		panel_bottom.setLayout(new BoxLayout(panel_bottom, BoxLayout.X_AXIS));
 		
 		txtMessage = new JTextField();
 		txtMessage.setText("Text here");
@@ -181,13 +207,51 @@ public class ChatView {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==txtMessage || e.getSource()==btnSendMsg){
 					String address = textField_IPAddress.getText();
+					int port = Integer.parseInt(txtSendPort.getText());
 					MessageData msg = new MessageData(address, txtMessage.getText());
-					MessageSender sender = new MessageSender("localhost", 8823, msg);
+					MessageSender sender = new MessageSender("localhost",port , msg);
 					(new Thread(sender)).start();
 				}
 				
 			}
 		});
+		
+		btnSaveMessage = new JButton("Save Message");
+		btnSaveMessage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource()==btnSaveMessage);
+				MessageData data =new MessageData(txtSendPort.getName(), txtSendPort.getText());					
+				MessageList list = new MessageList();
+				list.addToArrayList(data);
+				Logger logger = new Logger(); 
+				
+				try {
+					logger.saveInformationToDisk(list);
+				} catch (IOException e1) {
+					System.out.println("Failed to save message on disk.");
+					e1.printStackTrace();
+				}
+			}
+		});
+		panel_bottom.add(btnSaveMessage);
+		
+		btnReadMessage = new JButton("Read Message");
+		btnReadMessage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource()==btnReadMessage);
+//				MessageData data =new MessageData(txtSendPort.getName(), txtSendPort.getText());					
+//				MessageList list = new MessageList();
+//				list.addToArrayList(data);
+				Logger logger = new Logger(); 
+				try {
+					System.out.println(logger.loadDataOnDisk());
+				} catch (Exception e1) {
+					System.out.println("Failed to read message on disk.");
+					e1.printStackTrace();
+				}
+			}
+		});
+		panel_bottom.add(btnReadMessage);
 		btnSelectFile = new JButton("Attach File");
 		panel_bottom.add(btnSelectFile);
 		
@@ -207,26 +271,6 @@ public class ChatView {
 					mod.addElement(openFile.sb.toString());
 					
 					// create a file image on the middle panel....// 
-				}
-			}
-		});
-		
-		btnConnect.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (e.getSource() == btnConnect) {
-					int port = Integer.parseInt(textField_portNumber.getText());
-					MessageReceiver rec = new MessageReceiver(port);
-					rec.addMessageListener(new MessageListener() {
-
-						@Override
-						public void processMessage(MessageData e) {
-							//System.out.println(e.getMessage());
-							DefaultListModel mod = (DefaultListModel)lstChat.getModel();
-							mod.addElement("[" + e.getDateTime() + "][" + e.getSenderIP() + "]: " + e.getMessage());
-						}
-					});
-					
-					(new Thread(rec)).start();
 				}
 			}
 		});
