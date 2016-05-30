@@ -2,7 +2,9 @@
 package View;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,10 +17,17 @@ import javax.swing.SpringLayout;
 public class MonthlyCalendarMaker{
 	
 	JFrame importFrame;
+	String month;
 	
 	void drawCurrentMonth(String Month){
+		this.month=Month;
 		
 		JFrame newFrame = new JFrame(Month);
+		
+	//	Graphics draw;
+	//	newFrame.paint(draw.setColor(color.););
+		
+		
 		importFrame= newFrame;
 		BorderLayout layout = new BorderLayout();
 		
@@ -61,7 +70,7 @@ buttons.add(comment);
 		
 	    
 	    
-    	newFrame.setSize(new Dimension(500, 500));
+        newFrame.setSize(new Dimension(500, 500));
 		newFrame.setVisible(true);
 		newFrame.setResizable(false);
 		
@@ -72,18 +81,19 @@ buttons.add(comment);
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			//importFrame.setVisible(true);
 			importFrame.setVisible(false);
 			CalendarOverview.ShowWindow();
 		}
-		
 	}
+	
 	public class nextActionListener implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+	
+			
+			// for test      
+			drawCurrentMonth("June");
 			
 		}
 	
