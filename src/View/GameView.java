@@ -9,7 +9,6 @@ import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.Timer;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -17,9 +16,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 import javax.swing.border.TitledBorder;
 import java.awt.Font;
-import java.awt.GridLayout;
 
 
 
@@ -31,22 +30,17 @@ public class GameView extends JFrame
    private static final int PAWN_Y_POSITION  = 60;
    private static final int PAWN_SIZE = 40;
    private static final int SQUARE_SIZE= 40;
-   public static final int TENTH_SEC = 1000;
+   public static final int ONE_SEC = 1000;
    private int hour = 0;
    private int minute = 0;
    private int second = 0;
-   private Timer time ;
+   private JLabel secondLabel;
+   private JLabel minuteLabel;
+   private JLabel hourLabel;
+   private JLabel hourDividor;
    Graphics board;
-   private JButton start;
-   private JButton stop;
-   private JButton reset;
-   private JLabel lblHour;
-   private JLabel lblHourDivder;
-   private JLabel lblSecond;
-   private JLabel lblMinuteDivider;
-   private JLabel lblMinute;
+   private Timer time;
    public GameView() {
-      getContentPane().setFont(new Font("Serif", Font.PLAIN, 19));
 
       setResizable(true);
       setTitle("Gokumu");
@@ -58,20 +52,26 @@ public class GameView extends JFrame
       JPanel chessPanel = chessBoard();
       getContentPane().add(chessPanel);
 
-      JPanel timerPanel = timer();
-      getContentPane().add(timerPanel);
+      JPanel timer = timer();
+      getContentPane().add(timer);
 
-
-      //   JPanel timer = timer();
-      //   getContentPane().add(timer);
-
+      JButton btnClose = new JButton("Close");
+      btnClose.setBounds(682, 542, 107, 37);
+      getContentPane().add(btnClose);
+      btnClose.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent e) {
+            setVisible(false);
+            dispose();
+         }
+      });
+      btnClose.setFont(new Font("Times New Roman", Font.PLAIN, 24));
 
       setVisible(true);
       //board = chessPanel.getGraphics();
    }
    private JPanel chessBoard()
    {
-      JPanel chessPanel = new JPanel()
+      JPanel chessBoard = new JPanel()
       {
          //paint lines
          public void paint(Graphics g) {
@@ -104,118 +104,129 @@ public class GameView extends JFrame
             g.fillOval(453, 453, 15, 15);
          }
       };
-      chessPanel.setBackground(new Color(209, 167, 78));
-      chessPanel.setBounds(10, 10, 602, 602);
-      return chessPanel;
+      chessBoard.setBackground(new Color(209, 167, 78));
+      chessBoard.setBounds(10, 10, 602, 602);
+      return chessBoard;
    }
    private JPanel timer()
    {
 
+
       JPanel timerPanel = new JPanel();
-      timerPanel.setBounds(612, 11, 222, 95);
+      timerPanel.setBounds(622, 10, 202, 181);
       timerPanel.setLayout(null);
-      JPanel clockFace = new JPanel();
-      clockFace.setBounds(54, 5, 114, 42);
-      timerPanel.add(clockFace);
-      clockFace.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-      lblHour = new JLabel("00");
-      lblHour.setFont(new Font("Serif", Font.PLAIN, 24));
-      clockFace.add(lblHour);
+      JPanel clockViewPanel = new JPanel();
+      clockViewPanel.setBounds(0, 0, 202, 38);
+      timerPanel.add(clockViewPanel);
+      clockViewPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-      lblHourDivder = new JLabel(":");
-      clockFace.add(lblHourDivder);
-      lblHourDivder.setFont(new Font("Serif", Font.PLAIN, 24));
-      
-      lblMinute = new JLabel("00");
-      clockFace.add(lblMinute);
-      lblMinute.setFont(new Font("Serif", Font.PLAIN, 24));
+      hourLabel = new JLabel("00");
+      hourLabel.setFont(new Font("Times New Roman", Font.PLAIN, 24));
+      clockViewPanel.add(hourLabel);
 
-      lblMinuteDivider = new JLabel(":");
-      lblMinuteDivider.setFont(new Font("Serif", Font.PLAIN, 24));
-      clockFace.add(lblMinuteDivider);
-      
-      lblSecond = new JLabel("00");
-      lblSecond.setFont(new Font("Serif", Font.PLAIN, 24));
-      clockFace.add(lblSecond);
+      hourDividor = new JLabel(":");
+      hourDividor.setFont(new Font("Times New Roman", Font.PLAIN, 24));
+      clockViewPanel.add(hourDividor);
 
-      JPanel stopWatchControl = new JPanel();
-      stopWatchControl.setBounds(-4, 52, 231, 43);
-      timerPanel.add(stopWatchControl);
-      stopWatchControl.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+      minuteLabel = new JLabel("00");
+      minuteLabel.setFont(new Font("Times New Roman", Font.PLAIN, 24));
+      clockViewPanel.add(minuteLabel);
 
-      start = new JButton("Start");
-      start.setFont(new Font("Serif", Font.PLAIN, 19));
-      stopWatchControl.add(start);
+      JLabel minuteDivder = new JLabel(":");
+      minuteDivder.setFont(new Font("Times New Roman", Font.PLAIN, 24));
+      clockViewPanel.add(minuteDivder);
 
-      stop = new JButton("Stop");
-      stop.setFont(new Font("Serif", Font.PLAIN, 19));
-      stopWatchControl.add(stop);
+      secondLabel = new JLabel("00");
+      secondLabel.setFont(new Font("Times New Roman", Font.PLAIN, 24));
+      clockViewPanel.add(secondLabel);
 
-      reset = new JButton("Reset");
-      reset.setFont(new Font("Serif", Font.PLAIN, 19));
-      stopWatchControl.add( reset);
-      time = new Timer(TENTH_SEC,new ActionListener()
-      {
-         public void actionPerformed(ActionEvent evt)
-         {
+      JPanel clockControlPanel = new JPanel();
+      clockControlPanel.setBounds(0, 49, 202, 100);
+      timerPanel.add(clockControlPanel);
+      clockControlPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+
+      JButton startBtn = new JButton("Start");   
+      startBtn.setFont(new Font("Times New Roman", Font.PLAIN, 24));
+      clockControlPanel.add(startBtn);
+
+      JButton stopBtn = new JButton("Stop");
+      stopBtn.setFont(new Font("Times New Roman", Font.PLAIN, 24));
+      clockControlPanel.add(stopBtn);
+
+      JButton resetBtn = new JButton("Reset");
+      resetBtn.setFont(new Font("Times New Roman", Font.PLAIN, 24));
+      clockControlPanel.add(resetBtn);
+
+      time = new Timer(ONE_SEC ,new ActionListener() {
+         public void actionPerformed(ActionEvent evt) {
             if (second < 59)
             {
-               second++;
-               if (second < 10)
+               second ++;
+               if(second < 10)
                {
-                  lblSecond.setText("" + "0" + second);
+                  secondLabel.setText("" + "0" + second);
                }
                else
                {
-                  lblSecond.setText("" + second);
+                  secondLabel.setText("" + second);
                }
             }
             else
             {
                second = 0;
+               secondLabel.setText("" + "00");
                if (minute < 59)
                {
-                  minute++;
-                  if (minute < 10)
+                  minute ++;
+                  if(minute < 10)
                   {
-                     lblMinute.setText("" + "0" + minute);
+                     minuteLabel.setText("" + "0" + minute );
                   }
                   else
                   {
-                     lblMinute.setText("" + minute);
+                     minuteLabel.setText("" + minute );
                   }
-                  
                }
                else
                {
                   minute = 0;
+                  minuteLabel.setText("" + "00" );
                   hour++;
-                  if (hour < 10)
+                  if(hour < 10)
                   {
-                     lblMinute.setText("" + "0" + hour);
+                     hourLabel.setText("" + "0" + hour);
                   }
                   else
                   {
-                     lblMinute.setText("" + hour);
+                     hourLabel.setText("" + hour);
                   }
-               }
-               
-            }
 
+               }
+            }
          }
       });
-      start.addActionListener(new ActionListener() {
+      startBtn.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
             time.start();
          }
       });
+      stopBtn.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent e) {
+            time.stop();
+         }
 
-
+      });
+      resetBtn.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent e) {
+            time.stop();
+            secondLabel.setText("" + "00");
+            minuteLabel.setText("" + "00" );
+            hourLabel.setText("" + "00");
+         }
+      });
       return timerPanel;
-
    }
-
+   
 }
-
 
