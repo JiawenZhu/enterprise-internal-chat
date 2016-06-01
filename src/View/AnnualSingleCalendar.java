@@ -23,7 +23,7 @@ import javax.swing.border.LineBorder;
 public class AnnualSingleCalendar extends JPanel{
     JFrame  importFrame;
 	int month;
-	
+	int year;
 //	public PrivateCalendar(JFrame frame){
 	//	this.importFrame= frame;
 	//}
@@ -34,6 +34,7 @@ public class AnnualSingleCalendar extends JPanel{
 	    	 
 	    	 this.setBackground(Color.white);
 	    	 this.month=month; 
+	    	 this.year= year;
 	         String stringMonth= Month.of(month).name();
 	    	 
 	    	 this.addMouseListener( new InnerCalMouseListener());
@@ -107,7 +108,7 @@ public class AnnualSingleCalendar extends JPanel{
 			// TODO Auto-generated method stub
 		    CalendarOverview.hideWindow();
 			MonthlyCalendarMaker maker= new MonthlyCalendarMaker();
-			maker.drawCurrentMonth(month);
+			maker.drawCurrentMonth(month,year);
 			
 		}
 

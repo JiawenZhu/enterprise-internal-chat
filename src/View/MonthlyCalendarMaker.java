@@ -8,6 +8,8 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.Month;
+import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,21 +20,18 @@ public class MonthlyCalendarMaker{
 	
 	JFrame importFrame;
 	String month;
+	int year;
 	
-	void drawCurrentMonth(String Month){
-		this.month=Month;
-		
-		JFrame newFrame = new JFrame(Month);
-		
-	//	Graphics draw;
-	//	newFrame.paint(draw.setColor(color.););
-		
+	void drawCurrentMonth(int month, int year){
+		this.month=Month.of(month).name();
+		this.year=year;
+		JFrame newFrame = new JFrame(this.month);
 		
 		importFrame= newFrame;
 		BorderLayout layout = new BorderLayout();
 		
 		newFrame.setLayout(layout);
-	//	newFrame.setLayout(layout);
+	//	newFrame.setLayout(layout)
 		JPanel buttons = new JPanel();
 JButton back = new JButton("back");
 JButton next = new JButton("next Month");
@@ -49,7 +48,7 @@ buttons.add(comment);
 	//	layout.putConstraint(SpringLayout.NORTH, button,400, SpringLayout.NORTH, newFrame);
 	//	layout.putConstraint(SpringLayout.EAST, button,100, SpringLayout.EAST, newFrame);			
 		
-		JPanel monthCal = new MonthlyCalendar_calendar(Month);
+		JPanel monthCal = new MonthlyCalendar_calendar(this.month, year);
 		//monthCal.setSize(new Dimension(400,400));
 		//monthCal.setLocation(50, 40);
 	    newFrame.add(monthCal, BorderLayout.CENTER);
@@ -93,7 +92,7 @@ buttons.add(comment);
 	
 			
 			// for test      
-			drawCurrentMonth("June");
+			drawCurrentMonth(Calendar.JUNE, year);
 			
 		}
 	
