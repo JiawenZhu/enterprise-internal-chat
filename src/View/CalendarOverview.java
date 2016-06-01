@@ -22,7 +22,7 @@ public class CalendarOverview {
 	static JPanel calendar;
 
 	public CalendarOverview(){
-		
+
 		this.CalFrame= new JFrame("Calendar");
 		CalFrame.setBackground(Color.WHITE);
 		CalFrame.setLayout(new BorderLayout());
@@ -32,7 +32,7 @@ public class CalendarOverview {
 		// set annual calendar
 		setCalendar(CalFrame);
 	}
-	
+
 	/**
 	 * hide the window when monthly 
 	 * calendar is requested to show
@@ -47,7 +47,7 @@ public class CalendarOverview {
 	public static void ShowWindow(){
 		frame.setVisible(true);
 	}
-	
+
 	/**
 	 * set annual calendar panel to the frame
 	 * @param newFrame
@@ -55,10 +55,10 @@ public class CalendarOverview {
 	static void setCalendar(JFrame newFrame){
 		//make sure that each calendar is set on different JFrame
 		//and that is why I used the Alternative to represent different JFrame
-		
+
 		// if no year is chosen, then currentYear Panel is null
 		// then, there will be a nullPointerException
-		
+
 		// if there is a year chosen, then the according calendar 
 		//will be created and added to the JFrame.
 		try{ 
@@ -70,7 +70,7 @@ public class CalendarOverview {
 			Alternative.setVisible(true);       
 			frame= Alternative;
 		}	
-		
+
 		// there is a nullPointer, 
 		//then we set CurrentYear to the default value
 		catch (Exception e){
