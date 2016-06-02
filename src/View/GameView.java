@@ -48,11 +48,11 @@ public class GameView extends JFrame
       setResizable(true);
       setTitle("Gokumu");
       setDefaultCloseOperation(3);
-      setSize(850, 650);
+      setSize(860, 670);
       setLocationRelativeTo(null);
       getContentPane().setLayout(null);
 
-      JPanel chessPanel = chessBoard();
+     JPanel chessPanel = chessPanel();
       getContentPane().add(chessPanel);
 
       JPanel timer = timer();
@@ -68,13 +68,17 @@ public class GameView extends JFrame
          }
       });
       btnClose.setFont(new Font("Times New Roman", Font.PLAIN, 24));
-
       setVisible(true);
-      //board = chessPanel.getGraphics();
+      board = chessPanel.getGraphics();
+      attachChess listener = new attachChess( board);
+      chessPanel.addMouseListener(listener);
+      
+      
+
    }
-   private JPanel chessBoard()
+   private JPanel chessPanel()
    {
-      JPanel chessBoard = new JPanel()
+      JPanel chessPanel = new JPanel()
       {
          //paint lines
          public void paint(Graphics g) {
@@ -106,13 +110,28 @@ public class GameView extends JFrame
             g.fillOval(293, 453, 15, 15);
             g.fillOval(453, 453, 15, 15);
             
+            //repaint chess
+            for (int i = 0; i < 650; i++) {
+               for (int j = 0; j < 650; j++) {
+                  if (attachChess.chessBoardArray[i][j] == "black") {
+                     g.setColor(Color.BLACK);
+                     g.fillOval(i, j,  PAWN_SIZE ,
+                           PAWN_SIZE );
+                  } else if (attachChess.chessBoardArray[i][j] == "white") {
+                     g.setColor(Color.WHITE);
+                     g.fillOval(i, j, PAWN_SIZE ,
+                           PAWN_SIZE );
+                  }
+               }
+            }
+      }
       };
       
-      };
-      chessBoard.setBackground(new Color(209, 167, 78));
-      chessBoard.setBounds(10, 10, 602, 602);
-      return chessBoard;
+      chessPanel.setBackground(new Color(209, 167, 78));
+      chessPanel.setBounds(10, 10, 602, 602);
+      return chessPanel;
    }
+ 
    private JPanel timer()
    {
 
