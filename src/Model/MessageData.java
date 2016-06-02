@@ -48,9 +48,10 @@ public class MessageData implements Serializable {
     * @return              current time
     */
    private Date getCurrentTime() {
-	   Calendar cal = Calendar.getInstance();
-	   return cal.getTime();
+      Calendar cal = Calendar.getInstance();
+      return cal.getTime();
    }
+   
    public String toString() {
       return "[" + date + "][" + sender_ip + "]: " + message;
    }
