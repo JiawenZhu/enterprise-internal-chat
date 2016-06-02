@@ -22,6 +22,15 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.basic.BasicComboBoxEditor;
 
+/**
+ * this class creates the panel (ComboBox) 
+ * that will be added to the Calendar Frame.
+ * There also gives the order to create the
+ * calendar based on the selected year.
+ * 
+ * @author shuai9532
+ *
+ */
 public class ComboBox extends JPanel //implements ActionListener
 {
 	JPanel currentYear;
@@ -34,6 +43,7 @@ public class ComboBox extends JPanel //implements ActionListener
 	ComboBox(){	
 		currentYear=null;
 		box= new JComboBox();
+		//100 years will be recorded here
 		for (int i=0; i<100;i++){
 			box.addItem(2016+i+"");
 		} 
@@ -43,11 +53,15 @@ public class ComboBox extends JPanel //implements ActionListener
 		this.add(new JLabel("select year: "));
 		this.add(box);
 	}
-	
-	// class Listener is the action to respond to every choice that is made
+
+	/**
+	 * class Listener is the action to 
+	 * respond to every choice that is made
+	 * @author shuai9532
+	 *
+	 */
 	class BoxActionListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-		
 			 JComboBox box = (JComboBox) e.getSource();
              String selected = (String) box.getSelectedItem();
              
@@ -59,24 +73,26 @@ public class ComboBox extends JPanel //implements ActionListener
             	System.out.println("it is 2017");
              }
              else {
+            	 
+            	 
              //create a calendar for every year number 
              //selected and assign it to the currentYear
              JPanel calendar=new CalendarOverview_calendar(Integer.parseInt(selected.toString()));
-			 setCalendarPanel(calendar);
-			 // call the method in the CalendarOverview 
-			 //class to initialize the attachment
-			 CalendarOverview.setCalendar(CalendarOverview.frame);	
+			 currentYear = calendar;
+			 // call the method in the CalendarOverview, the class to initialize the attachment
+			 CalendarOverview.setCalendar(CalendarOverview.frame);		 		 
              }
 		}
 	}
 	
-	// for the class CalendarOverview
-	public JPanel getCalendarForYear(){
-			return currentYear;
-		}
 	
-	private void setCalendarPanel(JPanel x){
-		this.currentYear= x;
+	/**
+	 * provide CalendarOverview with a Calendar JPanel that is 
+	 * ready to be added to the frame
+	 * @return
+	 */
+	public JPanel getCalendarPanel(){
+		return currentYear;
 	}
 	
 

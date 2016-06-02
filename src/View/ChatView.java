@@ -34,6 +34,7 @@ import javax.swing.border.LineBorder;
 
 import java.awt.Font;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 
@@ -221,7 +222,7 @@ public class ChatView {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==btnSaveMessage);
 				MessageData data =new MessageData(txtSendPort.getName(), txtSendPort.getText());					
-				MessageList list = new MessageList();
+		ArrayList<MessageData> list = new ArrayList<MessageData>();
 				list.addToArrayList(data);
 				Logger logger = new Logger(); 
 				

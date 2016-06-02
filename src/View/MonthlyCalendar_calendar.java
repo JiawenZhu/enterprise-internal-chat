@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 public class MonthlyCalendar_calendar extends JPanel {
 
-	 public MonthlyCalendar_calendar(String name){
+	 public MonthlyCalendar_calendar(String name, int year){
 		 this.setBackground(Color.WHITE);
     	 GridLayout grid = new GridLayout(5, 7);
     	 
