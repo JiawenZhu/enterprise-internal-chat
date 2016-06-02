@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.io.Serializable;
+
 import Model.Utility.*;
 
 public class MessageData implements Serializable {
@@ -50,5 +50,8 @@ public class MessageData implements Serializable {
    private Date getCurrentTime() {
 	   Calendar cal = Calendar.getInstance();
 	   return cal.getTime();
+   }
+   public String toString() {
+      return "[" + date + "][" + sender_ip + "]: " + message;
    }
 }
