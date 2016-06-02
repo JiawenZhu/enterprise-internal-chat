@@ -1,7 +1,8 @@
+package View;
 //one big frame with 2 panel
 //one panel with chessboard
 //another panel with stopwatch
-package View;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,6 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.border.TitledBorder;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 
@@ -102,7 +105,9 @@ public class GameView extends JFrame
             g.fillOval(133, 453, 15, 15);
             g.fillOval(293, 453, 15, 15);
             g.fillOval(453, 453, 15, 15);
-         }
+            
+      };
+      
       };
       chessBoard.setBackground(new Color(209, 167, 78));
       chessBoard.setBounds(10, 10, 602, 602);
