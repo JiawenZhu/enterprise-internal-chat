@@ -10,12 +10,8 @@ import javax.swing.JPanel;
 
 public class attachChess extends MouseAdapter
 {
-   private static final int ROW = 15;
-   private static final int COLUMN = 15;
-   private static final int PAWN_X_POSITION = 30;
-   private static final int PAWN_Y_POSITION  = 60;
+
    private static final int PAWN_SIZE = 40;
-   private static final int SQUARE_SIZE= 40;
    public static boolean isBlack = true;
    public Graphics g;
    public int x, y;
@@ -24,7 +20,7 @@ public class attachChess extends MouseAdapter
    public static chessWinningDecisionMaker winning;
    //public static int count_where = 0;
    public JPanel chessPanel;
-   public static Result result;
+   public static chessWinningResult result;
    
    public attachChess(Graphics g)
    {
@@ -32,7 +28,7 @@ public class attachChess extends MouseAdapter
 
       // this.panel = panel;
    }
-   public void putChessOnBoard(MouseEvent e)
+   public void mouseReleased(MouseEvent e)
    {
       x = correctXY(e.getX());
       y = correctXY(e.getY());
@@ -65,12 +61,11 @@ public class attachChess extends MouseAdapter
                getXY(x), isBlackWinningArray);
          if (winning.chessWinning(getXY(y), getXY(x), 
                isBlackWinningArray) == 1) {
-            result = new Result(1);
-            result.initUI();
+            result = new chessWinningResult(1);
          } else if (winning.chessWinning(getXY(y), getXY(x), 
                isBlackWinningArray) == -1) {
-            result = new Result(-1);
-            result.initUI();
+            result = new chessWinningResult(-1);
+
          }
          for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
