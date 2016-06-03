@@ -30,15 +30,12 @@ public class CalendarOverview_calendar extends JPanel {
 				Calendar.NOVEMBER, Calendar.DECEMBER };
 		
 		for(int i=0; i< months.length; i++){
-			// when convert back to String, int value needs to add 1 because int<0 || int>12 is not valid 
-			
-			
-			this.add(new AnnualSingleCalendar(months[i]+1, year));	
-			
-			
+			// when convert back to String, int
+			//value needs to add 1 because int<0 || int>12 is not valid 
+			System.out.println("month"+ months[i]);
+			this.add(new AnnualSingleCalendar(months[i], year));	
 			 }	
-			
-	}
+	     }
 	
 	public int getYear(){
 		return year;

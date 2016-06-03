@@ -30,8 +30,9 @@ public class AnnualSingleCalendar extends JPanel{
 	int month;
 	int year;
 
-	public AnnualSingleCalendar(int month,int year){		
-	
+	public AnnualSingleCalendar(int month,int year){
+		System.out.println("passedinMonth"+ month);
+		System.out.println(" ");
 		
 		this.setBackground(Color.white);
 		this.addMouseListener( new InnerCalMouseListener());
@@ -42,7 +43,8 @@ public class AnnualSingleCalendar extends JPanel{
 		this.year= year;
 		
 		// make the title part of the calendar
-		String stringMonth= Month.of(month).name();
+		String stringMonth= Month.of(month+1).name();
+		System.out.println(stringMonth);
 		JLabel nam= new JLabel(stringMonth);
 		nam.setForeground(Color.red);
 		nam.setBorder(BorderFactory.createEmptyBorder());
@@ -51,27 +53,25 @@ public class AnnualSingleCalendar extends JPanel{
 		JPanel cal= new JPanel();
 		cal.setOpaque(isOpaque());
 		cal.setBackground(Color.white);
-		GridLayout grid = new GridLayout(6, 7);
+		GridLayout grid = new GridLayout(7, 7);
+
 		cal.setLayout(grid);
 		grid.setHgap(6);
 		grid.setVgap(2);
 		// set up the time
+		
 		Calendar newCalendar= new GregorianCalendar(year,month,1);
 		
-		long startTime = System.currentTimeMillis();
 		
 		setDays(cal,newCalendar);
 		
-		long estimatedTime = System.currentTimeMillis() - startTime;
-		System.out.println(estimatedTime);
 		
-		
-		
+	
 		this.add(cal);
-		spring.putConstraint(SpringLayout.WEST, nam, 30, SpringLayout.WEST, this);
-		spring.putConstraint(SpringLayout.NORTH, nam, 10, SpringLayout.NORTH, this);
+		spring.putConstraint(SpringLayout.EAST, nam, -10, SpringLayout.WEST, cal);
+		spring.putConstraint(SpringLayout.NORTH, nam, 20, SpringLayout.NORTH, this);
 		spring.putConstraint(SpringLayout.SOUTH, cal, 120, SpringLayout.NORTH, nam);
-		spring.putConstraint(SpringLayout.WEST, cal, 68, SpringLayout.WEST, this);
+		spring.putConstraint(SpringLayout.WEST, cal, 80, SpringLayout.WEST, this);
 	
 	}
 
@@ -85,10 +85,12 @@ public class AnnualSingleCalendar extends JPanel{
 
 		// months range from 0-11
 		// the data will be given by Calendar for a specific year and month
-		int DaysInMonth= newCalendar.getActualMaximum(month-1);
+		int DaysInMonth = newCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+		System.out.println("there are "+DaysInMonth+ "each month");
 		int dayOfWeekOfFirstDay= newCalendar.get(Calendar.DAY_OF_WEEK);
+		System.out.println("this is the first day of the month: "+dayOfWeekOfFirstDay);
 
-		String[] day= new String[]{"M","T", "W", "T", "F", "S","S"};
+		String[] day= new String[]{"S","M","T", "W", "T", "F", "S"};
 
 		//set Name of a week
 		for (int i=0; i<7;i++){
@@ -98,8 +100,9 @@ public class AnnualSingleCalendar extends JPanel{
 			label.setOpaque(isOpaque());
 			label.setFont(new Font("Chalkboard",Font.PLAIN, 12));
 			p.add(label);
+			//p.setBorder(BorderFactory.createDashedBorder(Color.BLACK));
 		}
-
+        int count=7;
 		// set empty boxes until hit the first day, and leave that first day
 		for(int i=1; i<dayOfWeekOfFirstDay; i++){
 			JLabel label= new JLabel(" ");
@@ -108,12 +111,14 @@ public class AnnualSingleCalendar extends JPanel{
 			label.setOpaque(isOpaque());
 			label.setFont(new Font("Chalkboard",Font.PLAIN, 12));
 			p.add(label);
+			
 		}
+		count=count+dayOfWeekOfFirstDay-1;
 
 		// fill in the first day and the rest of the month
 		int i=0;
-		while(i<= DaysInMonth){
-			JLabel label= new JLabel(" ");
+		while(i< DaysInMonth){
+			JLabel label= new JLabel(i+1+"");
 			label.setBackground(Color.WHITE);
 			label.setForeground(Color.gray);
 			label.setOpaque(isOpaque());
@@ -121,6 +126,20 @@ public class AnnualSingleCalendar extends JPanel{
 			p.add(label);
 			i++;
 		}
+		count=count+DaysInMonth;
+		
+		// the rest is empty
+	
+		while (count<49){
+			JLabel label= new JLabel(" ");
+			label.setBackground(Color.WHITE);
+			label.setForeground(Color.gray);
+			label.setOpaque(isOpaque());
+			label.setFont(new Font("Chalkboard",Font.PLAIN, 12));
+			p.add(label);
+			count++;
+		}
+		
 		
 	}
 

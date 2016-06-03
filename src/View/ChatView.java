@@ -223,7 +223,7 @@ public class ChatView {
 				if(e.getSource()==btnSaveMessage);
 				MessageData data =new MessageData(txtSendPort.getName(), txtSendPort.getText());					
 		ArrayList<MessageData> list = new ArrayList<MessageData>();
-				list.addToArrayList(data);
+				//list.addToArrayList(data);
 				Logger logger = new Logger(); 
 				
 				try {

@@ -31,7 +31,7 @@ public class MonthlyCalendarMaker{
 	 */
 	public void drawCurrentMonth(int monthInt, int year){
 		// here the month # is from 1-12, so monthInt does not need to be subtracted by 1
-		this.month=Month.of(monthInt).name();
+		this.month=Month.of(monthInt+1).name();
 		this.year=year;
 		// new Frame is created for the specific month
 		JFrame newFrame = new JFrame(this.month);

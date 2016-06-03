@@ -17,26 +17,26 @@ import javax.swing.JRadioButton;
  *
  */
 public class CalendarOverview {
-	
-	
-	static JFrame frame;
-	JFrame CalFrame;
+	// frame for each year with changing calendar
+	static JFrame frame; 
+	// basic final frame
+	static JFrame CalFrame; 
 	static ComboBox x;
-	static JPanel calendar;
 	static ArrayList<CalendarOverview_calendar> AnnualCalendar;
 
 	public CalendarOverview(){
         
-		AnnualCalendar= new ArrayList<CalendarOverview_calendar>();
-		this.CalFrame= new JFrame("Calendar");
+		// right now, there will be only three years here for testing
+		AnnualCalendar= new ArrayList<CalendarOverview_calendar>(3);
+		CalendarOverview.CalFrame = new JFrame("Calendar");
 		CalFrame.setBackground(Color.WHITE);
 		CalFrame.setLayout(new BorderLayout());
 		// get a box Panel 
-		x= new ComboBox();  
+		x = new ComboBox();  
 		CalFrame.add(x,BorderLayout.NORTH);
 		// set annual calendar
 		initializeAnnualCalendar();
-		setCalendar(CalFrame);
+		setCalendar();
 		
 	}
 	
@@ -45,7 +45,8 @@ public class CalendarOverview {
 	 */
 	private void initializeAnnualCalendar(){
 		
-		for(int i=0; i<101; i++){
+		// three years for test
+		for(int i=0; i<3; i++){
 			AnnualCalendar.add(new CalendarOverview_calendar(2016+i));
 		}
 	}
@@ -69,23 +70,26 @@ public class CalendarOverview {
 	 * set annual calendar panel to the frame
 	 * @param newFrame
 	 */
-	static void setCalendar(JFrame newFrame){
-		JFrame Alternative = newFrame; 
+	static void setCalendar(){
+		//close the frame that contains previous months of the year
+	//	frame.setVisible(false);
 		
+		// new Calendar starts here
+		JFrame Alternative = CalFrame; 
 		int i=0;
 		while(i<AnnualCalendar.size()){
 			CalendarOverview_calendar current =AnnualCalendar.get(i);
-			
-			if(Integer.parseInt(x.year)==current.getYear()){
-		    Alternative.add(calendar,BorderLayout.CENTER);
-			Alternative.add(new JPanel(), BorderLayout.SOUTH); 
-			Alternative.setSize(800, 700);
-			Alternative.setResizable(false);
-			Alternative.setVisible(true); 
-			frame= Alternative;
-			break;
+
+			if(Integer.parseInt(ComboBox.year) == current.getYear()){
+				Alternative.add(current,BorderLayout.CENTER);
+				Alternative.add(new JPanel(), BorderLayout.SOUTH); 
+				Alternative.setSize(800, 700);
+				Alternative.setResizable(false);
+				Alternative.setVisible(true); 
+				frame= Alternative;
+				break;
 			}
-		i++;
+			i++;
 		}	
 	}			
 }
