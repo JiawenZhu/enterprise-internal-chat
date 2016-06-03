@@ -38,6 +38,7 @@ public class GameView extends JFrame
    private static final int PAWN_SIZE = 35;
    private static final int SQUARE_SIZE= 40;
    public static final int ONE_SEC = 1000;
+   public static final int ONE_MINUTE = 60000;
    private int hour = 0;
    private int minute = 0;
    private int second = 0;
@@ -47,6 +48,7 @@ public class GameView extends JFrame
    private JLabel hourDividor;
    Graphics board;
    private Timer time;
+   private Timer idleTime;
    public GameView() {
       //main window frame
       setTitle("Gokumu");
@@ -71,11 +73,17 @@ public class GameView extends JFrame
          }
       });
       btnClose.setFont(new Font("Times New Roman", Font.PLAIN, 24));
+      idleTime = new Timer(ONE_MINUTE ,new ActionListener() {
+         public void actionPerformed(ActionEvent evt) {
+            chessIdleTimePopUp popup = new chessIdleTimePopUp();
+         }});
+      idleTime.start();
       setVisible(true);
       board = chessPanel.getGraphics();
       attachChess listener = new attachChess( board);
       chessPanel.addMouseListener(listener);
-
+      
+     
       
 
    }
