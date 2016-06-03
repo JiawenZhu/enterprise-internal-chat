@@ -1,9 +1,8 @@
 package Model;
 
 public class Utility {
-	public static int SUCCESS = 0;
-	public static int SEND_TEXT_ERROR = 101;
-	public static int SEND_FILE_ERROR = 102;
+	public static String EGG_QUESTION = "I solemly swear";
+	public static String EGG_ANSWER = "that I am up to no good.";
 	
 	public enum MessageType {
 		Incoming,

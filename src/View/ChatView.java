@@ -8,6 +8,7 @@ import javax.swing.border.*;
 import javax.swing.event.*;
 import java.util.ArrayList;
 import Model.MessageData;
+import Model.Utility;
 import Controller.*;
 import Model.Utility.MessageType;
 
@@ -32,7 +33,6 @@ ActionListener, MessageListener, DocumentListener {
    private JTextField txtMessage;
    private JButton btnSendMsg;
    private JButton btnSelectFile;
-   private JLabel displaytxtLabel;
    private JButton btnConnect;
    private JList<MessageData> lstChat;
    private JTextField txtListenPort;
@@ -40,7 +40,8 @@ ActionListener, MessageListener, DocumentListener {
    private JButton btnReadMessage;
    private MessageReceiver rec;
    private MessageData currentMsg;
-   
+   private ArrayList<MessageData> msgStore;
+   private GameView game;
    
    /**
     * Launch the application.
@@ -66,6 +67,7 @@ ActionListener, MessageListener, DocumentListener {
       startListening();
       loadMessage();
       currentMsg = new MessageData();
+      msgStore = new ArrayList<MessageData>();
    }
 
    /**
@@ -182,8 +184,22 @@ ActionListener, MessageListener, DocumentListener {
    private void displayMessage(MessageData msg) {
       DefaultListModel<MessageData> mod = (DefaultListModel<MessageData>)lstChat.getModel();
       mod.addElement(msg);
+      triggerGame();
    }
    
+   /**
+    * method to test if the game should start
+    */
+   private void triggerGame() {
+      int size = msgStore.size();
+      if (size <= 1) 
+         return;
+      
+      if (msgStore.get(size - 1).getMessage() == Utility.EGG_ANSWER ||
+         msgStore.get(size - 2).getMessage() == Utility.EGG_QUESTION) {
+         game = new GameView();
+      }
+   }
    /**
     * method to load limited amount of previous message as the program starts
     */
@@ -213,8 +229,9 @@ ActionListener, MessageListener, DocumentListener {
       currentMsg.setMessage(txtMessage.getText());
       currentMsg.setMessageType(MessageType.Sending);
       currentMsg.updateMsgTime();
+      msgStore.add(currentMsg);
       
-      displayMessage((MessageData)currentMsg.clone());
+      displayMessage(currentMsg);
       //System.out.println(currentMsg);
       
       MessageData copyMsg = (MessageData)currentMsg.clone();
@@ -224,7 +241,7 @@ ActionListener, MessageListener, DocumentListener {
       MessageSender sender = new MessageSender(receiver_ip ,port, copyMsg);
       (new Thread(sender)).start();
 
-      txtMessage.setText("");
+      //txtMessage.setText("");
       currentMsg = new MessageData();
    }
    
@@ -255,8 +272,9 @@ ActionListener, MessageListener, DocumentListener {
     */
    @Override
    public void processMessage(MessageData e) {
-      displayMessage(e);
+      msgStore.add(e);
       saveMessage(e);
+      displayMessage(e);
    }
    
    /**
