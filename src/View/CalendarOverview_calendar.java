@@ -22,22 +22,25 @@ public class CalendarOverview_calendar extends JPanel {
 		layout.setVgap(30);
 		this.setLayout(layout);
 
+	
+		// months in the array range from 0 to 11
 		int[] months = {Calendar.JANUARY, Calendar.FEBRUARY, Calendar.MARCH, 
 				Calendar.APRIL, Calendar.MAY, Calendar.JUNE, Calendar.JULY, 
 				Calendar.AUGUST, Calendar.SEPTEMBER, Calendar.OCTOBER, 
 				Calendar.NOVEMBER, Calendar.DECEMBER };
+		
 		for(int i=0; i< months.length; i++){
-			//PrivateCalendar passFrame = new PrivateCalendar(calendar);
-
-			System.out.println(months[i]);
-			System.out.println(months[2]);
-			String stringMonth= Month.of(months[i]+1).name();
-			this.add(new AnnualSingleCalendar(months[i], year));	
-		}		 
-
+			// when convert back to String, int value needs to add 1 because int<0 || int>12 is not valid 
+			
+			
+			this.add(new AnnualSingleCalendar(months[i]+1, year));	
+			
+			
+			 }	
+			
 	}
-
 	
-	
-	
+	public int getYear(){
+		return year;
+	}
 }

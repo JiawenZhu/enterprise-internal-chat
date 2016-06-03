@@ -1,1 +1,18 @@
-@author: Shuai Huang
+@author: ShuaiHuang
+
+
+questions:
+1.How to refer to the previous/next month on the current month?
+Every month created will be stored into a list? 
+
+2. each day on the Monthly Calendar should be a JPanel because it will store some text files? 
+maybe just add some action on those day labels?
+
+3. how to write the file in in Monthly_Calendar class?
+
+4. all the calendars should be constructed beforehand? The file is added to the existing calendar.
+
+all the calendars need to be constructed before users start to make conversation.
+
+every time the user chooses the year, the calendar that is associated has been constructed beforehand.
+after that, the file is added in. and then, user clicks the year to check for records in specific day.

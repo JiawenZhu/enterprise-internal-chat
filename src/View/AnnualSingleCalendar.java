@@ -20,27 +20,32 @@ import javax.swing.JTextPane;
 import javax.swing.SpringLayout;
 import javax.swing.border.LineBorder;
 
+/**
+ * create CalenarPanel of one month for Each year 
+ * this class will be run 12 times.
+ * @author shuai9532
+ *
+ */
 public class AnnualSingleCalendar extends JPanel{
-	JFrame  importFrame;
 	int month;
 	int year;
 
-	// pass in the month name and year
 	public AnnualSingleCalendar(int month,int year){		
-
+	
+		
 		this.setBackground(Color.white);
-		this.month=month; 
-		this.year= year;
-		String stringMonth= Month.of(month+1).name();
-
 		this.addMouseListener( new InnerCalMouseListener());
 		SpringLayout spring= new SpringLayout();
 		this.setLayout(spring);
-
+        
+		this.month=month; 
+		this.year= year;
+		
+		// make the title part of the calendar
+		String stringMonth= Month.of(month).name();
 		JLabel nam= new JLabel(stringMonth);
 		nam.setForeground(Color.red);
 		nam.setBorder(BorderFactory.createEmptyBorder());
-
 		this.add(nam);
 
 		JPanel cal= new JPanel();
@@ -50,21 +55,37 @@ public class AnnualSingleCalendar extends JPanel{
 		cal.setLayout(grid);
 		grid.setHgap(6);
 		grid.setVgap(2);
-
-		// setup the time
-		Calendar newCalendar= new GregorianCalendar(year, month,1);
-
+		// set up the time
+		Calendar newCalendar= new GregorianCalendar(year,month,1);
+		
+		long startTime = System.currentTimeMillis();
+		
 		setDays(cal,newCalendar);
+		
+		long estimatedTime = System.currentTimeMillis() - startTime;
+		System.out.println(estimatedTime);
+		
+		
+		
 		this.add(cal);
 		spring.putConstraint(SpringLayout.WEST, nam, 30, SpringLayout.WEST, this);
 		spring.putConstraint(SpringLayout.NORTH, nam, 10, SpringLayout.NORTH, this);
 		spring.putConstraint(SpringLayout.SOUTH, cal, 120, SpringLayout.NORTH, nam);
 		spring.putConstraint(SpringLayout.WEST, cal, 68, SpringLayout.WEST, this);
+	
 	}
 
+	/**
+	 * this is where the Calendar part of the
+	 * Calendar is made and added to the main Calendar JPanel
+	 * @param p
+	 * @param newCalendar
+	 */
 	private void setDays(JPanel p, Calendar newCalendar){
 
-		int DaysInMonth= newCalendar.getActualMaximum(month);
+		// months range from 0-11
+		// the data will be given by Calendar for a specific year and month
+		int DaysInMonth= newCalendar.getActualMaximum(month-1);
 		int dayOfWeekOfFirstDay= newCalendar.get(Calendar.DAY_OF_WEEK);
 
 		String[] day= new String[]{"M","T", "W", "T", "F", "S","S"};
@@ -79,7 +100,7 @@ public class AnnualSingleCalendar extends JPanel{
 			p.add(label);
 		}
 
-		// set the first day
+		// set empty boxes until hit the first day, and leave that first day
 		for(int i=1; i<dayOfWeekOfFirstDay; i++){
 			JLabel label= new JLabel(" ");
 			label.setBackground(Color.WHITE);
@@ -89,7 +110,7 @@ public class AnnualSingleCalendar extends JPanel{
 			p.add(label);
 		}
 
-		// fill in the rest
+		// fill in the first day and the rest of the month
 		int i=0;
 		while(i<= DaysInMonth){
 			JLabel label= new JLabel(" ");
@@ -99,8 +120,8 @@ public class AnnualSingleCalendar extends JPanel{
 			label.setFont(new Font("Chalkboard",Font.PLAIN, 12));
 			p.add(label);
 			i++;
-
 		}
+		
 	}
 
 	public class InnerCalMouseListener implements MouseListener{
