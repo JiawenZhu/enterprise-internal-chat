@@ -157,7 +157,7 @@ public class ChatView {
 						public void processMessage(MessageData e) {
 							//System.out.println(e.getMessage());
 							DefaultListModel mod = (DefaultListModel)lstChat.getModel();
-							mod.addElement("[" + e.getDateTime() + "][" + e.getSenderIP() + "]: " + e.getMessage());
+							mod.addElement(e);
 						}
 					});
 					
@@ -220,9 +220,13 @@ public class ChatView {
 		btnSaveMessage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==btnSaveMessage);
-				MessageData data =new MessageData(txtSendPort.getName(), txtSendPort.getText());					
-				MessageList list = new MessageList();
-				list.addToArrayList(data);
+				//MessageData data =new MessageData(txtSendPort.getName(), txtSendPort.getText());	
+				MessageList list = new MessageList();		
+				DefaultListModel mod = (DefaultListModel)lstChat.getModel();
+				for (int i = 0; i < mod.getSize(); i++) {
+					list.addToArrayList((MessageData)mod.get(i));
+				}
+				
 				Logger logger = new Logger(); 
 				
 				try {

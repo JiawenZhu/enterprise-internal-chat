@@ -20,7 +20,7 @@ public class Logger implements Serializable{
 	/**
 	 * create a default serialVersionUID.
 	 */
-	private static final long serialVersionUID = 1L;
+//	private static final long serialVersionUID = 1L;
 	public static String LOG_PATH = "LOG.txt";
 	final static String FILENAME = "LOG.ser";
 
@@ -71,10 +71,10 @@ public class Logger implements Serializable{
 	 * 
 	 * @author Jiawen
 	 */
-	public MessageData loadDataOnDisk() throws Exception {
+	public MessageList loadDataOnDisk() throws Exception {
 		FileInputStream finput = new FileInputStream(FILENAME);
 		ObjectInputStream oinput = new ObjectInputStream(finput);
-		MessageData result = (MessageData) oinput.readObject();
+		MessageList result = (MessageList) oinput.readObject();
 		oinput.close();
 		return result;
 	}

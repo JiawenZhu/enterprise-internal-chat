@@ -21,7 +21,7 @@ public class MessageList implements Serializable {
 	public String toString() {
 		String result = "";
 		for (MessageData message : messageList) {
-			result = result + message + "\n\n";
+			result = result + message.getMessage() + "\n";
 		}
 		return result;
 	}
