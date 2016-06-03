@@ -244,7 +244,7 @@ ActionListener, MessageListener, DocumentListener {
       MessageSender sender = new MessageSender(receiver_ip ,port, copyMsg);
       (new Thread(sender)).start();
 
-      //txtMessage.setText("");
+      txtMessage.setText("");
       currentMsg = new MessageData();
    }
    
@@ -258,7 +258,7 @@ ActionListener, MessageListener, DocumentListener {
    /**
     * method to reset server listening port when port number is changed
     */
-   public void resetListeningPort() {
+   private void resetListeningPort() {
       String port_str = txtListenPort.getText();
      
       if (!Model.Utility.isNumeric(port_str)){
@@ -268,6 +268,15 @@ ActionListener, MessageListener, DocumentListener {
       int port = Integer.parseInt(port_str);
       rec.UpdateListeningPort(port);
       (new Thread(rec)).start();
+   }
+   
+   /**
+    * method used by game to send game specific information
+    * @param x        
+    * @param y
+    */
+   public void sendGameMessage(String message) {
+      
    }
    
    /**
@@ -305,9 +314,7 @@ ActionListener, MessageListener, DocumentListener {
    private void handleTextFieldChange(DocumentEvent e) {
       Object owner = e.getDocument().getProperty("owner");
       if (owner == txtListenPort) { resetListeningPort();}
-      else if (owner == txtMessage) {
-         currentMsg.setMessage(txtMessage.getText());
-      }
+      else if (owner == txtMessage) { }
    }
 }
 
