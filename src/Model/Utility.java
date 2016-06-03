@@ -6,7 +6,8 @@ public class Utility {
 	public static int SEND_FILE_ERROR = 102;
 	
 	public enum MessageType {
-		REGULAR,
+		Incoming,
+		Sending,
 		GAME
 	}
 }

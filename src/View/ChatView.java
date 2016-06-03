@@ -1,42 +1,13 @@
 package View;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-
-import org.eclipse.wb.swing.FocusTraversalOnArray;
-
+import java.awt.*;
+import java.awt.event.*;
 import Model.MessageData;
-
-import java.awt.Component;
-
-import javax.swing.JTextField;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-import javax.swing.SwingConstants;
-
-import java.awt.GridLayout;
-
+import Model.Utility.MessageType;
 import Controller.*;
-
-import javax.swing.JList;
-import javax.swing.ListSelectionModel;
-import javax.swing.DefaultListModel;
-import javax.swing.border.LineBorder;
-
-import java.awt.Font;
-import java.io.IOException;
+import javax.swing.*;
+import javax.swing.border.*;
 import java.util.ArrayList;
-
-import javax.swing.BoxLayout;
 
 /**
  * class of main chatting window
@@ -45,7 +16,7 @@ import javax.swing.BoxLayout;
  * @author Sean
  *
  */
-public class ChatView implements ActionListener {
+public class ChatView implements ActionListener, MessageListener {
 
    private JFrame frame;
    private JLabel lblPortNumber;
@@ -60,10 +31,14 @@ public class ChatView implements ActionListener {
    private JButton btnSelectFile;
    private JLabel displaytxtLabel;
    private JButton btnConnect;
-   private JList lstChat;
+   private JList<MessageData> lstChat;
    private JTextField txtListenPort;
    private JButton btnSaveMessage;
    private JButton btnReadMessage;
+   private MessageReceiver rec;
+   private MessageData currentMsg;
+   
+   
    /**
     * Launch the application.
     */
@@ -81,10 +56,13 @@ public class ChatView implements ActionListener {
    }
 
    /**
-    * Create the application.
+    * default constructor
     */
    public ChatView() {
       initialize();
+      startListening();
+      loadMessage();
+      currentMsg = new MessageData();
    }
 
    /**
@@ -112,8 +90,6 @@ public class ChatView implements ActionListener {
       lblPortNumber = new JLabel("Send Port");
       lblPortNumber.setHorizontalAlignment(SwingConstants.LEFT);
       panel_top.add(lblPortNumber);
-      panel_top.setFocusTraversalPolicy(new FocusTraversalOnArray(
-         new Component[]{lblPortNumber, txtSendPort, textField_IPAddress, lblIpAddress}));
       
       // textbox sending port //
       txtSendPort = new JTextField();
@@ -146,13 +122,15 @@ public class ChatView implements ActionListener {
       frame.getContentPane().add(panel_middle, BorderLayout.CENTER);
       panel_middle.setLayout(new BorderLayout(0, 0));
       
-      lstChat = new JList();
+      lstChat = new JList<MessageData>();
       lstChat.setVisibleRowCount(20);
       lstChat.setLayoutOrientation(JList.HORIZONTAL_WRAP);
       lstChat.setBorder(new LineBorder(new Color(0, 0, 0)));
-      lstChat.setModel(new DefaultListModel());
+      lstChat.setModel(new DefaultListModel<MessageData>());
       lstChat.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+      lstChat.setCellRenderer(new MyListCellThing());
       panel_middle.add(lstChat);
+      
       frame.getContentPane().add(panel_bottom, BorderLayout.SOUTH);
       panel_bottom.setLayout(new BoxLayout(panel_bottom, BoxLayout.X_AXIS));
       
@@ -168,61 +146,134 @@ public class ChatView implements ActionListener {
       
       btnSaveMessage = new JButton("Save Message");
       btnSaveMessage.addActionListener(this);
+      btnSaveMessage.setVisible(false);
       panel_bottom.add(btnSaveMessage);
       
       btnReadMessage = new JButton("Read Message");
       btnReadMessage.addActionListener(this);
+      btnReadMessage.setVisible(false);  
       panel_bottom.add(btnReadMessage);
+
       btnSelectFile = new JButton("Attach File");
-      panel_bottom.add(btnSelectFile);
-      
       btnSelectFile.addActionListener(this);
+      panel_bottom.add(btnSelectFile);
    }
 
+   /**
+    * method to start listening at port specified by user 
+    */
+   private void startListening() {
+      int port = Integer.parseInt(txtListenPort.getText());
+      rec = new MessageReceiver(port);
+      rec.addMessageListener(this);
+      (new Thread(rec)).start();
+   }
+   
+   /**
+    * method to show new message to user
+    * @param msg            message data
+    */
+   private void displayMessage(MessageData msg) {
+      DefaultListModel<MessageData> mod = (DefaultListModel<MessageData>)lstChat.getModel();
+      mod.addElement(msg);
+   }
+   
+   /**
+    * method to load limited amount of previous message as the program starts
+    */
+   private void loadMessage() {
+      
+   }
+   
+   /**
+    * method to save the history of the chat
+    * @param msg             message data
+    */
+   private void saveMessage(MessageData msg) {
+      MessageData data =new MessageData(txtSendPort.getName(), txtSendPort.getText());
+      ArrayList<MessageData> list = new ArrayList<MessageData>();
+      list.add(data);
+      Logger.saveLog(list);
+   }
+   
+   /**
+    * method to send current message to destination
+    */
+   private void sendMessage() {
+      String address = textField_IPAddress.getText();
+      int port = Integer.parseInt(txtSendPort.getText());
+      
+      MessageData msg = new MessageData(address, txtMessage.getText());
+      msg.setMessageType(MessageType.Incoming);
+      MessageSender sender = new MessageSender("localhost",port , msg);
+      (new Thread(sender)).start();
+      
+      MessageData new_msg = new MessageData(address, msg.getMessage());
+      new_msg.setMessageType(MessageType.Sending);
+      displayMessage(new_msg);
+      
+      txtMessage.setText("");
+   }
+   
+   /**
+    * method to attach a file to current message
+    */
+   private void attachFile() {
+      OpenFile openFile = new OpenFile();
+      try {
+         openFile.pickAFile();
+      } catch (Exception e1) {
+         // TODO Auto-generated catch block
+         e1.printStackTrace();
+      }
+   }
+   
+   /**
+    * event handler to display incoming message
+    */
+   @Override
+   public void processMessage(MessageData e) {
+      displayMessage(e);
+      saveMessage(e);
+   }
+   
+   /**
+    * event handler for all button clicks
+    */
    @Override
    public void actionPerformed(ActionEvent e) {
-      if (e.getSource() == btnConnect) {
-         int port = Integer.parseInt(txtListenPort.getText());
-         MessageReceiver rec = new MessageReceiver(port);
-         rec.addMessageListener(new MessageListener() {
+      if (e.getSource() == btnConnect) { }
+      else if(e.getSource()==btnSendMsg) { sendMessage(); }
+      else if (e.getSource()==btnSelectFile) { attachFile(); }
+   }
+}
 
-            @Override
-            public void processMessage(MessageData e) {
-               //System.out.println(e.getMessage());
-               DefaultListModel mod = (DefaultListModel)lstChat.getModel();
-               mod.addElement("[" + e.getDateTime() + "][" + e.getSenderIP() + "]: " + e.getMessage());
-            }
-         });
-         
-         (new Thread(rec)).start();
-      }
-      else if(e.getSource()==btnSendMsg) {
-         String address = textField_IPAddress.getText();
-         int port = Integer.parseInt(txtSendPort.getText());
-         MessageData msg = new MessageData(address, txtMessage.getText());
-         MessageSender sender = new MessageSender("localhost",port , msg);
-         (new Thread(sender)).start();
-      }
-      else if (e.getSource()==btnSaveMessage) {
-         MessageData data =new MessageData(txtSendPort.getName(), txtSendPort.getText());             
-         ArrayList<MessageData> list = new ArrayList<MessageData>();
-         list.add(data);
-         Logger.saveLog(list);
-      }
-      else if(e.getSource()==btnReadMessage) {
-         System.out.println(Logger.requestLog());
-      }
-      else if (e.getSource()==btnSelectFile) {
-         DefaultListModel<String> mod = (DefaultListModel<String>)lstChat.getModel();
-         OpenFile openFile = new OpenFile();
-         try {
-            openFile.pickAFile();
-         } catch (Exception e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-         }
-         
-         mod.addElement(openFile.sb.toString());
-      }
+
+/**
+ * Internal class for JList item color
+ * 
+ * @author sean
+ *
+ */
+class MyListCellThing extends JLabel implements ListCellRenderer<MessageData> {
+   private static final long serialVersionUID = 1L;
+   
+   public MyListCellThing() {
+       setOpaque(true);
+   }
+
+   public Component getListCellRendererComponent(JList list, MessageData value, int index, boolean isSelected, boolean cellHasFocus) {
+       if (!(value instanceof MessageData)) {
+        return this;
+       }
+       MessageData msg = (MessageData)value;
+       setText(msg.toString());
+       
+       if (msg.getMessageType() == MessageType.Sending) 
+        setBackground(Color.green);
+       else
+        setBackground(Color.white);
+
+       return this;
    }
 }
