@@ -8,14 +8,18 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.border.TitledBorder;
@@ -31,7 +35,7 @@ public class GameView extends JFrame
    private static final int COLUMN = 15;
    private static final int PAWN_X_POSITION = 30;
    private static final int PAWN_Y_POSITION  = 60;
-   private static final int PAWN_SIZE = 40;
+   private static final int PAWN_SIZE = 35;
    private static final int SQUARE_SIZE= 40;
    public static final int ONE_SEC = 1000;
    private int hour = 0;
@@ -72,7 +76,20 @@ public class GameView extends JFrame
       board = chessPanel.getGraphics();
       attachChess listener = new attachChess( board);
       chessPanel.addMouseListener(listener);
-      
+
+      Action logout = new AbstractAction()
+      {
+          public void actionPerformed(ActionEvent e)
+          {
+             JOptionPane optionPane = new JOptionPane(
+                  "The game has been inactive for 5 minutes\n"
+                         + "Do you want to end game?",
+                   JOptionPane.YES_NO_OPTION);
+          }
+      };
+       
+      InactivityListener logoutWindow = new InactivityListener(getContentPane(), logout, 1);
+      logoutWindow.start();
       
 
    }

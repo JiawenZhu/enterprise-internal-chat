@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 public class attachChess extends MouseAdapter
 {
 
-   private static final int PAWN_SIZE = 40;
+   private static final int PAWN_SIZE = 35;
    public static boolean isBlack = true;
    public Graphics g;
    public int x, y;
