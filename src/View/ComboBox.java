@@ -25,29 +25,31 @@ import javax.swing.plaf.basic.BasicComboBoxEditor;
 /**
  * this class creates the panel (ComboBox) 
  * that will be added to the Calendar Frame.
- * There also gives the order to create the
- * calendar based on the selected year.
+ * There also gives the selected year to add corresponding 
+ * panel to the frame
  * 
  * @author shuai9532
  *
  */
-public class ComboBox extends JPanel //implements ActionListener
+public class ComboBox extends JPanel 
 {
-	JPanel currentYear;
+final String defaultYear= "2016";
 	private JComboBox box;
+	static String year;
 	
 	//create all the choices, and set
 	//the default choice "2016", add the
-	//box into the panel, and the panel 
-	//will be added to the frame of CalendarOverview
+	//box into the panel
 	ComboBox(){	
-		currentYear=null;
+		
 		box= new JComboBox();
-		//100 years will be recorded here
-		for (int i=0; i<100;i++){
-			box.addItem(2016+i+"");
+		//3 years will be recorded here for testing
+		for (int i=0; i<3;i++){
+			box.addItem(Integer.parseInt(defaultYear)+i+"");
 		} 
-		box.setSelectedItem("2016");
+		box.setSelectedItem(defaultYear);
+        year= defaultYear;
+		
 		box.addActionListener(new BoxActionListener());
 		box.setEditable(false);
 		this.add(new JLabel("select year: "));
@@ -62,39 +64,15 @@ public class ComboBox extends JPanel //implements ActionListener
 	 */
 	class BoxActionListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
+	
 			 JComboBox box = (JComboBox) e.getSource();
-             String selected = (String) box.getSelectedItem();
-             
-             // test case
-             if(Integer.parseInt(selected.toString())==2017){
-            	currentYear= new JPanel();
-            	currentYear.add(new JLabel("yes"));
-            	CalendarOverview.setCalendar(CalendarOverview.frame);
-            	System.out.println("it is 2017");
-             }
-             else {
-            	 
-            	 
-             //create a calendar for every year number 
-             //selected and assign it to the currentYear
-             JPanel calendar=new CalendarOverview_calendar(Integer.parseInt(selected.toString()));
-			 currentYear = calendar;
-			 // call the method in the CalendarOverview, the class to initialize the attachment
-			 CalendarOverview.setCalendar(CalendarOverview.frame);		 		 
-             }
-		}
-	}
-	
-	
-	/**
-	 * provide CalendarOverview with a Calendar JPanel that is 
-	 * ready to be added to the frame
-	 * @return
-	 */
-	public JPanel getCalendarPanel(){
-		return currentYear;
-	}
-	
+			 
+			 // year is changed to whatever chosen
+              year = (String) box.getSelectedItem();
+              // now call the method do add that to the frame;
+             CalendarOverview.setCalendar();
+	        }
+     	}
 
 	}
 
