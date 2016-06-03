@@ -48,14 +48,13 @@ public class GameView extends JFrame
    Graphics board;
    private Timer time;
    public GameView() {
-
-      setResizable(true);
+      //main window frame
       setTitle("Gokumu");
       setDefaultCloseOperation(3);
       setSize(860, 670);
       setLocationRelativeTo(null);
       getContentPane().setLayout(null);
-
+      
      JPanel chessPanel = chessPanel();
       getContentPane().add(chessPanel);
 
@@ -77,19 +76,6 @@ public class GameView extends JFrame
       attachChess listener = new attachChess( board);
       chessPanel.addMouseListener(listener);
 
-      Action logout = new AbstractAction()
-      {
-          public void actionPerformed(ActionEvent e)
-          {
-             JOptionPane optionPane = new JOptionPane(
-                  "The game has been inactive for 5 minutes\n"
-                         + "Do you want to end game?",
-                   JOptionPane.YES_NO_OPTION);
-          }
-      };
-       
-      InactivityListener logoutWindow = new InactivityListener(getContentPane(), logout, 1);
-      logoutWindow.start();
       
 
    }
