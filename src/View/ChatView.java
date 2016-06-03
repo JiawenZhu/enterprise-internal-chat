@@ -213,10 +213,13 @@ ActionListener, MessageListener, DocumentListener {
       currentMsg.setMessage(txtMessage.getText());
       currentMsg.setMessageType(MessageType.Sending);
       currentMsg.updateMsgTime();
-      displayMessage(currentMsg);
+      
+      displayMessage((MessageData)currentMsg.clone());
+      //System.out.println(currentMsg);
       
       MessageData copyMsg = (MessageData)currentMsg.clone();
       copyMsg.setMessageType(MessageType.Incoming);
+      //System.out.println(copyMsg);
       
       MessageSender sender = new MessageSender(receiver_ip ,port, copyMsg);
       (new Thread(sender)).start();
