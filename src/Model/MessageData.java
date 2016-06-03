@@ -7,7 +7,7 @@ import java.util.Date;
 
 import Model.Utility.*;
 
-public class MessageData implements Serializable {
+public class MessageData implements Serializable, Cloneable{
    private static final long serialVersionUID = 1L;
    private String sender_ip;
    private String message;
@@ -20,6 +20,8 @@ public class MessageData implements Serializable {
    public ArrayList<FileData> getFiles() {return files;}
    public boolean isGameMessage() { return msg_type == MessageType.GAME; }
    public void setMessageType(MessageType t) { msg_type = t;}
+   public void setMessage(String msg) { message = msg;}
+   public void setSenderIP(String ip) {sender_ip = ip;}
    public Date getDateTime() {return date;}
    public MessageType getMessageType() { return msg_type;}
    
@@ -71,4 +73,13 @@ public class MessageData implements Serializable {
       return "[" + date + "][" + sender_ip + "]: " + message;
    }
 
+   public Object clone() {
+      MessageData newMsg = new MessageData(sender_ip, message);
+      newMsg.date = this.date;
+      newMsg.msg_type = this.msg_type;
+      for(FileData d: files) {
+         newMsg.AttachFile(d.getFileName());
+      }
+      return newMsg;
+   }
 }

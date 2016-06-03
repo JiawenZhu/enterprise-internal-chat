@@ -2,12 +2,14 @@ package View;
 
 import java.awt.*;
 import java.awt.event.*;
-import Model.MessageData;
-import Model.Utility.MessageType;
-import Controller.*;
+import java.net.InetAddress;
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.event.*;
 import java.util.ArrayList;
+import Model.MessageData;
+import Controller.*;
+import Model.Utility.MessageType;
 
 /**
  * class of main chatting window
@@ -16,7 +18,8 @@ import java.util.ArrayList;
  * @author Sean
  *
  */
-public class ChatView implements ActionListener, MessageListener {
+public class ChatView implements 
+ActionListener, MessageListener, DocumentListener {
 
    private JFrame frame;
    private JLabel lblPortNumber;
@@ -115,8 +118,9 @@ public class ChatView implements ActionListener, MessageListener {
       // textbox listening port //
       txtListenPort = new JTextField();
       txtListenPort.setText("8822");
+      txtListenPort.getDocument().addDocumentListener(this);
+      txtListenPort.getDocument().putProperty("owner", txtListenPort);
       panel_top.add(txtListenPort);
-      txtListenPort.setColumns(10);
       
       frame.getContentPane().add(panel_top, BorderLayout.NORTH);
       frame.getContentPane().add(panel_middle, BorderLayout.CENTER);
@@ -136,6 +140,8 @@ public class ChatView implements ActionListener, MessageListener {
       
       txtMessage = new JTextField();
       txtMessage.setText("Text here");
+      txtMessage.getDocument().addDocumentListener(this);
+      txtMessage.getDocument().putProperty("owner", txtMessage);
       panel_bottom.add(txtMessage);
       txtMessage.setColumns(20);
       
@@ -200,32 +206,45 @@ public class ChatView implements ActionListener, MessageListener {
     * method to send current message to destination
     */
    private void sendMessage() {
-      String address = textField_IPAddress.getText();
+      String receiver_ip = textField_IPAddress.getText();
       int port = Integer.parseInt(txtSendPort.getText());
       
-      MessageData msg = new MessageData(address, txtMessage.getText());
-      msg.setMessageType(MessageType.Incoming);
-      MessageSender sender = new MessageSender("localhost",port , msg);
+      currentMsg.setSenderIP("localhost");
+      currentMsg.setMessage(txtMessage.getText());
+      currentMsg.setMessageType(MessageType.Sending);
+      currentMsg.updateMsgTime();
+      displayMessage(currentMsg);
+      
+      MessageData copyMsg = (MessageData)currentMsg.clone();
+      copyMsg.setMessageType(MessageType.Incoming);
+      
+      MessageSender sender = new MessageSender(receiver_ip ,port, copyMsg);
       (new Thread(sender)).start();
-      
-      MessageData new_msg = new MessageData(address, msg.getMessage());
-      new_msg.setMessageType(MessageType.Sending);
-      displayMessage(new_msg);
-      
+
       txtMessage.setText("");
+      currentMsg = new MessageData();
    }
    
    /**
     * method to attach a file to current message
     */
    private void attachFile() {
-      OpenFile openFile = new OpenFile();
-      try {
-         openFile.pickAFile();
-      } catch (Exception e1) {
-         // TODO Auto-generated catch block
-         e1.printStackTrace();
+      
+   }
+   
+   /**
+    * method to reset server listening port when port number is changed
+    */
+   public void resetListeningPort() {
+      String port_str = txtListenPort.getText();
+     
+      if (!Model.Utility.isNumeric(port_str)){
+         return;
       }
+         
+      int port = Integer.parseInt(port_str);
+      rec.UpdateListeningPort(port);
+      (new Thread(rec)).start();
    }
    
    /**
@@ -245,6 +264,26 @@ public class ChatView implements ActionListener, MessageListener {
       if (e.getSource() == btnConnect) { }
       else if(e.getSource()==btnSendMsg) { sendMessage(); }
       else if (e.getSource()==btnSelectFile) { attachFile(); }
+   }
+
+   /**
+    * event handlers for all text field changes
+    */
+   @Override
+   public void changedUpdate(DocumentEvent e) { handleTextFieldChange(e); }
+   
+   @Override
+   public void insertUpdate(DocumentEvent e) { handleTextFieldChange(e); }
+
+   @Override
+   public void removeUpdate(DocumentEvent e) { handleTextFieldChange(e); }
+   
+   private void handleTextFieldChange(DocumentEvent e) {
+      Object owner = e.getDocument().getProperty("owner");
+      if (owner == txtListenPort) { resetListeningPort();}
+      else if (owner == txtMessage) {
+         currentMsg.setMessage(txtMessage.getText());
+      }
    }
 }
 
