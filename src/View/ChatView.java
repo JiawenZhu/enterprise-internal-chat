@@ -275,7 +275,7 @@ ActionListener, MessageListener, DocumentListener {
     * @param x        
     * @param y
     */
-   public void sendGameMessage(String message) {
+   public void sendGameMessage(int x, int y) {
       
    }
    
