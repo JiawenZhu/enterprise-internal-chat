@@ -1,8 +1,7 @@
-package Controller;
+package Chat;
 
 import java.net.Socket;
 import java.io.*;
-import Model.*;
 
 /**
  * class to send message to IP address

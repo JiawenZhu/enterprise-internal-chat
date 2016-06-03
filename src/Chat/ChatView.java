@@ -1,16 +1,15 @@
-package View;
+package Chat;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.net.InetAddress;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
 import java.util.ArrayList;
-import Model.MessageData;
-import Model.Utility;
-import Controller.*;
-import Model.Utility.MessageType;
+import Game.GameView;
+import Shared.Logger;
+import Shared.Utility;
+import Shared.Utility.MessageType;
 
 /**
  * class of main chatting window
@@ -261,7 +260,7 @@ ActionListener, MessageListener, DocumentListener {
    private void resetListeningPort() {
       String port_str = txtListenPort.getText();
      
-      if (!Model.Utility.isNumeric(port_str)){
+      if (!Utility.isNumeric(port_str)){
          return;
       }
          

@@ -1,9 +1,8 @@
-package View;
+package Calendar;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.time.Month;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -30,10 +29,9 @@ public class MonthlyCalendar_calendar extends JPanel {
 	       
 	     Calendar newCalendar= new GregorianCalendar(year,monthInt,1);
 	     
-	     System.out.println(" ")
-;	     
+	     System.out.println(" ");
 	     System.out.println("this is the monthly window ");
-	     System.out.println(Month.of(monthInt+1).name());
+	     System.out.println(Shared.Utility.getMonth(monthInt));
 	    	int DaysInMonth= newCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 	    	System.out.println("there are "+ DaysInMonth+ " in this month");
 		    int dayOfWeekOfFirstDay= newCalendar.get(Calendar.DAY_OF_WEEK);

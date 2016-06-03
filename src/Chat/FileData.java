@@ -1,4 +1,4 @@
-package Model;
+package Chat;
 
 import java.io.*;
 

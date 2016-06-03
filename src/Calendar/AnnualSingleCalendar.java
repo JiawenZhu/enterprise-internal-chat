@@ -1,4 +1,4 @@
-package View;
+package Calendar;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -7,11 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.time.Month;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Calendar;
-
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.SpringLayout;
 import javax.swing.border.LineBorder;
+import java.text.DateFormatSymbols;
 
 /**
  * create CalenarPanel of one month for Each year 
@@ -43,7 +42,7 @@ public class AnnualSingleCalendar extends JPanel{
 		this.year= year;
 		
 		// make the title part of the calendar
-		String stringMonth= Month.of(month+1).name();
+		String stringMonth= Shared.Utility.getMonth(month);
 		System.out.println(stringMonth);
 		JLabel nam= new JLabel(stringMonth);
 		nam.setForeground(Color.red);
@@ -74,6 +73,7 @@ public class AnnualSingleCalendar extends JPanel{
 		spring.putConstraint(SpringLayout.WEST, cal, 80, SpringLayout.WEST, this);
 	
 	}
+
 
 	/**
 	 * this is where the Calendar part of the

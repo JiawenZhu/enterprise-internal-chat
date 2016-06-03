@@ -1,4 +1,4 @@
-package View;
+package Calendar;
 
 import java.awt.Color;
 import java.awt.ScrollPane;

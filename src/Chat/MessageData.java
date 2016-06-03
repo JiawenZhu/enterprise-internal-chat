@@ -1,11 +1,12 @@
-package Model;
+package Chat;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import Model.Utility.*;
+import Shared.Utility;
+import Shared.Utility.*;
 
 public class MessageData implements Serializable, Cloneable{
    private static final long serialVersionUID = 1L;

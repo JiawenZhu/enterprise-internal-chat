@@ -1,7 +1,6 @@
-package Controller;
+package Chat;
 
 import java.util.ArrayList;
-import Model.MessageData;
 import java.io.Serializable;
 
 public class MessageList implements Serializable {

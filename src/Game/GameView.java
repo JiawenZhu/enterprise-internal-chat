@@ -1,4 +1,4 @@
-package View;
+package Game;
 //one big frame with 2 panel
 //one panel with chessboard
 //another panel with stopwatch
@@ -23,11 +23,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.border.TitledBorder;
+
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-
 
 public class GameView extends JFrame
 { 

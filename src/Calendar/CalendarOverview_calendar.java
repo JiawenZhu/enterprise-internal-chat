@@ -1,12 +1,7 @@
-package View;
+package Calendar;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.time.Month;
 import java.util.Calendar;
-
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 public class CalendarOverview_calendar extends JPanel {

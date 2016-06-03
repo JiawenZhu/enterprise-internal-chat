@@ -1,4 +1,4 @@
-package View;
+package Game;
 
 public class chessWinningDecisionMaker
 {

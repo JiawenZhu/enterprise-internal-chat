@@ -1,10 +1,9 @@
-package Controller;
+package Chat;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import Model.MessageData;
 
 /**
  * class to receive message

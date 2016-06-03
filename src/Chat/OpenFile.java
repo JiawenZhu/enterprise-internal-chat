@@ -1,4 +1,4 @@
-package Controller;
+package Chat;
 
 import java.util.Scanner;
 import javax.swing.JFileChooser;

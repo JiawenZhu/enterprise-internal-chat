@@ -1,4 +1,6 @@
-package View;
+package Test;
+
+import Game.GameView;
 
 public class testGUi
 {
