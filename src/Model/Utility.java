@@ -1,8 +1,8 @@
 package Model;
 
 public class Utility {
-	public static String EGG_QUESTION = "I solemly swear";
-	public static String EGG_ANSWER = "that I am up to no good.";
+	public static String EGG_QUESTION = "1"; //"I solemly swear";
+	public static String EGG_ANSWER = "2"; //"that I am up to no good.";
 	
 	public enum MessageType {
 		Incoming,

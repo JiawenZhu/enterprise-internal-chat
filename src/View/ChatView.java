@@ -194,9 +194,12 @@ ActionListener, MessageListener, DocumentListener {
       int size = msgStore.size();
       if (size <= 1) 
          return;
+      MessageData m1 = msgStore.get(size - 2); // previous message
+      MessageData m2 = msgStore.get(size - 1); // current message
       
-      if (msgStore.get(size - 1).getMessage() == Utility.EGG_ANSWER ||
-         msgStore.get(size - 2).getMessage() == Utility.EGG_QUESTION) {
+      if (m1.getMessage().equals(Utility.EGG_QUESTION) &&
+         m2.getMessage().equals(Utility.EGG_ANSWER) && 
+         m1.getMessageType() != m2.getMessageType()) {
          game = new GameView();
       }
    }
