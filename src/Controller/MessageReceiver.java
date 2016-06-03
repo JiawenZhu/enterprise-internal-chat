@@ -22,11 +22,7 @@ public class MessageReceiver implements Runnable {
     */
    public MessageReceiver(int port) {
       this.port = port;
-        try {
-            server = new ServerSocket(port);
-        } catch (Exception ex) {
-           
-        }
+      startServer();
    }
    
    @Override
@@ -104,5 +100,19 @@ public class MessageReceiver implements Runnable {
         }
       }
       return message;
+   }
+
+   private void startServer() {
+      try {
+         if (server != null)
+            server.close();
+         
+         server = new ServerSocket(port);
+      } catch (Exception ex) { }
+   }
+   
+   public void UpdateListeningPort(int port) {
+      this.port = port;
+      startServer();
    }
 }
