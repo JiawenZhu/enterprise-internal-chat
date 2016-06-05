@@ -44,7 +44,7 @@ final String defaultYear= "2016";
 		
 		box= new JComboBox();
 		//3 years will be recorded here for testing
-		for (int i=0; i<3;i++){
+		for (int i=0; i<100;i++){
 			box.addItem(Integer.parseInt(defaultYear)+i+"");
 		} 
 		box.setSelectedItem(defaultYear);
@@ -70,7 +70,7 @@ final String defaultYear= "2016";
 			 // year is changed to whatever chosen
               year = (String) box.getSelectedItem();
               // now call the method do add that to the frame;
-             CalendarOverview.setCalendar();
+             CalendarOverview.initializeAnnualCalendar();
 	        }
      	}
 

@@ -18,6 +18,7 @@ import javax.swing.JTextPane;
 import javax.swing.SpringLayout;
 import javax.swing.border.LineBorder;
 import java.text.DateFormatSymbols;
+import java.time.Month;
 
 /**
  * create CalenarPanel of one month for Each year 
@@ -31,7 +32,6 @@ public class AnnualSingleCalendar extends JPanel{
 
 	public AnnualSingleCalendar(int month,int year){
 		System.out.println("passedinMonth"+ month);
-		System.out.println(" ");
 		
 		this.setBackground(Color.white);
 		this.addMouseListener( new InnerCalMouseListener());
@@ -42,7 +42,7 @@ public class AnnualSingleCalendar extends JPanel{
 		this.year= year;
 		
 		// make the title part of the calendar
-		String stringMonth= Shared.Utility.getMonth(month);
+		String stringMonth=Month.of(month+1).name();
 		System.out.println(stringMonth);
 		JLabel nam= new JLabel(stringMonth);
 		nam.setForeground(Color.red);
@@ -61,20 +61,16 @@ public class AnnualSingleCalendar extends JPanel{
 		
 		Calendar newCalendar= new GregorianCalendar(year,month,1);
 		
-		
 		setDays(cal,newCalendar);
-		
-		
 	
 		this.add(cal);
 		spring.putConstraint(SpringLayout.EAST, nam, -10, SpringLayout.WEST, cal);
 		spring.putConstraint(SpringLayout.NORTH, nam, 20, SpringLayout.NORTH, this);
 		spring.putConstraint(SpringLayout.SOUTH, cal, 120, SpringLayout.NORTH, nam);
 		spring.putConstraint(SpringLayout.WEST, cal, 80, SpringLayout.WEST, this);
+		spring.putConstraint(SpringLayout.NORTH, cal, 5, SpringLayout.NORTH, this);
 	
 	}
-
-
 	/**
 	 * this is where the Calendar part of the
 	 * Calendar is made and added to the main Calendar JPanel
@@ -89,6 +85,7 @@ public class AnnualSingleCalendar extends JPanel{
 		System.out.println("there are "+DaysInMonth+ "each month");
 		int dayOfWeekOfFirstDay= newCalendar.get(Calendar.DAY_OF_WEEK);
 		System.out.println("this is the first day of the month: "+dayOfWeekOfFirstDay);
+		System.out.println(" ");
 
 		String[] day= new String[]{"S","M","T", "W", "T", "F", "S"};
 
@@ -140,7 +137,6 @@ public class AnnualSingleCalendar extends JPanel{
 			count++;
 		}
 		
-		
 	}
 
 	public class InnerCalMouseListener implements MouseListener{
@@ -148,28 +144,24 @@ public class AnnualSingleCalendar extends JPanel{
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void mousePressed(MouseEvent e) {
 			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			// TODO Auto-generated method stub
 			CalendarOverview.hideWindow();
-			MonthlyCalendarMaker maker= new MonthlyCalendarMaker();
+			MonthlyCalendarMaker maker= new MonthlyCalendarMaker( );
 			maker.drawCurrentMonth(month,year);
-
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			// TODO Auto-generated method stub
-
 		}
 
 		@Override

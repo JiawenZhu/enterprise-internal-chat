@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.Month;
 import java.util.Calendar;
 
 import javax.swing.JButton;
@@ -30,7 +31,7 @@ public class MonthlyCalendarMaker{
 	 */
 	public void drawCurrentMonth(int monthInt, int year){
 		// here the month # is from 1-12, so monthInt does not need to be subtracted by 1
-		this.month=Shared.Utility.getMonth(monthInt);
+		this.month=Month.of(monthInt+1).name();
 		this.year=year;
 		// new Frame is created for the specific month
 		JFrame newFrame = new JFrame(this.month);
@@ -41,15 +42,9 @@ public class MonthlyCalendarMaker{
 
 		JPanel buttons = new JPanel();
 		JButton back = new JButton("back");
-		JButton next = new JButton("next Month");
-		JButton comment= new JButton("comment");
 		buttons.add(back);
-		buttons.add(next);
-		buttons.add(comment);
 		newFrame.add(buttons, BorderLayout.NORTH);
 		back.addActionListener(new backActionListener());
-		next.addActionListener(new nextActionListener());
-		comment.addActionListener(new commentActionListener());
 		
 		JPanel monthCal = new MonthlyCalendar_calendar(monthInt,year);
 	    newFrame.add(monthCal, BorderLayout.CENTER);
@@ -79,28 +74,8 @@ public class MonthlyCalendarMaker{
 			CalendarOverview.ShowWindow();
 		}
 	}
-	
-	public class nextActionListener implements ActionListener{
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-	
-			// for test      
-			drawCurrentMonth(Calendar.JUNE, year);
-			
-		}
-	
-	}
-	
-	public class commentActionListener implements ActionListener{
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-	
-	}
 	
 	
 }

@@ -13,83 +13,65 @@ import javax.swing.JRadioButton;
 
 /**
  * this class creates a CALENDAR where user can choose the year
+ * the design:
+ * every year is not created beforehand due to the large memory. 
+ * Thus, each year year is created upon request. This requires to sort the
+ * file for the corresponding time and them to the correct time in the correct year.
+ * 
  * @author shuai9532
  *
  */
 public class CalendarOverview {
-	// frame for each year with changing calendar
-	static JFrame frame; 
 	// basic final frame
 	static JFrame CalFrame; 
 	static ComboBox x;
 	static ArrayList<CalendarOverview_calendar> AnnualCalendar;
+	static CalendarOverview_calendar currentCalendar;
 
 	public CalendarOverview(){
-        
-		// right now, there will be only three years here for testing
-		AnnualCalendar= new ArrayList<CalendarOverview_calendar>(3);
+
+		AnnualCalendar= new ArrayList<CalendarOverview_calendar>();
 		CalendarOverview.CalFrame = new JFrame("Calendar");
 		CalFrame.setBackground(Color.WHITE);
 		CalFrame.setLayout(new BorderLayout());
 		// get a box Panel 
 		x = new ComboBox();  
 		CalFrame.add(x,BorderLayout.NORTH);
+		currentCalendar=null;
 		// set annual calendar
 		initializeAnnualCalendar();
-		setCalendar();
-		
 	}
-	
+
 	/**
-	 * create all the calendar Panels for the years 
+	 * create calendar Panels for the year
 	 */
-	private void initializeAnnualCalendar(){
-		
-		// three years for test
-		for(int i=0; i<3; i++){
-			AnnualCalendar.add(new CalendarOverview_calendar(2016+i));
+	static void initializeAnnualCalendar(){
+
+		if (currentCalendar!=null){
+			CalFrame.remove(currentCalendar);
 		}
+		currentCalendar= new CalendarOverview_calendar(Integer.parseInt(ComboBox.year));
+		CalFrame.add(currentCalendar,BorderLayout.CENTER);
+		CalFrame.add(new JPanel(), BorderLayout.SOUTH); 
+		CalFrame.setSize(800, 700);
+		CalFrame.setResizable(false);
+		CalFrame.setVisible(true); 
 	}
-	
+
 	/**
 	 * hide the window when monthly 
 	 * calendar is requested to show
 	 */
 	public static void hideWindow(){
-		frame.setVisible(false);
+		CalFrame.setVisible(false);
 	}
+
 	/**
 	 * show window when "back" 
 	 * button is pressed
 	 */
 	public static void ShowWindow(){
-		frame.setVisible(true);
+		CalFrame.setVisible(true);
 	}
 
-	/**
-	 * set annual calendar panel to the frame
-	 * @param newFrame
-	 */
-	static void setCalendar(){
-		//close the frame that contains previous months of the year
-	//	frame.setVisible(false);
-		
-		// new Calendar starts here
-		JFrame Alternative = CalFrame; 
-		int i=0;
-		while(i<AnnualCalendar.size()){
-			CalendarOverview_calendar current =AnnualCalendar.get(i);
-
-			if(Integer.parseInt(ComboBox.year) == current.getYear()){
-				Alternative.add(current,BorderLayout.CENTER);
-				Alternative.add(new JPanel(), BorderLayout.SOUTH); 
-				Alternative.setSize(800, 700);
-				Alternative.setResizable(false);
-				Alternative.setVisible(true); 
-				frame= Alternative;
-				break;
-			}
-			i++;
-		}	
-	}			
 }
