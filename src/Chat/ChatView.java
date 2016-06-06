@@ -5,6 +5,10 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+
 import java.util.ArrayList;
 import Game.GameView;
 import Shared.Logger;
@@ -27,13 +31,13 @@ ActionListener, MessageListener, DocumentListener {
    private JLabel lblIpAddress;
    private JTextField textField_IPAddress;
    private JPanel panel_top;
-   private JPanel panel_middle;      
+   private JScrollPane panel_middle;      
    private JPanel panel_bottom;
    private JTextField txtMessage;
    private JButton btnSendMsg;
    private JButton btnSelectFile;
    private JButton btnConnect;
-   private JList<MessageData> lstChat;
+   private JTextPane chatPanel;
    private JTextField txtListenPort;
    private JButton btnSaveMessage;
    private JButton btnReadMessage;
@@ -82,9 +86,6 @@ ActionListener, MessageListener, DocumentListener {
       // top panel //
       panel_top = new JPanel();
       
-      // middle panel //
-      panel_middle = new JPanel();
-      
       // bottom panel //
       panel_bottom = new JPanel();
       panel_bottom.setBackground(new Color(238, 238, 238));
@@ -124,17 +125,18 @@ ActionListener, MessageListener, DocumentListener {
       panel_top.add(txtListenPort);
       
       frame.getContentPane().add(panel_top, BorderLayout.NORTH);
-      frame.getContentPane().add(panel_middle, BorderLayout.CENTER);
-      panel_middle.setLayout(new BorderLayout(0, 0));
+
+      // chat display
+      chatPanel = new JTextPane();
+      chatPanel.setEditable(false);
       
-      lstChat = new JList<MessageData>();
-      lstChat.setVisibleRowCount(20);
-      lstChat.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-      lstChat.setBorder(new LineBorder(new Color(0, 0, 0)));
-      lstChat.setModel(new DefaultListModel<MessageData>());
-      lstChat.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-      lstChat.setCellRenderer(new MyListCellThing());
-      panel_middle.add(lstChat);
+      // middle panel //
+      panel_middle = new JScrollPane(chatPanel);
+      panel_middle.setVerticalScrollBarPolicy(
+         JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+      panel_middle.setPreferredSize(new Dimension(250, 145));
+      panel_middle.setMinimumSize(new Dimension(10, 10));
+      frame.getContentPane().add(panel_middle, BorderLayout.CENTER);
       
       frame.getContentPane().add(panel_bottom, BorderLayout.SOUTH);
       panel_bottom.setLayout(new BoxLayout(panel_bottom, BoxLayout.X_AXIS));
@@ -181,8 +183,28 @@ ActionListener, MessageListener, DocumentListener {
     * @param msg            message data
     */
    private void displayMessage(MessageData msg) {
-      DefaultListModel<MessageData> mod = (DefaultListModel<MessageData>)lstChat.getModel();
-      mod.addElement(msg);
+      try {
+         StyledDocument doc = chatPanel.getStyledDocument();
+         
+         SimpleAttributeSet keyWord = new SimpleAttributeSet();
+         StyleConstants.setForeground(keyWord, Color.BLUE);
+         
+         // time
+         doc.insertString(doc.getLength(), msg.getTime() + " ", keyWord );
+         
+         // name
+         boolean isMe = msg.getMessageType() == MessageType.Sending;
+         String name = isMe ? "Me" : msg.getSenderIP();
+         StyleConstants.setForeground(keyWord, !isMe ? Color.BLUE : Color.black);
+         StyleConstants.setBold(keyWord, !isMe);
+         doc.insertString(doc.getLength(), name + ": ", keyWord );
+         
+         // message
+         StyleConstants.setForeground(keyWord, Color.black);
+         StyleConstants.setBold(keyWord, false);
+         doc.insertString(doc.getLength(), msg.getMessage() + "\n", keyWord );
+      }
+      catch(Exception e) { System.out.println(e); }
       triggerGame();
    }
    
@@ -206,7 +228,22 @@ ActionListener, MessageListener, DocumentListener {
     * method to load limited amount of previous message as the program starts
     */
    private void loadMessage() {
-      
+      chatPanel.setText("");
+      try {
+         StyledDocument doc = chatPanel.getStyledDocument();
+         
+         SimpleAttributeSet keyWord = new SimpleAttributeSet();
+         StyleConstants.setForeground(keyWord, Color.black);
+         StyleConstants.setFontSize(keyWord, 12);
+         StyleConstants.setBold(keyWord, true);
+         StyleConstants.setAlignment(keyWord, StyleConstants.ALIGN_CENTER);
+         doc.setParagraphAttributes(0, doc.getLength(), keyWord, false);
+         doc.insertString(doc.getLength(), "- Today -\n\n", keyWord );
+         
+         StyleConstants.setAlignment(keyWord, StyleConstants.ALIGN_LEFT);
+         doc.setParagraphAttributes(doc.getLength(), 0, keyWord, false);
+      }
+      catch(Exception e) { System.out.println(e); }
    }
    
    /**
