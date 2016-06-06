@@ -1,6 +1,7 @@
 package Chat;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -68,6 +69,10 @@ public class MessageData implements Serializable, Cloneable{
    
    public void updateMsgTime() {
       date = getCurrentTime();
+   }
+   
+   public String getTime() {
+         return new SimpleDateFormat("HH:mm:ss").format(date);
    }
    
    public String toString() {
