@@ -2,6 +2,8 @@ package Chat;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
@@ -303,7 +305,12 @@ ActionListener, MessageListener, DocumentListener {
     * method to attach a file to current message
     */
    private void attachFile() {
-      
+      File[] files = FileChooser.show();
+      if (files != null) {
+         for (File f: files) {
+            currentMsg.AttachFile(f.getAbsolutePath());
+         }
+      }
    }
    
    /**
