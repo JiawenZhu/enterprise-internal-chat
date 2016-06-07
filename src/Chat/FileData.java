@@ -7,12 +7,22 @@ import java.io.*;
  * @author Sean
  *
  */
-public class FileData implements Serializable {
+public class FileData implements Serializable, Cloneable{
    private static final long serialVersionUID = 1L;
    private String file_name;
+   private String file_path;
    private byte[] fileData;
    
    public String getFileName() { return file_name; }
+   public String getFilePath() { return file_path; }
+   public void setFilePath(String path) { file_path = path; }
+   
+   /**
+    * default constructor
+    */
+   public FileData() {
+      
+   }
    
    /**
     * 1-parameter constructor
@@ -20,8 +30,9 @@ public class FileData implements Serializable {
     */
    public FileData(String path) {
       FileInputStream fis = null;
-       BufferedInputStream bis = null;
-       
+      BufferedInputStream bis = null;
+      this.file_path = path;
+      
       try {
          File myFile = new File (path);
          fileData  = new byte [(int)myFile.length()];
@@ -53,5 +64,17 @@ public class FileData implements Serializable {
       catch (Exception ex) {
          return false;
       }
+   }
+   
+   public String getFileDir() {
+       File f = new File(file_path);
+       return f.getAbsoluteFile().getParentFile().getAbsolutePath();
+   }
+   
+   public Object clone() {
+      FileData newFD = new FileData();
+      newFD.file_name = this.file_name;
+      newFD.fileData = this.fileData;
+      return newFD;
    }
 }

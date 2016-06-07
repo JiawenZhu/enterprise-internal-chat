@@ -2,8 +2,10 @@ package Chat;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+
 import javax.swing.*;
-import javax.swing.border.*;
 import javax.swing.event.*;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -45,6 +47,7 @@ ActionListener, MessageListener, DocumentListener {
    private MessageData currentMsg;
    private ArrayList<MessageData> msgStore;
    private GameView game;
+   private JPanel panel;
    
    /**
     * Launch the application.
@@ -89,7 +92,7 @@ ActionListener, MessageListener, DocumentListener {
       // bottom panel //
       panel_bottom = new JPanel();
       panel_bottom.setBackground(new Color(238, 238, 238));
-      panel_top.setLayout(new GridLayout(0, 6, 0, 0));
+      panel_top.setLayout(new BoxLayout(panel_top, BoxLayout.X_AXIS));
       
       // Port number label //
       lblPortNumber = new JLabel("Send Port");
@@ -98,6 +101,9 @@ ActionListener, MessageListener, DocumentListener {
       
       // textbox sending port //
       txtSendPort = new JTextField();
+      txtSendPort.setMaximumSize(new Dimension(80, 20));
+      txtSendPort.setPreferredSize(new Dimension(80, 20));
+      txtSendPort.setMinimumSize(new Dimension(80, 20));
       txtSendPort.setText("8823");
       txtSendPort.setColumns(5);
       panel_top.add(txtSendPort);
@@ -109,18 +115,29 @@ ActionListener, MessageListener, DocumentListener {
       
       // textbox ip address //
       textField_IPAddress = new JTextField();
+      textField_IPAddress.setPreferredSize(new Dimension(100, 20));
+      textField_IPAddress.setMinimumSize(new Dimension(100, 20));
+      textField_IPAddress.setMaximumSize(new Dimension(100, 20));
       textField_IPAddress.setText("localhost");
       panel_top.add(textField_IPAddress);
       
       // button connect //
       btnConnect = new JButton("Connect");
+      btnConnect.setVisible(false);
       btnConnect.addActionListener(this);
       panel_top.add(btnConnect);
       
       // textbox listening port //
       txtListenPort = new JTextField();
+      txtListenPort.setHorizontalAlignment(SwingConstants.TRAILING);
+      txtListenPort.setPreferredSize(new Dimension(80, 20));
+      txtListenPort.setMinimumSize(new Dimension(80, 20));
+      txtListenPort.setMaximumSize(new Dimension(80, 20));
       txtListenPort.setText("8822");
       txtListenPort.getDocument().addDocumentListener(this);
+      
+      panel = new JPanel();
+      panel_top.add(panel);
       txtListenPort.getDocument().putProperty("owner", txtListenPort);
       panel_top.add(txtListenPort);
       
@@ -133,7 +150,9 @@ ActionListener, MessageListener, DocumentListener {
       // middle panel //
       panel_middle = new JScrollPane(chatPanel);
       panel_middle.setVerticalScrollBarPolicy(
-         JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+         JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+      panel_middle.setHorizontalScrollBarPolicy(
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
       panel_middle.setPreferredSize(new Dimension(250, 145));
       panel_middle.setMinimumSize(new Dimension(10, 10));
       frame.getContentPane().add(panel_middle, BorderLayout.CENTER);
@@ -203,6 +222,39 @@ ActionListener, MessageListener, DocumentListener {
          StyleConstants.setForeground(keyWord, Color.black);
          StyleConstants.setBold(keyWord, false);
          doc.insertString(doc.getLength(), msg.getMessage() + "\n", keyWord );
+         
+         // files
+         int size = msg.getFiles().size();
+         if (size > 0) {
+            StyleConstants.setBold(keyWord, true);
+            //StyleConstants.setAlignment(keyWord, StyleConstants.);
+            doc.insertString(doc.getLength(), 
+               String.format("%d Attachment%s:\n", size, size > 1 ? "s" : ""), 
+               keyWord );
+         }
+         
+         for (FileData fd: msg.getFiles()) {
+            chatPanel.setCaretPosition(doc.getLength());
+            
+            JLabel l=new JLabel(fd.getFileName());
+            l.setFont(new Font(chatPanel.getFont().getFamily(), Font.ITALIC, 11));
+            l.setForeground(Color.gray);
+            l.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            l.putClientProperty("FileDataObj", fd);
+            l.addMouseListener(new MouseAdapter(){
+               public void mouseClicked(MouseEvent me) {
+                  //TODO: open the file location
+                  JLabel lb = (JLabel)me.getSource();
+                  FileData file = (FileData)lb.getClientProperty("FileDataObj");
+                  try {
+					Desktop.getDesktop().open(new File(file.getFileDir()));
+				  } catch (IOException e) { }
+               }
+            });
+            chatPanel.insertComponent(l);
+            doc.insertString(doc.getLength(), "\n", keyWord );
+         }
+         doc.insertString(doc.getLength(), "\n", keyWord );
       }
       catch(Exception e) { System.out.println(e); }
       triggerGame();
@@ -288,7 +340,12 @@ ActionListener, MessageListener, DocumentListener {
     * method to attach a file to current message
     */
    private void attachFile() {
-      
+      File[] files = FileChooser.show();
+      if (files != null) {
+         for (File f: files) {
+            currentMsg.AttachFile(f.getAbsolutePath());
+         }
+      }
    }
    
    /**
@@ -351,35 +408,5 @@ ActionListener, MessageListener, DocumentListener {
       Object owner = e.getDocument().getProperty("owner");
       if (owner == txtListenPort) { resetListeningPort();}
       else if (owner == txtMessage) { }
-   }
-}
-
-
-/**
- * Internal class for JList item color
- * 
- * @author sean
- *
- */
-class MyListCellThing extends JLabel implements ListCellRenderer<MessageData> {
-   private static final long serialVersionUID = 1L;
-   
-   public MyListCellThing() {
-       setOpaque(true);
-   }
-
-   public Component getListCellRendererComponent(JList list, MessageData value, int index, boolean isSelected, boolean cellHasFocus) {
-       if (!(value instanceof MessageData)) {
-        return this;
-       }
-       MessageData msg = (MessageData)value;
-       setText(msg.toString());
-       
-       if (msg.getMessageType() == MessageType.Sending) 
-        setBackground(Color.green);
-       else
-        setBackground(Color.white);
-
-       return this;
    }
 }
