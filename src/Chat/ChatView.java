@@ -12,6 +12,8 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import Calendar.CalendarOverview;
+
 import java.util.ArrayList;
 import Game.GameView;
 import Shared.Logger;
@@ -49,6 +51,7 @@ ActionListener, MessageListener, DocumentListener {
    private ArrayList<MessageData> msgStore;
    private GameView game;
    private JPanel panel;
+   private JButton btnHistory;
    
    /**
     * Launch the application.
@@ -164,6 +167,10 @@ ActionListener, MessageListener, DocumentListener {
       txtMessage = new JTextField();
       txtMessage.setText("Text here");
       txtMessage.getDocument().addDocumentListener(this);
+      
+      btnHistory = new JButton("History");
+      btnHistory.addActionListener(this);
+      panel_bottom.add(btnHistory);
       txtMessage.getDocument().putProperty("owner", txtMessage);
       panel_bottom.add(txtMessage);
       txtMessage.setColumns(20);
@@ -383,6 +390,13 @@ ActionListener, MessageListener, DocumentListener {
    }
    
    /**
+    * 
+    */
+   private void showHistory() {
+      CalendarOverview overview = new CalendarOverview();
+   }
+   
+   /**
     * event handler to display incoming message
     */
    @Override
@@ -399,8 +413,9 @@ ActionListener, MessageListener, DocumentListener {
    @Override
    public void actionPerformed(ActionEvent e) {
       if (e.getSource() == btnConnect) { }
-      else if(e.getSource()==btnSendMsg) { sendMessage(); }
-      else if (e.getSource()==btnSelectFile) { attachFile(); }
+      else if (e.getSource() == btnSendMsg) { sendMessage(); }
+      else if (e.getSource() == btnSelectFile) { attachFile(); }
+      else if (e.getSource() == btnHistory) { showHistory(); }
    }
 
    /**
