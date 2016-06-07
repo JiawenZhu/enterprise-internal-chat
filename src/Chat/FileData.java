@@ -7,12 +7,19 @@ import java.io.*;
  * @author Sean
  *
  */
-public class FileData implements Serializable {
+public class FileData implements Serializable, Cloneable{
    private static final long serialVersionUID = 1L;
    private String file_name;
    private byte[] fileData;
    
    public String getFileName() { return file_name; }
+   
+   /**
+    * default constructor
+    */
+   public FileData() {
+      
+   }
    
    /**
     * 1-parameter constructor
@@ -53,5 +60,12 @@ public class FileData implements Serializable {
       catch (Exception ex) {
          return false;
       }
+   }
+   
+   public Object clone() {
+      FileData newFD = new FileData();
+      newFD.file_name = this.file_name;
+      newFD.fileData = this.fileData;
+      return newFD;
    }
 }

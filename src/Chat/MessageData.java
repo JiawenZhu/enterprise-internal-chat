@@ -58,6 +58,10 @@ public class MessageData implements Serializable, Cloneable{
       files.add(new FileData(path));
    }
    
+   public void AttachFile(FileData fd) {
+      files.add(fd);
+   }
+   
    /**
     * method to get current time
     * @return              current time
@@ -84,7 +88,7 @@ public class MessageData implements Serializable, Cloneable{
       newMsg.date = this.date;
       newMsg.msg_type = this.msg_type;
       for(FileData d: files) {
-         newMsg.AttachFile(d.getFileName());
+         newMsg.files.add((FileData)d.clone());
       }
       return newMsg;
    }
