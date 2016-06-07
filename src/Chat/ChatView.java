@@ -45,6 +45,7 @@ ActionListener, MessageListener, DocumentListener {
    private MessageData currentMsg;
    private ArrayList<MessageData> msgStore;
    private GameView game;
+   private JPanel panel;
    
    /**
     * Launch the application.
@@ -89,7 +90,7 @@ ActionListener, MessageListener, DocumentListener {
       // bottom panel //
       panel_bottom = new JPanel();
       panel_bottom.setBackground(new Color(238, 238, 238));
-      panel_top.setLayout(new GridLayout(0, 6, 0, 0));
+      panel_top.setLayout(new BoxLayout(panel_top, BoxLayout.X_AXIS));
       
       // Port number label //
       lblPortNumber = new JLabel("Send Port");
@@ -98,6 +99,9 @@ ActionListener, MessageListener, DocumentListener {
       
       // textbox sending port //
       txtSendPort = new JTextField();
+      txtSendPort.setMaximumSize(new Dimension(80, 20));
+      txtSendPort.setPreferredSize(new Dimension(80, 20));
+      txtSendPort.setMinimumSize(new Dimension(80, 20));
       txtSendPort.setText("8823");
       txtSendPort.setColumns(5);
       panel_top.add(txtSendPort);
@@ -109,18 +113,29 @@ ActionListener, MessageListener, DocumentListener {
       
       // textbox ip address //
       textField_IPAddress = new JTextField();
+      textField_IPAddress.setPreferredSize(new Dimension(100, 20));
+      textField_IPAddress.setMinimumSize(new Dimension(100, 20));
+      textField_IPAddress.setMaximumSize(new Dimension(100, 20));
       textField_IPAddress.setText("localhost");
       panel_top.add(textField_IPAddress);
       
       // button connect //
       btnConnect = new JButton("Connect");
+      btnConnect.setVisible(false);
       btnConnect.addActionListener(this);
       panel_top.add(btnConnect);
       
       // textbox listening port //
       txtListenPort = new JTextField();
+      txtListenPort.setHorizontalAlignment(SwingConstants.TRAILING);
+      txtListenPort.setPreferredSize(new Dimension(80, 20));
+      txtListenPort.setMinimumSize(new Dimension(80, 20));
+      txtListenPort.setMaximumSize(new Dimension(80, 20));
       txtListenPort.setText("8822");
       txtListenPort.getDocument().addDocumentListener(this);
+      
+      panel = new JPanel();
+      panel_top.add(panel);
       txtListenPort.getDocument().putProperty("owner", txtListenPort);
       panel_top.add(txtListenPort);
       
@@ -351,35 +366,5 @@ ActionListener, MessageListener, DocumentListener {
       Object owner = e.getDocument().getProperty("owner");
       if (owner == txtListenPort) { resetListeningPort();}
       else if (owner == txtMessage) { }
-   }
-}
-
-
-/**
- * Internal class for JList item color
- * 
- * @author sean
- *
- */
-class MyListCellThing extends JLabel implements ListCellRenderer<MessageData> {
-   private static final long serialVersionUID = 1L;
-   
-   public MyListCellThing() {
-       setOpaque(true);
-   }
-
-   public Component getListCellRendererComponent(JList list, MessageData value, int index, boolean isSelected, boolean cellHasFocus) {
-       if (!(value instanceof MessageData)) {
-        return this;
-       }
-       MessageData msg = (MessageData)value;
-       setText(msg.toString());
-       
-       if (msg.getMessageType() == MessageType.Sending) 
-        setBackground(Color.green);
-       else
-        setBackground(Color.white);
-
-       return this;
    }
 }
