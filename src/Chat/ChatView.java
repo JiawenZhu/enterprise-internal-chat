@@ -3,9 +3,9 @@ package Chat;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.*;
-import javax.swing.border.*;
 import javax.swing.event.*;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -240,9 +240,15 @@ ActionListener, MessageListener, DocumentListener {
             l.setFont(new Font(chatPanel.getFont().getFamily(), Font.ITALIC, 11));
             l.setForeground(Color.gray);
             l.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            l.putClientProperty("FileDataObj", fd);
             l.addMouseListener(new MouseAdapter(){
                public void mouseClicked(MouseEvent me) {
                   //TODO: open the file location
+                  JLabel lb = (JLabel)me.getSource();
+                  FileData file = (FileData)lb.getClientProperty("FileDataObj");
+                  try {
+					Desktop.getDesktop().open(new File(file.getFileDir()));
+				  } catch (IOException e) { }
                }
             });
             chatPanel.insertComponent(l);
