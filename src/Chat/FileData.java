@@ -21,7 +21,7 @@ public class FileData implements Serializable, Cloneable{
     * default constructor
     */
    public FileData() {
-      
+      // empty
    }
    
    /**
