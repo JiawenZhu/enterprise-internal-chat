@@ -150,7 +150,9 @@ ActionListener, MessageListener, DocumentListener {
       // middle panel //
       panel_middle = new JScrollPane(chatPanel);
       panel_middle.setVerticalScrollBarPolicy(
-         JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+         JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+      panel_middle.setHorizontalScrollBarPolicy(
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
       panel_middle.setPreferredSize(new Dimension(250, 145));
       panel_middle.setMinimumSize(new Dimension(10, 10));
       frame.getContentPane().add(panel_middle, BorderLayout.CENTER);
@@ -220,6 +222,33 @@ ActionListener, MessageListener, DocumentListener {
          StyleConstants.setForeground(keyWord, Color.black);
          StyleConstants.setBold(keyWord, false);
          doc.insertString(doc.getLength(), msg.getMessage() + "\n", keyWord );
+         
+         // files
+         int size = msg.getFiles().size();
+         if (size > 0) {
+            StyleConstants.setBold(keyWord, true);
+            //StyleConstants.setAlignment(keyWord, StyleConstants.);
+            doc.insertString(doc.getLength(), 
+               String.format("%d Attachment%s:\n", size, size > 1 ? "s" : ""), 
+               keyWord );
+         }
+         
+         for (FileData fd: msg.getFiles()) {
+            chatPanel.setCaretPosition(doc.getLength());
+            
+            JLabel l=new JLabel(fd.getFileName());
+            l.setFont(new Font(chatPanel.getFont().getFamily(), Font.ITALIC, 11));
+            l.setForeground(Color.gray);
+            l.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            l.addMouseListener(new MouseAdapter(){
+               public void mouseClicked(MouseEvent me) {
+                  //TODO: open the file location
+               }
+            });
+            chatPanel.insertComponent(l);
+            doc.insertString(doc.getLength(), "\n", keyWord );
+         }
+         doc.insertString(doc.getLength(), "\n", keyWord );
       }
       catch(Exception e) { System.out.println(e); }
       triggerGame();
