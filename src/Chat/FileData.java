@@ -71,6 +71,14 @@ public class FileData implements Serializable, Cloneable{
        return f.getAbsoluteFile().getParentFile().getAbsolutePath();
    }
    
+   public void writeTo(String path) {
+      try {
+         FileOutputStream fos = new FileOutputStream(path);
+         fos.write(fileData);
+         fos.close();
+      } catch (IOException e) { }
+   }
+   
    public Object clone() {
       FileData newFD = new FileData();
       newFD.file_name = this.file_name;

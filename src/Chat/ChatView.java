@@ -3,6 +3,7 @@ package Chat;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javax.swing.*;
@@ -372,6 +373,15 @@ ActionListener, MessageListener, DocumentListener {
       
    }
    
+   private void saveAttachment(MessageData e) {
+	  for(FileData fd : e.getFiles()) {
+         String home = System.getProperty("user.home");
+         home = home+"\\Downloads\\" + fd.getFileName();
+         fd.writeTo(home);
+         fd.setFilePath(home);
+	  }
+   }
+   
    /**
     * event handler to display incoming message
     */
@@ -379,6 +389,7 @@ ActionListener, MessageListener, DocumentListener {
    public void processMessage(MessageData e) {
       msgStore.add(e);
       saveMessage(e);
+      saveAttachment(e);
       displayMessage(e);
    }
    
