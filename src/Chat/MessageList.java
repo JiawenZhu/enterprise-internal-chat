@@ -10,6 +10,10 @@ public class MessageList implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private ArrayList <MessageData> messageList;
 	
+	public ArrayList <MessageData> getMessages() {
+		return messageList;
+	}
+	
 	public MessageList(){
 		messageList = new ArrayList<MessageData>();
 	}
