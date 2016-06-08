@@ -82,7 +82,7 @@ public class FileData implements Serializable, Cloneable{
    }
    
    public Icon getIcon() {
-	  //TODO: get file icon for display in chat
+	  //TODO: get icons to display
 	  return null;
    }
    
