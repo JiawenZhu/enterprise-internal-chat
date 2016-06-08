@@ -5,12 +5,17 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import Chat.MessageData;
+import Chat.MessageList;
 
 /**
  * this is the calendarPart, each day will store conversation history,
@@ -103,11 +108,18 @@ public class MonthlyCalendar_calendar extends JPanel {
 		int i=0;
 		while(i<days){
 			
-			//add file and present it on the panel
+			
 			JPanel dayPanel= new JPanel();
 			dayPanel.addMouseListener(new OpenFile());
 			JLabel label= new JLabel(i+1+"");
 			dayPanel.add(label);
+			//add file and present it on the panel
+			
+			// days start with 1 ?
+			addFile(dayPanel, i+1);
+			
+			
+			
 			dayPanel.setBorder(BorderFactory.createLineBorder(Color.gray));
 			dayPanel.setBackground(Color.white);
 			label.setBackground(Color.WHITE);
@@ -118,6 +130,32 @@ public class MonthlyCalendar_calendar extends JPanel {
 		}
 
 	}
+	void addFile(JPanel dayPanel, int day){
+	ArrayList<MessageData> message = CalendarOverview.history;
+	for (int i=0; i<message.size(); i++){
+		
+		MessageData currentMessage= message.get(i);
+		Date currentDate=currentMessage.getDateTime();
+		int month=currentDate.getMonth();
+		int year = currentDate.getYear();
+		int dayNum= currentDate.getDay();
+		
+		if(month==monthInt && year==this.year && dayNum== day){
+			
+			dayPanel.add(new JLabel(currentMessage.getSenderIP()+""));
+		}
+		
+		
+	}
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 
 	class OpenFile implements MouseListener {
 

@@ -11,6 +11,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import Chat.MessageData;
+import Chat.MessageList;
+
 /**
  * this class creates a CALENDAR where user can choose the year
  * the design:
@@ -27,8 +30,10 @@ public class CalendarOverview {
 	static ComboBox x;
 	static ArrayList<CalendarOverview_calendar> AnnualCalendar;
 	static CalendarOverview_calendar currentCalendar;
+	static ArrayList<MessageData> history;
 
-	public CalendarOverview(){
+	public CalendarOverview( ArrayList<MessageData> history){
+		this.history= history;
 
 		AnnualCalendar= new ArrayList<CalendarOverview_calendar>();
 		CalendarOverview.CalFrame = new JFrame("Calendar");
