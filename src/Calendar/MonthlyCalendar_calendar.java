@@ -140,7 +140,7 @@ public class MonthlyCalendar_calendar extends JPanel {
 		int year = currentDate.getYear();
 		int dayNum= currentDate.getDay();
 		
-		if(month==monthInt && year==this.year && dayNum== day){
+		if(month==monthInt && (year+1900)==this.year && dayNum==day){
 			
 			dayPanel.add(new JLabel(currentMessage.getSenderIP()+""));
 		}
