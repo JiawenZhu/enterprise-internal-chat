@@ -248,10 +248,10 @@ ActionListener, MessageListener, DocumentListener {
             l.setFont(new Font(chatPanel.getFont().getFamily(), Font.ITALIC, 11));
             l.setForeground(Color.gray);
             l.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            l.setIcon(fd.getIcon());
             l.putClientProperty("FileDataObj", fd);
             l.addMouseListener(new MouseAdapter(){
                public void mouseClicked(MouseEvent me) {
-                  //TODO: open the file location
                   JLabel lb = (JLabel)me.getSource();
                   FileData file = (FileData)lb.getClientProperty("FileDataObj");
                   try {

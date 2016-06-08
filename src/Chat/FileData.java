@@ -1,6 +1,8 @@
 package Chat;
 
 import java.io.*;
+import javax.swing.Icon;
+import javax.swing.filechooser.*;
 
 /**
  * Class to store file data
@@ -77,6 +79,11 @@ public class FileData implements Serializable, Cloneable{
          fos.write(fileData);
          fos.close();
       } catch (IOException e) { }
+   }
+   
+   public Icon getIcon() {
+	  //TODO: get icons to display
+	  return null;
    }
    
    public Object clone() {
