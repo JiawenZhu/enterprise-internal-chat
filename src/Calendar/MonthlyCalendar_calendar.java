@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,7 +22,7 @@ import Chat.MessageList;
  * this is the calendarPart, each day will store conversation history,
  * which is text file, and when user clicks the day label, the file list will appear.
  *
- * @author shuai9532
+ * @author Shuai_Huang
  *
  */
 
@@ -29,6 +30,7 @@ public class MonthlyCalendar_calendar extends JPanel {
 	int monthInt;
 	int year;
 
+	
 	public MonthlyCalendar_calendar(int monthInt, int year){
        this.monthInt= monthInt;
 		this.year=year;
@@ -54,7 +56,10 @@ public class MonthlyCalendar_calendar extends JPanel {
 
 	}
 
-	void setDayName(){
+	/**
+	 * set name "M","T"....
+	 */
+	private void setDayName(){
 
 		String[] day= new String[]{"S","M","T", "W", "T", "F", "S"};
 
@@ -71,6 +76,11 @@ public class MonthlyCalendar_calendar extends JPanel {
 		}
 
 	}
+	
+	/**
+	 * find the first day for this month
+	 * @param firstDay
+	 */
 	private void setTheFirstDay(int firstDay){
 
 		// set the first day
@@ -86,7 +96,11 @@ public class MonthlyCalendar_calendar extends JPanel {
 			this.add(dayPanel);
 		}
 	}
-
+/**
+ if there some boxes left, fill it with empty text
+ * @param daysInMonth
+ * @param firstDay
+ */
 	private	void fillInTheRest(int daysInMonth, int firstDay){
 		int count= 7+firstDay-1+daysInMonth;
 		while(count<49){
@@ -102,22 +116,25 @@ public class MonthlyCalendar_calendar extends JPanel {
 			count++;
 		}
 	}
-
+/**
+ * populate the days and find days where files are needed to add
+ * @param days
+ */
 	private void setDaysAndAddFiles(int days){
 		int i=0;
+		
 		while(i<days){
 			
-
 			ArrayList<MessageData> messageForDay = new ArrayList<MessageData>();
 			
 			JPanel dayPanel= new JPanel();
-			dayPanel.addMouseListener(new OpenFile());
+			
 			JLabel label= new JLabel(i+1+"");
 			dayPanel.add(label);
 			//add file and present it on the panel
-			
+			//the ArrayList is for this particular day
 			addFile(dayPanel, i+1, messageForDay);
-			
+			dayPanel.addMouseListener(new OpenFile(messageForDay));
 			dayPanel.setBorder(BorderFactory.createLineBorder(Color.gray));
 			dayPanel.setBackground(Color.white);
 			label.setBackground(Color.WHITE);
@@ -128,8 +145,19 @@ public class MonthlyCalendar_calendar extends JPanel {
 		}
 
 	}
+	
+	/**
+	 * add files to the specific day and store 
+	 *those files if the same day in the same ArrayList.
+	 * @param dayPanel
+	 * @param day
+	 * @param messageForDay
+	 */
 	void addFile(JPanel dayPanel, int day, ArrayList<MessageData> messageForDay){
-	ArrayList<MessageData> message = CalendarOverview.history;
+	// this ArrayList is from the MessageList class and stores 
+    // all the events and not categorized
+		
+		ArrayList<MessageData> message = CalendarOverview.history;
 	for (int i=0; i<message.size(); i++){
 		
 		MessageData currentMessage= message.get(i);
@@ -139,7 +167,7 @@ public class MonthlyCalendar_calendar extends JPanel {
 		int dayNum= currentDate.getDay();
 		
 		if(month==monthInt && (year+1900)==this.year && dayNum==day){
-			
+			System.out.println("month: "+Month.of(month+1).name()+ " year: "+(year+1900)+ " day: "+ dayNum);
 			dayPanel.add(new JLabel(currentMessage.getSenderIP()+""));
 			messageForDay.add(currentMessage);
 			
@@ -149,13 +177,22 @@ public class MonthlyCalendar_calendar extends JPanel {
 		
 	}
 	
-
+/**
+ * open
+ * @author shuai9532
+ *
+ */
 	class OpenFile implements MouseListener {
-
+		ArrayList<MessageData> messageCollection;
+		
+		OpenFile(ArrayList<MessageData> collection ){
+			this.messageCollection = collection;
+		}
+		
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			// TODO Auto-generated method stub
-
+		MessageWindow messageList = new MessageWindow(messageCollection);
 		}
 
 		@Override
@@ -166,6 +203,9 @@ public class MonthlyCalendar_calendar extends JPanel {
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
+			
+			
+			
 			// TODO Auto-generated method stub
 		}
 
