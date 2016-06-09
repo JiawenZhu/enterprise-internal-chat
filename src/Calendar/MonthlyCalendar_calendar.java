@@ -30,8 +30,11 @@ public class MonthlyCalendar_calendar extends JPanel {
 	int year;
 
 	public MonthlyCalendar_calendar(int monthInt, int year){
+<<<<<<< HEAD
 		
 		
+=======
+>>>>>>> branch 'Calendar_Shuai' of https://github.com/FH-Sp16-CS40A-40820/team02-project02.git
 		this.monthInt= monthInt;
 		this.year=year;
 
@@ -109,6 +112,7 @@ public class MonthlyCalendar_calendar extends JPanel {
 		int i=0;
 		while(i<days){
 			
+<<<<<<< HEAD
 			ArrayList<MessageData> messageForDay = new ArrayList<MessageData>();
 			
 			JPanel dayPanel= new JPanel();
@@ -151,6 +155,23 @@ public class MonthlyCalendar_calendar extends JPanel {
 	}
 	
 	
+=======
+			//add file and present it on the panel
+			JPanel dayPanel= new JPanel();
+			dayPanel.addMouseListener(new OpenFile());
+			JLabel label= new JLabel(i+1+"");
+			dayPanel.add(label);
+			dayPanel.setBorder(BorderFactory.createLineBorder(Color.gray));
+			dayPanel.setBackground(Color.white);
+			label.setBackground(Color.WHITE);
+			label.setOpaque(isOpaque());
+			label.setFont(new Font("Chalkboard",Font.PLAIN, 12));
+			this.add(dayPanel);
+			i++;
+		}
+
+	}
+>>>>>>> branch 'Calendar_Shuai' of https://github.com/FH-Sp16-CS40A-40820/team02-project02.git
 
 	class OpenFile implements MouseListener {
 
@@ -169,8 +190,11 @@ public class MonthlyCalendar_calendar extends JPanel {
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			// TODO Auto-generated method stub
+<<<<<<< HEAD
 			
 			MessageWindow messageList = new MessageWindow(messageForDay);
+=======
+>>>>>>> branch 'Calendar_Shuai' of https://github.com/FH-Sp16-CS40A-40820/team02-project02.git
 
 		}
 
