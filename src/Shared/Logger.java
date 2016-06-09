@@ -49,6 +49,9 @@ public class Logger implements Serializable{
 		msg = new MessageData("203.1.23.45","This is bullshit!!!");
 		list.add(msg);
 		
+	   msg = new MessageData("localhost","shit!");
+	   list.add(msg);
+	      
 		msg = new MessageData("40.30.22.234","Nice flowers!");
 		msg.AttachFile("ImageFile.jpg");
 		list.add(msg);

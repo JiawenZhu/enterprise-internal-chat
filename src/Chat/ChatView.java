@@ -393,7 +393,7 @@ ActionListener, MessageListener, DocumentListener {
     * 
     */
    private void showHistory() {
-      CalendarOverview overview = new CalendarOverview();
+      CalendarOverview overview = new CalendarOverview(Logger.requestLog());
    }
    
    /**
