@@ -29,7 +29,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class GameView extends JFrame
-{ 
+{
+
+   private static  int result = 0;
+   private static  int resultSet = 0;
    private static final int ROW = 15;
    private static final int COLUMN = 15;
    private static final int PAWN_X_POSITION = 30;
@@ -46,6 +49,7 @@ public class GameView extends JFrame
    private JLabel hourLabel;
    private JLabel hourDividor;
    Graphics board;
+   static Graphics oldBoard;
    private Timer time;
    private Timer idleTime;
    public GameView() {
@@ -55,8 +59,8 @@ public class GameView extends JFrame
       setSize(860, 670);
       setLocationRelativeTo(null);
       getContentPane().setLayout(null);
-      
-     JPanel chessPanel = chessPanel();
+     
+      JPanel chessPanel = chessPanel();
       getContentPane().add(chessPanel);
 
       JPanel timer = timer();
@@ -71,22 +75,45 @@ public class GameView extends JFrame
             dispose();
          }
       });
+      System.out.println("This is line 77");
       btnClose.setFont(new Font("Times New Roman", Font.PLAIN, 24));
       idleTime = new Timer(ONE_MINUTE ,new ActionListener() {
          public void actionPerformed(ActionEvent evt) {
-            chessIdleTimePopUp popup = new chessIdleTimePopUp();
-         }});
+            Object[] options = {"No.Quit Game",
+            "Yes.Continue"};
+            int n = JOptionPane.showOptionDialog(getContentPane(),
+                  "You have be inactive for a while.Would you like "
+                  + "to continue?",
+                  "Question",
+                  JOptionPane.YES_NO_OPTION,
+                  JOptionPane.QUESTION_MESSAGE,
+                  null,     //do not use a custom Icon
+                  options,  //the titles of buttons
+                  options[0]); //default button title
+           if (n == 0)
+           {
+              setVisible(false);
+              dispose();
+           }
+
+         }}); 
+      
       idleTime.start();
       setVisible(true);
       board = chessPanel.getGraphics();
+      oldBoard = chessPanel.getGraphics();
+
+      //endGame();
       attachChess listener = new attachChess( board);
       chessPanel.addMouseListener(listener);
       
      
-      
+
+
 
    }
-   private JPanel chessPanel()
+
+  public static JPanel chessPanel()
    {
       JPanel chessPanel = new JPanel()
       {
@@ -119,29 +146,29 @@ public class GameView extends JFrame
             g.fillOval(133, 453, 15, 15);
             g.fillOval(293, 453, 15, 15);
             g.fillOval(453, 453, 15, 15);
-            
+
             //repaint chess
-            for (int i = 0; i < 650; i++) {
-               for (int j = 0; j < 650; j++) {
-                  if (attachChess.chessBoardArray[i][j] == "black") {
-                     g.setColor(Color.BLACK);
-                     g.fillOval(i, j,  PAWN_SIZE ,
-                           PAWN_SIZE );
-                  } else if (attachChess.chessBoardArray[i][j] == "white") {
-                     g.setColor(Color.WHITE);
-                     g.fillOval(i, j, PAWN_SIZE ,
-                           PAWN_SIZE );
-                  }
-               }
-            }
-      }
+//            for (int i = 0; i < 650; i++) {
+//               for (int j = 0; j < 650; j++) {
+//                  if (attachChess.chessBoardArray[i][j] == "black") {
+//                     g.setColor(Color.BLACK);
+//                     g.fillOval(i, j,  PAWN_SIZE ,
+//                           PAWN_SIZE );
+//                  } else if (attachChess.chessBoardArray[i][j] == "white") {
+//                     g.setColor(Color.WHITE);
+//                     g.fillOval(i, j, PAWN_SIZE ,
+//                           PAWN_SIZE );
+//                  }
+//               }
+//            }
+         }
       };
-      
+
       chessPanel.setBackground(new Color(209, 167, 78));
       chessPanel.setBounds(10, 10, 602, 602);
       return chessPanel;
    }
- 
+
    private JPanel timer()
    {
 
@@ -261,6 +288,15 @@ public class GameView extends JFrame
       });
       return timerPanel;
    }
+
+  
+   public static  void setResult(int i)
+   { 
+      if (i != 0)
+         result = i;
+     
+   }
+
    
 }
 
