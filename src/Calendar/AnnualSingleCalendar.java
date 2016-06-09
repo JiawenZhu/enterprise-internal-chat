@@ -31,8 +31,6 @@ public class AnnualSingleCalendar extends JPanel{
 	int year;
 
 	public AnnualSingleCalendar(int month,int year){
-		System.out.println("passedinMonth"+ month);
-		
 		this.setBackground(Color.white);
 		this.addMouseListener( new InnerCalMouseListener());
 		SpringLayout spring= new SpringLayout();
@@ -43,7 +41,6 @@ public class AnnualSingleCalendar extends JPanel{
 		
 		// make the title part of the calendar
 		String stringMonth=Month.of(month+1).name();
-		System.out.println(stringMonth);
 		JLabel nam= new JLabel(stringMonth);
 		nam.setForeground(Color.red);
 		nam.setBorder(BorderFactory.createEmptyBorder());
@@ -82,10 +79,7 @@ public class AnnualSingleCalendar extends JPanel{
 		// months range from 0-11
 		// the data will be given by Calendar for a specific year and month
 		int DaysInMonth = newCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-		System.out.println("there are "+DaysInMonth+ "each month");
 		int dayOfWeekOfFirstDay= newCalendar.get(Calendar.DAY_OF_WEEK);
-		System.out.println("this is the first day of the month: "+dayOfWeekOfFirstDay);
-		System.out.println(" ");
 
 		String[] day= new String[]{"S","M","T", "W", "T", "F", "S"};
 
@@ -155,7 +149,7 @@ public class AnnualSingleCalendar extends JPanel{
 		public void mouseReleased(MouseEvent e) {
 			// TODO Auto-generated method stub
 			CalendarOverview.hideWindow();
-			MonthlyCalendarMaker maker= new MonthlyCalendarMaker( );
+			MonthlyCalendarMaker maker= new MonthlyCalendarMaker();
 			maker.drawCurrentMonth(month,year);
 		}
 
