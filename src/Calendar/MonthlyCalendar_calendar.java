@@ -26,11 +26,12 @@ import Chat.MessageList;
  */
 
 public class MonthlyCalendar_calendar extends JPanel {
-
 	int monthInt;
 	int year;
 
 	public MonthlyCalendar_calendar(int monthInt, int year){
+		
+		
 		this.monthInt= monthInt;
 		this.year=year;
 
@@ -108,6 +109,7 @@ public class MonthlyCalendar_calendar extends JPanel {
 		int i=0;
 		while(i<days){
 			
+			ArrayList<MessageData> messageForDay = new ArrayList<MessageData>();
 			
 			JPanel dayPanel= new JPanel();
 			dayPanel.addMouseListener(new OpenFile());
@@ -115,10 +117,7 @@ public class MonthlyCalendar_calendar extends JPanel {
 			dayPanel.add(label);
 			//add file and present it on the panel
 			
-			// days start with 1 ?
-			addFile(dayPanel, i+1);
-			
-			
+			addFile(dayPanel, i+1, messageForDay);
 			
 			dayPanel.setBorder(BorderFactory.createLineBorder(Color.gray));
 			dayPanel.setBackground(Color.white);
@@ -130,7 +129,7 @@ public class MonthlyCalendar_calendar extends JPanel {
 		}
 
 	}
-	void addFile(JPanel dayPanel, int day){
+	void addFile(JPanel dayPanel, int day, ArrayList<MessageData> messageForDay){
 	ArrayList<MessageData> message = CalendarOverview.history;
 	for (int i=0; i<message.size(); i++){
 		
@@ -143,17 +142,13 @@ public class MonthlyCalendar_calendar extends JPanel {
 		if(month==monthInt && (year+1900)==this.year && dayNum==day){
 			
 			dayPanel.add(new JLabel(currentMessage.getSenderIP()+""));
-		}
-		
+			messageForDay.add(currentMessage);
+			
+		}	
 		
 	}
 		
 	}
-	
-	
-	
-	
-	
 	
 	
 
@@ -174,6 +169,8 @@ public class MonthlyCalendar_calendar extends JPanel {
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			// TODO Auto-generated method stub
+			
+			MessageWindow messageList = new MessageWindow(messageForDay);
 
 		}
 
