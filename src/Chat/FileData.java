@@ -81,8 +81,8 @@ public class FileData implements Serializable, Cloneable{
       } catch (IOException e) { }
    }
    
-   public Icon getIcon() {
-	  //TODO: get icons to display
+   public Icon getIcon(File file) {
+	  
 	  return null;
    }
    
