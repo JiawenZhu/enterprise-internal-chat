@@ -58,6 +58,7 @@ public class MessageWindow {
 		list.addListSelectionListener(new IPAddressSelection(list, details));
 		JScrollPane listScroller = new JScrollPane(list);
 		listScroller.setPreferredSize(new Dimension(200,600));
+		listPanel.add(listScroller);
 
 	}
 	
@@ -79,6 +80,7 @@ public class MessageWindow {
 			}
 				  MessageData selected = list.getSelectedValue();
 				current=new JLabel(selected.getMessage());
+				System.out.println(selected.getMessage());
 			   detail.add(current);
 			}
 			//add the content to the right panel	

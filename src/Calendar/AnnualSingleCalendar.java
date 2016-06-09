@@ -106,6 +106,7 @@ public class AnnualSingleCalendar extends JPanel{
 		}
 		count=count+dayOfWeekOfFirstDay-1;
 
+	
 		// fill in the first day and the rest of the month
 		int i=0;
 		while(i< DaysInMonth){
@@ -115,6 +116,13 @@ public class AnnualSingleCalendar extends JPanel{
 			label.setOpaque(isOpaque());
 			label.setFont(new Font("Chalkboard",Font.PLAIN, 12));
 			p.add(label);
+			Date date= new Date();
+			if((i+1)==date.getDate()&&(date.getYear()+1900)==year&& date.getMonth()==month){
+             System.out.println(date.getDate() +" "+ date.getMonth()+ " "+ date.getYear());
+		
+				label.setForeground(Color.red);
+				label.setFont(new Font("Chalkboard",Font.BOLD, 15));
+			}
 			i++;
 		}
 		count=count+DaysInMonth;
