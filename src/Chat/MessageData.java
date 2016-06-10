@@ -80,7 +80,7 @@ public class MessageData implements Serializable, Cloneable{
    }
    
    public String toString() {
-      return "[" + date + "][" + sender_ip + "]: " + message;
+      return "[" + date + "][" + sender_ip + "]";
    }
 
    public Object clone() {
