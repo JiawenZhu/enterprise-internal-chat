@@ -15,6 +15,7 @@ import javax.swing.text.StyledDocument;
 import Calendar.CalendarOverview;
 
 import java.util.ArrayList;
+
 import Game.GameView;
 import Shared.Logger;
 import Shared.Utility;
@@ -209,7 +210,7 @@ ActionListener, MessageListener, DocumentListener {
     * method to show new message to user
     * @param msg            message data
     */
-   public static void displayMessage(MessageData msg, JTextPane chatPanel) {
+   private void displayMessage(MessageData msg) {
       try {
          StyledDocument doc = chatPanel.getStyledDocument();
          
@@ -265,6 +266,7 @@ ActionListener, MessageListener, DocumentListener {
          doc.insertString(doc.getLength(), "\n", keyWord );
       }
       catch(Exception e) { System.out.println(e); }
+      triggerGame();
    }
    
    /**
@@ -308,19 +310,26 @@ ActionListener, MessageListener, DocumentListener {
    /**
     * method to save the history of the chat
     * @param msg             message data
+ * @throws IOException 
     */
    private void saveMessage(MessageData msg) {
+	  System.out.println("try to save message");
       MessageData data =new MessageData(txtSendPort.getName(), txtSendPort.getText());
-      ArrayList<MessageData> list = new ArrayList<MessageData>();
-      list.add(data);
-      Logger.saveLog(list);
+      MessageList list = new MessageList();
+      list.addToArrayList(data);
+      try {
+		Logger.saveInformationToDisk(list);
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		System.out.println("error saving message");
+		e.printStackTrace();
+	}
    }
    
    /**
     * method to send current message to destination
     */
    private void sendMessage() {
-	   
       String receiver_ip = textField_IPAddress.getText();
       int port = Integer.parseInt(txtSendPort.getText());
       
@@ -330,8 +339,8 @@ ActionListener, MessageListener, DocumentListener {
       currentMsg.updateMsgTime();
       msgStore.add(currentMsg);
       
-      displayMessage(currentMsg,chatPanel);
-      triggerGame();
+      displayMessage(currentMsg);
+      saveMessage(currentMsg);
       //System.out.println(currentMsg);
       
       MessageData copyMsg = (MessageData)currentMsg.clone();
@@ -343,6 +352,7 @@ ActionListener, MessageListener, DocumentListener {
 
       txtMessage.setText("");
       currentMsg = new MessageData();
+      
    }
    
    /**
@@ -394,7 +404,12 @@ ActionListener, MessageListener, DocumentListener {
     * 
     */
    private void showHistory() {
-      CalendarOverview overview = new CalendarOverview(Logger.requestLog());
+      try {
+		CalendarOverview overview = new CalendarOverview(Logger.loadDataOnDisk());
+	} catch (Exception e) {
+		System.out.println("could not read the file");
+		e.printStackTrace();
+	}
    }
    
    /**
@@ -405,8 +420,7 @@ ActionListener, MessageListener, DocumentListener {
       msgStore.add(e);
       saveMessage(e);
       saveAttachment(e);
-      ChatView.displayMessage(e, chatPanel);
-      triggerGame();
+      displayMessage(e);
    }
    
    /**

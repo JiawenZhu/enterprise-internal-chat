@@ -157,7 +157,7 @@ public class MonthlyCalendar_calendar extends JPanel {
 	// this ArrayList is from the MessageList class and stores 
     // all the events and not categorized
 		
-		ArrayList<MessageData> message = CalendarOverview.history;
+		MessageList message = CalendarOverview.history;
 	for (int i=0; i<message.size(); i++){
 		
 		MessageData currentMessage= message.get(i);
