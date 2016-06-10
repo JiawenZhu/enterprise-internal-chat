@@ -23,8 +23,8 @@ public class attachChess extends MouseAdapter
    public static String[][] chessBoardArray = new String[700][700];
    public static int[][] isBlackWinningArray = new int[15][15];
    public static chessWinningDecisionMaker winning;
-   //public static int count_where = 0;
    public JPanel chessPanel;
+   
    
    public attachChess(Graphics g)
    {
@@ -38,6 +38,7 @@ public class attachChess extends MouseAdapter
       x = correctXY(e.getX());
       y = correctXY(e.getY());
       System.out.println("x:"+x+"   y:"+y);
+      //if ()
       //mouseclick board event
       if (x < 582 && x >= 0 && y < 582 && y >= 0) {
          if (isBlack && chessBoardArray[x][y] == null) {
@@ -102,7 +103,7 @@ public class attachChess extends MouseAdapter
       }
 
    }  
-
+   
    //correct xy coordinate
    private int correctXY(int x) {
       x = x / 40;

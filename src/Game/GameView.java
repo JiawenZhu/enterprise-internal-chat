@@ -27,8 +27,9 @@ import javax.swing.border.TitledBorder;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 
-public class GameView extends JFrame
+public class GameView extends JFrame implements MouseMotionListener
 {
 
    private static  int result = 0;
@@ -40,7 +41,9 @@ public class GameView extends JFrame
    private static final int PAWN_SIZE = 35;
    private static final int SQUARE_SIZE= 40;
    public static final int ONE_SEC = 1000;
-   public static final int FIVE_MINUTE = 900000;
+   public static final int ONE_MINUTE =60000;
+   private static boolean mouseMove ;
+   private int checkX = 0;
    private int hour = 0;
    private int minute = 0;
    private int second = 0;
@@ -59,7 +62,7 @@ public class GameView extends JFrame
       setSize(860, 670);
       setLocationRelativeTo(null);
       getContentPane().setLayout(null);
-     
+
       JPanel chessPanel = chessPanel();
       getContentPane().add(chessPanel);
 
@@ -77,28 +80,28 @@ public class GameView extends JFrame
       });
       System.out.println("This is line 77");
       btnClose.setFont(new Font("Times New Roman", Font.PLAIN, 24));
-      idleTime = new Timer(FIVE_MINUTE ,new ActionListener() {
-         public void actionPerformed(ActionEvent evt) {
-            Object[] options = {"No.Quit Game",
-            "Yes.Continue"};
-            int n = JOptionPane.showOptionDialog(getContentPane(),
-                  "You have be inactive for a while.Would you like "
-                  + "to continue?",
-                  "Question",
-                  JOptionPane.YES_NO_OPTION,
-                  JOptionPane.QUESTION_MESSAGE,
-                  null,     //do not use a custom Icon
-                  options,  //the titles of buttons
-                  options[0]); //default button title
-           if (n == 0)
-           {
-              setVisible(false);
-              dispose();
-           }
+     
+         idleTime = new Timer(ONE_MINUTE ,new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+               Object[] options = {"No.Quit Game",
+               "Yes.Continue"};
+               int n = JOptionPane.showOptionDialog(getContentPane(),
+                     "You have be inactive for a while.Would you like "
+                           + "to continue?",
+                           "Question",
+                           JOptionPane.YES_NO_OPTION,
+                           JOptionPane.QUESTION_MESSAGE,
+                           null,     //do not use a custom Icon
+                           options,  //the titles of buttons
+                           options[0]); //default button title
+               if (n == 0)
+               {
+                  setVisible(false);
+                  dispose();
+               }
 
-         }}); 
-      
-      idleTime.start();
+            }});       
+
       setVisible(true);
       board = chessPanel.getGraphics();
       oldBoard = chessPanel.getGraphics();
@@ -106,14 +109,13 @@ public class GameView extends JFrame
       //endGame();
       attachChess listener = new attachChess( board);
       chessPanel.addMouseListener(listener);
-      
-     
+      addMouseMotionListener(this);
 
 
 
    }
 
-  public static JPanel chessPanel()
+   public static JPanel chessPanel()
    {
       JPanel chessPanel = new JPanel()
       {
@@ -148,19 +150,19 @@ public class GameView extends JFrame
             g.fillOval(453, 453, 15, 15);
 
             //repaint chess
-//            for (int i = 0; i < 650; i++) {
-//               for (int j = 0; j < 650; j++) {
-//                  if (attachChess.chessBoardArray[i][j] == "black") {
-//                     g.setColor(Color.BLACK);
-//                     g.fillOval(i, j,  PAWN_SIZE ,
-//                           PAWN_SIZE );
-//                  } else if (attachChess.chessBoardArray[i][j] == "white") {
-//                     g.setColor(Color.WHITE);
-//                     g.fillOval(i, j, PAWN_SIZE ,
-//                           PAWN_SIZE );
-//                  }
-//               }
-//            }
+            //            for (int i = 0; i < 650; i++) {
+            //               for (int j = 0; j < 650; j++) {
+            //                  if (attachChess.chessBoardArray[i][j] == "black") {
+            //                     g.setColor(Color.BLACK);
+            //                     g.fillOval(i, j,  PAWN_SIZE ,
+            //                           PAWN_SIZE );
+            //                  } else if (attachChess.chessBoardArray[i][j] == "white") {
+            //                     g.setColor(Color.WHITE);
+            //                     g.fillOval(i, j, PAWN_SIZE ,
+            //                           PAWN_SIZE );
+            //                  }
+            //               }
+            //            }
          }
       };
 
@@ -289,14 +291,35 @@ public class GameView extends JFrame
       return timerPanel;
    }
 
-  
+
    public static  void setResult(int i)
    { 
       if (i != 0)
          result = i;
-     
+
    }
 
-   
+   @Override
+   public void mouseDragged(MouseEvent e)
+   {
+      mouseMove = true;
+      System.out.println("Mouse dragged (" + e.getX() + ',' + e.getY() + ')');
+      idleTime.stop();
+      checkX = e.getX();
+      idleTime.start();
+   }
+
+   @Override
+   public void mouseMoved(MouseEvent e)
+   {
+      mouseMove = true;
+      idleTime.stop();
+      System.out.println("Hello");
+      System.out.println("Mouse dragged (" + e.getX() + ',' + e.getY() + ')');
+      checkX = e.getX();
+      idleTime.start();
+   }
+
+
 }
 
