@@ -30,10 +30,10 @@ public class CalendarOverview {
 	static ComboBox x;
 	static ArrayList<CalendarOverview_calendar> AnnualCalendar;
 	static CalendarOverview_calendar currentCalendar;
-	static ArrayList<MessageData> history;
+	static MessageList history;
 
-	public CalendarOverview( ArrayList<MessageData> history){
-		this.history= history;
+	public CalendarOverview( MessageList messageList){
+		this.history= messageList;
 
 		AnnualCalendar= new ArrayList<CalendarOverview_calendar>();
 		CalendarOverview.CalFrame = new JFrame("Calendar");

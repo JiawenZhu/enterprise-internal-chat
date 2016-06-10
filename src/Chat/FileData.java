@@ -3,6 +3,7 @@ package Chat;
 import java.io.*;
 import javax.swing.Icon;
 import javax.swing.filechooser.*;
+import javax.swing.filechooser.FileSystemView;
 
 /**
  * Class to store file data
@@ -82,8 +83,8 @@ public class FileData implements Serializable, Cloneable{
    }
    
    public Icon getIcon() {
-	  //TODO: get icons to display
-	  return null;
+	  
+	  return FileSystemView.getFileSystemView().getSystemIcon(new File(file_path));
    }
    
    public Object clone() {

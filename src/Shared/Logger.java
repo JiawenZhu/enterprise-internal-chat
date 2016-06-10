@@ -62,7 +62,7 @@ public class Logger implements Serializable{
 	 * 
 	 * @author Jiawen
 	 */
-	public void saveInformationToDisk(MessageList list)
+	public static void saveInformationToDisk(MessageList list)
 			throws IOException {
 		FileOutputStream fout = new FileOutputStream(FILENAME);
 		ObjectOutputStream oos = new ObjectOutputStream(fout);
@@ -75,10 +75,10 @@ public class Logger implements Serializable{
 	 * 
 	 * @author Jiawen
 	 */
-	public MessageData loadDataOnDisk() throws Exception {
+	public static MessageList loadDataOnDisk() throws Exception {
 		FileInputStream finput = new FileInputStream(FILENAME);
 		ObjectInputStream oinput = new ObjectInputStream(finput);
-		MessageData result = (MessageData) oinput.readObject();
+		MessageList result = (MessageList) oinput.readObject();
 		oinput.close();
 		return result;
 	}
