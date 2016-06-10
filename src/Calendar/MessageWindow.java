@@ -15,6 +15,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import Chat.MessageData;
+import javax.swing.JTextPane;
+import java.awt.BorderLayout;
 
 
 public class MessageWindow {
@@ -22,25 +24,33 @@ public class MessageWindow {
 	private ArrayList<MessageData>MessageList;
 	JPanel details;
 	
-	MessageWindow (ArrayList<MessageData> receivedData){
+	MessageWindow (ArrayList<MessageData> receivedData) {
 		this.MessageList= receivedData;
 		
 		
 	JFrame history = new JFrame("History Display");
-	history.setLayout(new GridLayout(1,2));
+	history.getContentPane().setLayout(new GridLayout(1,2));
 	
 	JPanel displayList = new JPanel();
 	addList(displayList);
-	history.add(displayList);
+	history.getContentPane().add(displayList);
 	
 	details = new JPanel();
 	presentDetails(details);
-	history.add(details);
+	history.getContentPane().add(details);
+	details.setLayout(new BorderLayout(0, 0));
+	
+	JTextPane textPane = new JTextPane();
+	details.add(textPane);
 	
 	history.setVisible(true);
 	history.setSize(600, 600);
 	history.setResizable(false);
 	
+	   // show messages in text pane
+	   for (MessageData data: MessageList){
+		  Chat.ChatView.displayMessage(data, textPane);
+	   }
 	}
 	
 	private void addList(JPanel listPanel){
