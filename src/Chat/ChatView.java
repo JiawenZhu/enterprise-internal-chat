@@ -320,6 +320,7 @@ ActionListener, MessageListener, DocumentListener {
     * method to send current message to destination
     */
    private void sendMessage() {
+	   
       String receiver_ip = textField_IPAddress.getText();
       int port = Integer.parseInt(txtSendPort.getText());
       
