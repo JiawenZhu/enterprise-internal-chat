@@ -209,7 +209,7 @@ ActionListener, MessageListener, DocumentListener {
     * method to show new message to user
     * @param msg            message data
     */
-   private void displayMessage(MessageData msg) {
+   public static void displayMessage(MessageData msg, JTextPane chatPanel) {
       try {
          StyledDocument doc = chatPanel.getStyledDocument();
          
@@ -265,7 +265,6 @@ ActionListener, MessageListener, DocumentListener {
          doc.insertString(doc.getLength(), "\n", keyWord );
       }
       catch(Exception e) { System.out.println(e); }
-      triggerGame();
    }
    
    /**
@@ -330,7 +329,8 @@ ActionListener, MessageListener, DocumentListener {
       currentMsg.updateMsgTime();
       msgStore.add(currentMsg);
       
-      displayMessage(currentMsg);
+      displayMessage(currentMsg,chatPanel);
+      triggerGame();
       //System.out.println(currentMsg);
       
       MessageData copyMsg = (MessageData)currentMsg.clone();
@@ -404,7 +404,8 @@ ActionListener, MessageListener, DocumentListener {
       msgStore.add(e);
       saveMessage(e);
       saveAttachment(e);
-      displayMessage(e);
+      ChatView.displayMessage(e, chatPanel);
+      triggerGame();
    }
    
    /**
