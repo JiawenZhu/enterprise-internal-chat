@@ -40,7 +40,7 @@ public class GameView extends JFrame
    private static final int PAWN_SIZE = 35;
    private static final int SQUARE_SIZE= 40;
    public static final int ONE_SEC = 1000;
-   public static final int ONE_MINUTE = 60000;
+   public static final int FIVE_MINUTE = 900000;
    private int hour = 0;
    private int minute = 0;
    private int second = 0;
@@ -77,7 +77,7 @@ public class GameView extends JFrame
       });
       System.out.println("This is line 77");
       btnClose.setFont(new Font("Times New Roman", Font.PLAIN, 24));
-      idleTime = new Timer(ONE_MINUTE ,new ActionListener() {
+      idleTime = new Timer(FIVE_MINUTE ,new ActionListener() {
          public void actionPerformed(ActionEvent evt) {
             Object[] options = {"No.Quit Game",
             "Yes.Continue"};

@@ -12,8 +12,10 @@ import javax.swing.JPanel;
 
 public class attachChess extends MouseAdapter
 {
-
+   private static final int ROW = 15;
+   private static final int COLUMN = 15;
    private static final int PAWN_SIZE = 35;
+   private static final int SQUARE_SIZE= 40;
    public static boolean isBlack = true;
    public Graphics g;
    public Graphics oldBoard;
@@ -121,14 +123,39 @@ public class attachChess extends MouseAdapter
                isBlackWinningArray [i][j] = 0;
                int y = i * 40;
                int x = j * 40;
-               int alpha = 100; 
-               Color myColour = new Color(255, 255, 255, alpha);
+              int alpha =  80; 
+               Color myColour = new Color(209, 167, 78);
                g.setColor(myColour);
-               g.fillOval(x, y, PAWN_SIZE ,
-                     PAWN_SIZE );
+               g.fillRect(10, 10, 602, 602);
                chessBoardArray[x][y] = null;
                isBlack = true;
-               
+               g.setColor(Color.BLACK);
+               // rows
+               for (int k = 0; k < 15; k++) 
+               {
+                  g.drawLine(20, 20 + k * SQUARE_SIZE, 20
+                        + (COLUMN - 1) *SQUARE_SIZE,
+                        20 + k * SQUARE_SIZE);
+               }
+               // columns
+               for (int l = 0; l < 15; l++) 
+               {
+                  g.drawLine(20 + l * SQUARE_SIZE, 20, 20 + l
+                        * SQUARE_SIZE, 20
+                        + (COLUMN - 1) * SQUARE_SIZE);
+               }
+               g.setColor(Color.BLACK);
+               //this is the pointer/decoration on the board
+               g.fillOval(133, 133, 15, 15);
+               g.fillOval(293, 133, 15, 15);
+               g.fillOval(453, 133, 15, 15);
+               g.fillOval(133, 293, 15, 15);
+               g.fillOval(293, 293, 15, 15);
+               g.fillOval(453, 293, 15, 15);
+               g.fillOval(133, 453, 15, 15);
+               g.fillOval(293, 453, 15, 15);
+               g.fillOval(453, 453, 15, 15);
+
             }
          }
       }
