@@ -36,21 +36,13 @@ public class MessageWindow {
 	history.getContentPane().add(displayList);
 	
 	details = new JPanel();
-	presentDetails(details);
 	history.getContentPane().add(details);
 	details.setLayout(new BorderLayout(0, 0));
-	
-	JTextPane textPane = new JTextPane();
-	details.add(textPane);
-	
+
 	history.setVisible(true);
 	history.setSize(600, 600);
 	history.setResizable(false);
 	
-	   // show messages in text pane
-	   for (MessageData data: MessageList){
-		  Chat.ChatView.displayMessage(data, textPane);
-	   }
 	}
 	
 	private void addList(JPanel listPanel){
@@ -75,33 +67,26 @@ public class MessageWindow {
 	class IPAddressSelection implements ListSelectionListener{
 		JList<MessageData> list;
 		JPanel detail;
-		JLabel current;
-		IPAddressSelection(JList list, JPanel details){
-			
+		JScrollPane scroller;
+		
+		IPAddressSelection(JList<MessageData> list, JPanel details){
 			this.list = list;
-			this.detail = details;
-			
+			this.detail = details;	
 		}
+		
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
 			
-			if(current!=null){
-			detail.remove(current);
-			}
-				  MessageData selected = list.getSelectedValue();
-				current=new JLabel(selected.getMessage());
-				System.out.println(selected.getMessage());
-			   detail.add(current);
+			// add TextPane to the details 
+			JTextPane current= new JTextPane();
+			current.setEditable(false);
+			MessageData selected = list.getSelectedValue();
+		    current.setText(selected.getMessage());
+		    scroller =new JScrollPane(current);
+		    detail.add(scroller);
+					
 			}
 			//add the content to the right panel	
 		}
-
-
-
-	private void presentDetails(JPanel detailPanel){
-
-		// File
-
-	}
 
 }
