@@ -25,7 +25,6 @@ public class attachChess extends MouseAdapter
    public static chessWinningDecisionMaker winning;
    //public static int count_where = 0;
    public JPanel chessPanel;
-   public static chessWinningResult result;
    
    public attachChess(Graphics g)
    {
@@ -72,12 +71,13 @@ public class attachChess extends MouseAdapter
             System.out.println("Black Wins");
             GameView.setResult(1);
             JPanel chessPanel = GameView.chessPanel();
-            g = this.clear(g);
+           
             JOptionPane.showMessageDialog(null,
                   "Black Stone Wins!",
                   "Congratulations",
                   JOptionPane.INFORMATION_MESSAGE,
                   null);
+            g = this.clear(g);
             
          } else if (winning.chessWinning(getXY(y), getXY(x), 
                isBlackWinningArray) == -1) {
@@ -89,6 +89,7 @@ public class attachChess extends MouseAdapter
                   "Congratulations",
                   JOptionPane.INFORMATION_MESSAGE,
                   null);
+            g = this.clear(g);
 
          }
          for (int i = 0; i < 15; i++) {
