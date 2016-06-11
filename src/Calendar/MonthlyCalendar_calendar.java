@@ -3,6 +3,8 @@ package Calendar;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.time.Month;
@@ -12,8 +14,11 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextPane;
 
 import Chat.MessageData;
 import Chat.MessageList;
@@ -134,7 +139,7 @@ public class MonthlyCalendar_calendar extends JPanel {
 			//add file and present it on the panel
 			//the ArrayList is for this particular day
 			addFile(dayPanel, i+1, messageForDay);
-			dayPanel.addMouseListener(new OpenFile(messageForDay));
+			//dayPanel.addMouseListener(new OpenFile(messageForDay));
 			dayPanel.setBorder(BorderFactory.createLineBorder(Color.gray));
 			dayPanel.setBackground(Color.white);
 			label.setBackground(Color.WHITE);
@@ -143,7 +148,6 @@ public class MonthlyCalendar_calendar extends JPanel {
 			this.add(dayPanel);
 			i++;
 		}
-
 	}
 	
 	/**
@@ -158,8 +162,9 @@ public class MonthlyCalendar_calendar extends JPanel {
     // all the events and not categorized
 		
 		ArrayList<MessageData> message = CalendarOverview.history;
-	for (int i=0; i<message.size(); i++){
-		
+	
+		int count=0;
+		for (int i=0; i<message.size(); i++){
 		MessageData currentMessage= message.get(i);
 		Date currentDate=currentMessage.getDateTime();
 		int month=currentDate.getMonth();
@@ -167,59 +172,81 @@ public class MonthlyCalendar_calendar extends JPanel {
 		int dayNum= currentDate.getDay();
 		
 		if(month==monthInt && (year+1900)==this.year && dayNum==day){
-			System.out.println("month: "+Month.of(month+1).name()+ " year: "+(year+1900)+ " day: "+ dayNum);
-			dayPanel.add(new JLabel(currentMessage.getSenderIP()+""));
-			messageForDay.add(currentMessage);
-			
-		}	
-		
+			count++;
+			messageForDay.add(currentMessage);	
+		}		
 	}
+		if(count!=0){
+			JLabel label = new JLabel(count+" messages");
+			label.setFont(new Font(null, Font.BOLD, 9));
+		    dayPanel.add(label);
+		    dayPanel.addMouseListener(new OpenFile(messageForDay));
+		}
+		//dayPanel.setOpaque(true);
+	//	dayPanel.setBackground(Color.DARK_GRAY);
 		
-	}
+		
 	
+	}
 /**
  * open
  * @author shuai9532
  *
  */
 	class OpenFile implements MouseListener {
+		
 		ArrayList<MessageData> messageCollection;
 		
 		OpenFile(ArrayList<MessageData> collection ){
-			this.messageCollection = collection;
+		this.messageCollection = collection;
 		}
-		
+	
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			// TODO Auto-generated method stub
-		MessageWindow messageList = new MessageWindow(messageCollection);
+			JFrame frame = new JFrame("Conversation History");
+			System.out.println("message read");
+			JTextPane chatPanel = new JTextPane();
+			
+			for(MessageData data:messageCollection){
+				Chat.ChatView.displayMessage(data, chatPanel);
+			     }	
+			
+			frame.add(chatPanel);
+			frame.setSize(500, 500);
+			frame.setVisible(true);
+			
 		}
+
 
 		@Override
 		public void mousePressed(MouseEvent e) {
 			// TODO Auto-generated method stub
-
+			
 		}
+
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			
-			
-			
 			// TODO Auto-generated method stub
+			
 		}
+
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			// TODO Auto-generated method stub
-
+			
 		}
+
 
 		@Override
 		public void mouseExited(MouseEvent e) {
 			// TODO Auto-generated method stub
-
+			
 		}
+
+		
 
 	}
 
