@@ -356,6 +356,24 @@ ActionListener, MessageListener, DocumentListener {
    }
    
    /**
+    * method used by game to send game specific information
+    * @param x
+    * @param y
+    */
+   public void sendGameMessage(int x, int y) {
+      String receiver_ip = textField_IPAddress.getText();
+      int port = Integer.parseInt(txtSendPort.getText());
+      
+      MessageData gmsg = 
+         new MessageData("localhost", String.format("{0}|{1}", x, y));
+      gmsg.setMessageType(MessageType.GAME);
+      gmsg.updateMsgTime();
+      
+      MessageSender sender = new MessageSender(receiver_ip ,port, gmsg);
+      (new Thread(sender)).start();
+   }
+
+   /**
     * method to attach a file to current message
     */
    private void attachFile() {
@@ -412,15 +430,31 @@ ActionListener, MessageListener, DocumentListener {
 	}
    }
    
+   private void processGameMessage(MessageData d) {
+      if (game == null)
+         return;
+      int x, y;
+      String[] cord = d.getMessage().split("|");
+      x = Integer.parseInt(cord[0]);
+      y = Integer.parseInt(cord[1]);
+      
+      //game.UpLoadCordinates(x, y);
+   }
+   
    /**
     * event handler to display incoming message
     */
    @Override
    public void processMessage(MessageData e) {
-      msgStore.add(e);
-      saveMessage(e);
-      saveAttachment(e);
-      displayMessage(e);
+      if (e.getMessageType() == MessageType.GAME) {
+         processGameMessage(e);
+      } else {
+         msgStore.add(e);
+         saveMessage(e);
+         saveAttachment(e);
+         ChatView.displayMessage(e, chatPanel);
+         triggerGame();
+      }
    }
    
    /**
