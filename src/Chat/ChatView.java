@@ -210,7 +210,7 @@ ActionListener, MessageListener, DocumentListener {
     * method to show new message to user
     * @param msg            message data
     */
-   public static void displayMessage(MessageData msg, JTextPane chatPanel)
+   public static void displayMessage(MessageData msg, JTextPane chatPanel) {
       try {
          StyledDocument doc = chatPanel.getStyledDocument();
          
@@ -338,7 +338,7 @@ ActionListener, MessageListener, DocumentListener {
       currentMsg.updateMsgTime();
       msgStore.add(currentMsg);
       
-      displayMessage(currentMsg);
+      displayMessage(currentMsg, chatPanel);
       saveMessage(currentMsg);
       //System.out.println(currentMsg);
       
@@ -397,15 +397,6 @@ ActionListener, MessageListener, DocumentListener {
       int port = Integer.parseInt(port_str);
       rec.UpdateListeningPort(port);
       (new Thread(rec)).start();
-   }
-   
-   /**
-    * method used by game to send game specific information
-    * @param x        
-    * @param y
-    */
-   public void sendGameMessage(int x, int y) {
-      
    }
    
    private void saveAttachment(MessageData e) {
