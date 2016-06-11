@@ -210,7 +210,7 @@ ActionListener, MessageListener, DocumentListener {
     * method to show new message to user
     * @param msg            message data
     */
-   private void displayMessage(MessageData msg) {
+   public static void displayMessage(MessageData msg, JTextPane chatPanel)
       try {
          StyledDocument doc = chatPanel.getStyledDocument();
          
@@ -266,7 +266,6 @@ ActionListener, MessageListener, DocumentListener {
          doc.insertString(doc.getLength(), "\n", keyWord );
       }
       catch(Exception e) { System.out.println(e); }
-      triggerGame();
    }
    
    /**
