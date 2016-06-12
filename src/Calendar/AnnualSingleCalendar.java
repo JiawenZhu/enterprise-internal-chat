@@ -71,8 +71,8 @@ public class AnnualSingleCalendar extends JPanel{
 	/**
 	 * this is where the Calendar part of the
 	 * Calendar is made and added to the main Calendar JPanel
-	 * @param p
-	 * @param newCalendar
+	 * @param p    Panel for the month
+	 * @param newCalendar   get info of the required month in the year
 	 */
 	private void setDays(JPanel p, Calendar newCalendar){
 

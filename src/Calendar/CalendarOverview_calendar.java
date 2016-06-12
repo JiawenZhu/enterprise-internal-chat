@@ -3,7 +3,13 @@ package Calendar;
 import java.awt.GridLayout;
 import java.util.Calendar;
 import javax.swing.JPanel;
-
+/**
+ * this class sets the layout of the annual calendar
+ * and calls its associated class to make monthly calendars and add them to 
+ * this class that extends JPanel
+ * @author shuai9532
+ *
+ */
 public class CalendarOverview_calendar extends JPanel {
 
 	int year;

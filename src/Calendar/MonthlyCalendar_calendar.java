@@ -32,12 +32,11 @@ import Chat.MessageList;
  */
 
 public class MonthlyCalendar_calendar extends JPanel {
-	int monthInt;
-	int year;
+	private int monthInt;
+	private int year;
 
-	
 	public MonthlyCalendar_calendar(int monthInt, int year){
-       this.monthInt= monthInt;
+		this.monthInt= monthInt;
 		this.year=year;
 
 		this.setBackground(Color.WHITE);
@@ -51,12 +50,12 @@ public class MonthlyCalendar_calendar extends JPanel {
 		int dayOfWeekOfFirstDay= newCalendar.get(Calendar.DAY_OF_WEEK);
 		setDayName();   	
 		setTheFirstDay(dayOfWeekOfFirstDay);
-		
-		
-		 //this method will add the events 
-		 
+
+
+		//this method will add the events 
+
 		setDaysAndAddFiles(DaysInMonth);
-		
+
 		fillInTheRest(DaysInMonth,dayOfWeekOfFirstDay);
 
 	}
@@ -81,10 +80,10 @@ public class MonthlyCalendar_calendar extends JPanel {
 		}
 
 	}
-	
+
 	/**
 	 * find the first day for this month
-	 * @param firstDay
+	 * @param firstDay  the numerical representation of the day in a week
 	 */
 	private void setTheFirstDay(int firstDay){
 
@@ -101,11 +100,12 @@ public class MonthlyCalendar_calendar extends JPanel {
 			this.add(dayPanel);
 		}
 	}
-/**
- if there some boxes left, fill it with empty text
- * @param daysInMonth
- * @param firstDay
- */
+	
+	/**
+     if there some boxes left, fill it with empty text
+	 * @param daysInMonth    days in one month
+	 * @param firstDay       the numerical representation of the day in a week
+	 */
 	private	void fillInTheRest(int daysInMonth, int firstDay){
 		int count= 7+firstDay-1+daysInMonth;
 		while(count<49){
@@ -121,19 +121,20 @@ public class MonthlyCalendar_calendar extends JPanel {
 			count++;
 		}
 	}
-/**
- * populate the days and find days where files are needed to add
- * @param days
- */
+	
+	/**
+	 * populate the days and find days where files are needed to add
+	 * @param days   number of days
+	 */
 	private void setDaysAndAddFiles(int days){
 		int i=0;
-		
+
 		while(i<days){
-			
+
 			ArrayList<MessageData> messageForDay = new ArrayList<MessageData>();
-			
+
 			JPanel dayPanel= new JPanel();
-			
+
 			JLabel label= new JLabel(i+1+"");
 			dayPanel.add(label);
 			//add file and present it on the panel
@@ -149,104 +150,101 @@ public class MonthlyCalendar_calendar extends JPanel {
 			i++;
 		}
 	}
-	
+
 	/**
 	 * add files to the specific day and store 
 	 *those files if the same day in the same ArrayList.
-	 * @param dayPanel
-	 * @param day
-	 * @param messageForDay
+	 * @param dayPanel    the panel where day rests 
+	 * @param day       one day
+	 * @param messageForDay     collection of the messages that happened in one day
 	 */
 	void addFile(JPanel dayPanel, int day, ArrayList<MessageData> messageForDay){
-	// this ArrayList is from the MessageList class and stores 
-    // all the events and not categorized
-		
+		// this ArrayList is from the MessageList class and stores 
+		// all the events and not categorized
+
 		ArrayList<MessageData> message = CalendarOverview.history;
-	
+
 		int count=0;
 		for (int i=0; i<message.size(); i++){
-		MessageData currentMessage= message.get(i);
-		Date currentDate=currentMessage.getDateTime();
-		int month=currentDate.getMonth();
-		int year = currentDate.getYear();
-		int dayNum= currentDate.getDay();
-		
-		if(month==monthInt && (year+1900)==this.year && dayNum==day){
-			count++;
-			messageForDay.add(currentMessage);	
-		}		
-	}
+			MessageData currentMessage= message.get(i);
+			Date currentDate=currentMessage.getDateTime();
+			int month=currentDate.getMonth();
+			int year = currentDate.getYear();
+			int dayNum= currentDate.getDay();
+
+			if(month==monthInt && (year+1900)==this.year && dayNum==day){
+				count++;
+				messageForDay.add(currentMessage);	
+			}		
+		}
 		if(count!=0){
 			JLabel label = new JLabel(count+" messages");
 			label.setFont(new Font(null, Font.BOLD, 9));
-		    dayPanel.add(label);
-		    dayPanel.addMouseListener(new OpenFile(messageForDay));
+			dayPanel.add(label);
+			dayPanel.addMouseListener(new OpenFile(messageForDay));
 		}
-		//dayPanel.setOpaque(true);
-	//	dayPanel.setBackground(Color.DARK_GRAY);
-		
-		
-	
+
 	}
-/**
- * open
- * @author shuai9532
- *
- */
+	/**
+	 * open the history
+	 * @author shuai9532
+	 *
+	 */
 	class OpenFile implements MouseListener {
-		
-		ArrayList<MessageData> messageCollection;
-		
+
+		private ArrayList<MessageData> messageCollection;
+
 		OpenFile(ArrayList<MessageData> collection ){
-		this.messageCollection = collection;
+			this.messageCollection = collection;
 		}
-	
+
+
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			// TODO Auto-generated method stub
 			JFrame frame = new JFrame("Conversation History");
 			System.out.println("message read");
 			JTextPane chatPanel = new JTextPane();
-			
+
 			for(MessageData data:messageCollection){
 				Chat.ChatView.displayMessage(data, chatPanel);
-			     }	
-			
+			}	
+
 			frame.add(chatPanel);
 			frame.setSize(500, 500);
 			frame.setVisible(true);
-			
+
 		}
 
 
 		@Override
 		public void mousePressed(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 
 		@Override
 		public void mouseExited(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
-		
+
 
 	}
 
