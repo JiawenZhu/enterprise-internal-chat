@@ -103,6 +103,7 @@ public class attachChess extends MouseAdapter
          System.out.println("");
       }
       }
+      //start of the conversation chess game
       else if (gamedata.getGameStatus() == 1)
       {
          if(gameData.getBlack()== true)
@@ -112,7 +113,9 @@ public class attachChess extends MouseAdapter
             putChess(Color.BLACK);
             if(gamedata.getReceiveStatus() == true)
             {
-               paintChess(Color.WHITE);
+               int x = gamedata.getXCoordinate();
+               int y = gamedata.getYCoordinate();     
+               paintChess(x,y,Color.WHITE);
             }
          }
          else if(gameData.getBlack()== false)
@@ -120,7 +123,9 @@ public class attachChess extends MouseAdapter
             putChess(Color.WHITE);
             if(gamedata.getReceiveStatus() == true)
             {
-               paintChess(Color.BLACK);
+               int x = gamedata.getXCoordinate();
+               int y = gamedata.getYCoordinate();
+               paintChess(x,y,Color.BLACK);
             }
          }
        //decide if the player is winning
@@ -238,6 +243,7 @@ public class attachChess extends MouseAdapter
             isBlackWinningArray[getXY(y)][getXY(x)] = -1;
          }
          gamedata.setReceiveStatus(true);
+         gamedata.setCoordinate(x, y);
          for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
                System.out.print(isBlackWinningArray[i][j] + "  ");
@@ -249,7 +255,8 @@ public class attachChess extends MouseAdapter
         
       }
    }
-   private void paintChess(Color c)
+   private void paintChess( int x, int y, Color c)
+   
    {
       if (x < 582 && x > 10 && y < 582 && y > 10 && chessBoardArray[x][y] == null) {
          g.setColor(Color.WHITE);
