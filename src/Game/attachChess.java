@@ -24,12 +24,12 @@ public class attachChess extends MouseAdapter
    public static int[][] isBlackWinningArray = new int[15][15];
    public static chessWinningDecisionMaker winning;
    public JPanel chessPanel;
-   
-   
+   gameData gamedata = new gameData();
    public attachChess(Graphics g)
    {
       this.g = g;
       oldBoard = g;
+     
 
       // this.panel = panel;
    }
@@ -38,7 +38,8 @@ public class attachChess extends MouseAdapter
       x = correctXY(e.getX());
       y = correctXY(e.getY());
       System.out.println("x:"+x+"   y:"+y);
-      //if ()
+      if (gamedata.getGameStatus() == 0)
+      {
       //mouseclick board event
       if (x < 582 && x >= 0 && y < 582 && y >= 0) {
          if (isBlack && chessBoardArray[x][y] == null) {
@@ -101,6 +102,58 @@ public class attachChess extends MouseAdapter
          }
          System.out.println("");
       }
+      }
+      else if (gamedata.getGameStatus() == 1)
+      {
+         if(gameData.getBlack()== true)
+         {
+            //mouse release black
+            //get coordinate  and paint white
+            putChess(Color.BLACK);
+            if(gamedata.getReceiveStatus() == true)
+            {
+               paintChess(Color.WHITE);
+            }
+         }
+         else if(gameData.getBlack()== false)
+         {
+            putChess(Color.WHITE);
+            if(gamedata.getReceiveStatus() == true)
+            {
+               paintChess(Color.BLACK);
+            }
+         }
+       //decide if the player is winning
+         winning = new chessWinningDecisionMaker(getXY(y), 
+               getXY(x), isBlackWinningArray);
+         if (winning.chessWinning(getXY(y), getXY(x), 
+               isBlackWinningArray) == 1) {
+            //result = new chessWinningResult(1);
+            System.out.println("Black Wins");
+            GameView.setResult(1);
+            JPanel chessPanel = GameView.chessPanel();
+           
+            JOptionPane.showMessageDialog(null,
+                  "Black Stone Wins!",
+                  "Congratulations",
+                  JOptionPane.INFORMATION_MESSAGE,
+                  null);
+            g = this.clear(g);
+            
+         } else if (winning.chessWinning(getXY(y), getXY(x), 
+               isBlackWinningArray) == -1) {
+            //result = new chessWinningResult(-1);
+            System.out.println("White Wins");
+            GameView.setResult(-1);
+            JOptionPane.showMessageDialog(null,
+                  "White Stone Wins!",
+                  "Congratulations",
+                  JOptionPane.INFORMATION_MESSAGE,
+                  null);
+            g = this.clear(g);
+         
+      }
+      }
 
    }  
    
@@ -125,7 +178,6 @@ public class attachChess extends MouseAdapter
                isBlackWinningArray [i][j] = 0;
                int y = i * 40;
                int x = j * 40;
-              int alpha =  80; 
                Color myColour = new Color(209, 167, 78);
                g.setColor(myColour);
                g.fillRect(10, 10, 602, 602);
@@ -163,6 +215,71 @@ public class attachChess extends MouseAdapter
       }
       return g;
       
+   }
+   private void putChess(Color c)
+   {
+      if (x < 582 && x > 10 && y < 582 && y > 10 && chessBoardArray[x][y] == null) {
+         g.setColor(c);
+         g.fillOval(x, y, PAWN_SIZE ,
+               PAWN_SIZE );
+         //need to change accordingly to the color
+         if(gamedata.getBlack() == true)
+         {
+
+         chessBoardArray[x][y] = "black";
+        
+         isBlackWinningArray[getXY(y)][getXY(x)] = 1;
+
+         }
+         else
+         {
+            chessBoardArray[x][y] = "white";
+
+            isBlackWinningArray[getXY(y)][getXY(x)] = -1;
+         }
+         gamedata.setReceiveStatus(true);
+         for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++) {
+               System.out.print(isBlackWinningArray[i][j] + "  ");
+            }
+            System.out.println("");
+         }
+         System.out.println("");
+         
+        
+      }
+   }
+   private void paintChess(Color c)
+   {
+      if (x < 582 && x > 10 && y < 582 && y > 10 && chessBoardArray[x][y] == null) {
+         g.setColor(Color.WHITE);
+         g.fillOval(x, y, PAWN_SIZE ,
+               PAWN_SIZE );
+
+         if(gamedata.getBlack() == false)
+         {
+
+         chessBoardArray[x][y] = "white";
+        
+         isBlackWinningArray[getXY(y)][getXY(x)] = -1;
+
+         }
+         else
+         {
+            chessBoardArray[x][y] = "black";
+
+            isBlackWinningArray[getXY(y)][getXY(x)] = 1;
+         }
+
+         for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++) {
+               System.out.print(isBlackWinningArray[i][j] + "  ");
+            }
+            System.out.println("");
+         }
+         System.out.println("");
+
+      }
    }
 
 }
