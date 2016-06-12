@@ -1,18 +1,34 @@
 @author: ShuaiHuang
 
+Calendar Feature:
 
-questions:
-1.How to refer to the previous/next month on the current month?
-Every month created will be stored into a list? 
+-CalendarOverview.java
+CalendarOverview class starts the window of Calendar where 
+user can see a panel to select the year(comes from combox.java) and a
+panel that is the calendar body itself(comes from CalendarOverView_calendar.java) 
 
-2. each day on the Monthly Calendar should be a JPanel because it will store some text files? 
-maybe just add some action on those day labels?
+-ComboBox.java
+this class extends JPanel, which will be added into CalendarOverview and is manually implemented.This class
+aims to give options of what year of calendar one wants to view
 
-3. how to write the file in in Monthly_Calendar class?
+-CalendarOverview_calendar.java
+CalendarOverview_calendar is a panel that specifies the layout of 12 months calendar
+for one year. It calls the AnnualSingleCalendar.java to make calendars for each month to 
+fill in the spots specified by the layout.  
 
-4. all the calendars should be constructed beforehand? The file is added to the existing calendar.
+-AnnualSingleCalendar.java
+This class makes calendar for each month. it is called 12 times
+for each year and then added to CalendarOverview_calendar, and then 
+shown to the user on CalendarOverview.java
 
-all the calendars need to be constructed before users start to make conversation.
 
-every time the user chooses the year, the calendar that is associated has been constructed beforehand.
-after that, the file is added in. and then, user clicks the year to check for records in specific day.
+-MonthlyCalendarMaker.java
+this is a new Window that is initiated by the user's interaction 
+with the months on the yearly calendar. it is also the frame of the
+new monthly calendar, and the body part is from the MonthlyCalendar_calendar.java
+
+-MonthlyCalendar_calendar.java
+It shows a bigger version of the selected month, and also, this class gets 
+info from MessageList.java and assign the events in the list to each specific day and mark on that day  
+inside this class, each day (Panel) has a mouseListenser so that when user clicks specific day, 
+the history will be shown in a new window
