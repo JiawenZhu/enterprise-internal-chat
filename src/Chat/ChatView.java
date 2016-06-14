@@ -413,7 +413,7 @@ ActionListener, MessageListener, DocumentListener {
     */
    private void showHistory() {
       try {
-		CalendarOverview overview = new CalendarOverview(Logger.loadDataOnDisk());
+		CalendarOverview overview = new CalendarOverview(Logger.loadDataOnDisk().getMessages());
 	} catch (Exception e) {
 		System.out.println("could not read the file");
 		e.printStackTrace();
