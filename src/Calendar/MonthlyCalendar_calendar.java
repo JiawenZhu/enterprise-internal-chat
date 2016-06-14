@@ -24,9 +24,10 @@ import Chat.MessageData;
 import Chat.MessageList;
 
 /**
- * this is the calendarPart, each day will store conversation history,
- * which is text file, and when user clicks the day label, the file list will appear.
- *
+ * there are two parts: calendar and history
+ * this is the calendarPart of the monthly Calendar,
+ * each day will store conversation history,
+ * and when user clicks the day label, the history will appear.
  * @author Shuai_Huang
  *
  */
@@ -50,23 +51,16 @@ public class MonthlyCalendar_calendar extends JPanel {
 		int dayOfWeekOfFirstDay= newCalendar.get(Calendar.DAY_OF_WEEK);
 		setDayName();   	
 		setTheFirstDay(dayOfWeekOfFirstDay);
-
-
-		//this method will add the events 
-
+		//this method will add history 
 		setDaysAndAddFiles(DaysInMonth);
-
 		fillInTheRest(DaysInMonth,dayOfWeekOfFirstDay);
-
 	}
-
+	
 	/**
 	 * set name "M","T"....
 	 */
 	private void setDayName(){
-
 		String[] day= new String[]{"S","M","T", "W", "T", "F", "S"};
-
 		//set Name of a week
 		for (int i=0; i<7;i++){
 			JPanel weekPanel= new JPanel();
@@ -78,7 +72,6 @@ public class MonthlyCalendar_calendar extends JPanel {
 			label.setFont(new Font("Chalkboard",Font.PLAIN, 12));
 			this.add(weekPanel);
 		}
-
 	}
 
 	/**
@@ -86,7 +79,6 @@ public class MonthlyCalendar_calendar extends JPanel {
 	 * @param firstDay  the numerical representation of the day in a week
 	 */
 	private void setTheFirstDay(int firstDay){
-
 		// set the first day
 		for(int i=1; i<firstDay; i++){
 			JPanel dayPanel= new JPanel();
@@ -100,7 +92,7 @@ public class MonthlyCalendar_calendar extends JPanel {
 			this.add(dayPanel);
 		}
 	}
-	
+
 	/**
      if there some boxes left, fill it with empty text
 	 * @param daysInMonth    days in one month
@@ -121,7 +113,7 @@ public class MonthlyCalendar_calendar extends JPanel {
 			count++;
 		}
 	}
-	
+
 	/**
 	 * populate the days and find days where files are needed to add
 	 * @param days   number of days
@@ -130,11 +122,8 @@ public class MonthlyCalendar_calendar extends JPanel {
 		int i=0;
 
 		while(i<days){
-
 			ArrayList<MessageData> messageForDay = new ArrayList<MessageData>();
-
 			JPanel dayPanel= new JPanel();
-
 			JLabel label= new JLabel(i+1+"");
 			dayPanel.add(label);
 			//add file and present it on the panel
@@ -158,10 +147,10 @@ public class MonthlyCalendar_calendar extends JPanel {
 	 * @param day       one day
 	 * @param messageForDay     collection of the messages that happened in one day
 	 */
-	void addFile(JPanel dayPanel, int day, ArrayList<MessageData> messageForDay){
-		// this ArrayList is from the MessageList class and stores 
-		// all the events and not categorized
+	private void addFile(JPanel dayPanel, int day, ArrayList<MessageData> messageForDay){
 
+		// this ArrayList is from the MessageList class and stores 
+		// all the history and not categorized by time
 		ArrayList<MessageData> message = CalendarOverview.history;
 
 		int count=0;
@@ -174,9 +163,11 @@ public class MonthlyCalendar_calendar extends JPanel {
 
 			if(month==monthInt && (year+1900)==this.year && dayNum==day){
 				count++;
+				//categorize the history to the day
 				messageForDay.add(currentMessage);	
 			}		
 		}
+		//set notification on the day panel if there is a chat
 		if(count!=0){
 			JLabel label = new JLabel(count+" messages");
 			label.setFont(new Font(null, Font.BOLD, 9));
@@ -197,12 +188,9 @@ public class MonthlyCalendar_calendar extends JPanel {
 			this.messageCollection = collection;
 		}
 
-
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			// TODO Auto-generated method stub
 			JFrame frame = new JFrame("Conversation History");
-			System.out.println("message read");
 			JTextPane chatPanel = new JTextPane();
 
 			for(MessageData data:messageCollection){
@@ -212,39 +200,16 @@ public class MonthlyCalendar_calendar extends JPanel {
 			frame.add(chatPanel);
 			frame.setSize(500, 500);
 			frame.setVisible(true);
-
 		}
-
 
 		@Override
-		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-
+		public void mousePressed(MouseEvent e) {}
 		@Override
-		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-
+		public void mouseReleased(MouseEvent e) {}
 		@Override
-		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-
+		public void mouseEntered(MouseEvent e) {}
 		@Override
-		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-
-
+		public void mouseExited(MouseEvent e) {}
 	}
 
 }

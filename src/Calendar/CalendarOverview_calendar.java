@@ -12,7 +12,7 @@ import javax.swing.JPanel;
  */
 public class CalendarOverview_calendar extends JPanel {
 
-	int year;
+	private int year;
 
 	CalendarOverview_calendar(int Year){
 
@@ -22,7 +22,6 @@ public class CalendarOverview_calendar extends JPanel {
 		layout.setHgap(30);
 		layout.setVgap(30);
 		this.setLayout(layout);
-
 	
 		// months in the array range from 0 to 11
 		int[] months = {Calendar.JANUARY, Calendar.FEBRUARY, Calendar.MARCH, 
@@ -31,9 +30,6 @@ public class CalendarOverview_calendar extends JPanel {
 				Calendar.NOVEMBER, Calendar.DECEMBER };
 		
 		for(int i=0; i< months.length; i++){
-			// when convert back to String, int
-			//value needs to add 1 because int<0 || int>12 is not valid 
-			System.out.println("month"+ months[i]);
 			this.add(new AnnualSingleCalendar(months[i], year));	
 			 }	
 	     }

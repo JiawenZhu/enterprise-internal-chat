@@ -6,11 +6,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-
 import Chat.MessageData;
 import Chat.MessageList;
 
@@ -18,25 +16,23 @@ import Chat.MessageList;
  * this class creates a CALENDAR where user can choose the year
  * the design:
  * every year is not created beforehand due to the large memory. 
- * Thus, each year year is created upon request. This requires to sort the
- * file for the corresponding time and them to the correct time in the correct year.
+ * Thus, each year year is created upon request. This requires program to sort the
+ * history for the corresponding time and them to the correct time in the correct year.
  * 
- * @author shuai9532
+ * @author Shuai_Huang
  *
  */
 public class CalendarOverview {
 	// basic final frame
 	static JFrame CalFrame; 
 	static ComboBox x;
-	static ArrayList<CalendarOverview_calendar> AnnualCalendar;
-	static CalendarOverview_calendar currentCalendar;
-	static MessageList history;
+    static CalendarOverview_calendar currentCalendar;
+	static ArrayList<MessageData> history;
 
-	public CalendarOverview( MessageList messageList){
-		this.history= messageList;
-
-		AnnualCalendar= new ArrayList<CalendarOverview_calendar>();
-		CalendarOverview.CalFrame = new JFrame("Calendar");
+	public CalendarOverview( ArrayList<MessageData> history){
+		
+		this.history= history;
+		CalFrame = new JFrame("Calendar");
 		CalFrame.setBackground(Color.WHITE);
 		CalFrame.setLayout(new BorderLayout());
 		// get a box Panel 
@@ -48,6 +44,8 @@ public class CalendarOverview {
 	}
 
 	/**
+	 * the default year is 2016, so when there is no request,
+	 * the calendar for year 2016 is created.
 	 * create calendar Panels for the year
 	 */
 	static void initializeAnnualCalendar(){
@@ -64,7 +62,7 @@ public class CalendarOverview {
 	}
 
 	/**
-	 * hide the window when monthly 
+	 * hide yearly calendar window when monthly 
 	 * calendar is requested to show
 	 */
 	public static void hideWindow(){
@@ -72,7 +70,7 @@ public class CalendarOverview {
 	}
 
 	/**
-	 * show window when "back" 
+	 * show yearly window when "back" 
 	 * button is pressed
 	 */
 	public static void ShowWindow(){
