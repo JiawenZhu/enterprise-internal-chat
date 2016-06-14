@@ -23,43 +23,41 @@ import java.time.Month;
 /**
  * create CalenarPanel of one month for Each year 
  * this class will be run 12 times.
- * @author shuai9532
+ * @author shuai_Huang
  *
  */
 public class AnnualSingleCalendar extends JPanel{
-	int month;
-	int year;
+	private int month;
+	private int year;
 
 	public AnnualSingleCalendar(int month,int year){
 		this.setBackground(Color.white);
 		this.addMouseListener( new InnerCalMouseListener());
 		SpringLayout spring= new SpringLayout();
 		this.setLayout(spring);
-        
 		this.month=month; 
 		this.year= year;
 		
 		// make the title part of the calendar
+		// when convert back to String, int value 
+		// needs to add 1 because int<0 || int>12 is not valid 
 		String stringMonth=Month.of(month+1).name();
 		JLabel nam= new JLabel(stringMonth);
 		nam.setForeground(Color.red);
 		nam.setBorder(BorderFactory.createEmptyBorder());
 		this.add(nam);
-
+        // this Panel is for each month that 
+		//will be added to the yearly window
 		JPanel cal= new JPanel();
 		cal.setOpaque(isOpaque());
 		cal.setBackground(Color.white);
 		GridLayout grid = new GridLayout(7, 7);
-
 		cal.setLayout(grid);
 		grid.setHgap(6);
 		grid.setVgap(2);
-		// set up the time
-		
-		Calendar newCalendar= new GregorianCalendar(year,month,1);
-		
+		// set up the time		
+		Calendar newCalendar= new GregorianCalendar(year,month,1);	
 		setDays(cal,newCalendar);
-	
 		this.add(cal);
 		spring.putConstraint(SpringLayout.EAST, nam, -10, SpringLayout.WEST, cal);
 		spring.putConstraint(SpringLayout.NORTH, nam, 20, SpringLayout.NORTH, this);
@@ -91,7 +89,6 @@ public class AnnualSingleCalendar extends JPanel{
 			label.setOpaque(isOpaque());
 			label.setFont(new Font("Chalkboard",Font.PLAIN, 12));
 			p.add(label);
-			//p.setBorder(BorderFactory.createDashedBorder(Color.BLACK));
 		}
         int count=7;
 		// set empty boxes until hit the first day, and leave that first day
@@ -105,8 +102,6 @@ public class AnnualSingleCalendar extends JPanel{
 			
 		}
 		count=count+dayOfWeekOfFirstDay-1;
-
-	
 		// fill in the first day and the rest of the month
 		int i=0;
 		while(i< DaysInMonth){
@@ -118,17 +113,13 @@ public class AnnualSingleCalendar extends JPanel{
 			p.add(label);
 			Date date= new Date();
 			if((i+1)==date.getDate()&&(date.getYear()+1900)==year&& date.getMonth()==month){
-             System.out.println(date.getDate() +" "+ date.getMonth()+ " "+ date.getYear());
-		
 				label.setForeground(Color.red);
 				label.setFont(new Font("Chalkboard",Font.BOLD, 15));
 			}
 			i++;
 		}
 		count=count+DaysInMonth;
-		
 		// the rest is empty
-	
 		while (count<49){
 			JLabel label= new JLabel(" ");
 			label.setBackground(Color.WHITE);
@@ -138,39 +129,25 @@ public class AnnualSingleCalendar extends JPanel{
 			p.add(label);
 			count++;
 		}
-		
 	}
 
 	public class InnerCalMouseListener implements MouseListener{
 
 		@Override
-		public void mouseClicked(MouseEvent e) {
-			// TODO Auto-generated method stub
-		}
-
+		public void mouseClicked(MouseEvent e) {}
 		@Override
-		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
-		}
-
+		public void mousePressed(MouseEvent e) {}
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
 			CalendarOverview.hideWindow();
 			MonthlyCalendarMaker maker= new MonthlyCalendarMaker();
 			maker.drawCurrentMonth(month,year);
 		}
+		@Override
+		public void mouseEntered(MouseEvent e) {}
 
 		@Override
-		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
+		public void mouseExited(MouseEvent e) {}
 	}
 
 }
