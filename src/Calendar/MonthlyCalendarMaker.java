@@ -16,6 +16,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 
+/**
+ * this class makes the monthly calendar 
+ * @author shuai9532
+ *
+ */
+
 public class MonthlyCalendarMaker{
 	
 	JFrame SpecificMonthFrame;
@@ -26,8 +32,8 @@ public class MonthlyCalendarMaker{
 	 * when user clicks the specific month overview on the CalendarOverview Window,
 	 * this specific month appears and the mainWindow is hidden.
 	 * 
-	 * @param name
-	 * @param year
+	 * @param monthInt  number of days in a month
+	 * @param year  the year number
 	 */
 	public void drawCurrentMonth(int monthInt, int year){
 		// here the month # is from 1-12, so monthInt does not need to be subtracted by 1
