@@ -322,9 +322,9 @@ public class GameView extends JFrame implements MouseMotionListener
       checkX = e.getX();
       idleTime.start();
    }
-   public attachChess  getListener()
+   public gameData  getListener()
    {
-      return listener;
+      return listener.gamedata;
    }
 
 
