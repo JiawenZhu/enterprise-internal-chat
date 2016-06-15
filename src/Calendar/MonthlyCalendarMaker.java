@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.Month;
@@ -40,6 +41,8 @@ public class MonthlyCalendarMaker{
 		this.year=year;
 		// new Frame is created for the specific month
 		JFrame newFrame = new JFrame(this.month);
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+	newFrame.setLocation(dim.width/5-newFrame.getSize().width/5, dim.height/5-newFrame.getSize().height/5);
 		BorderLayout layout = new BorderLayout();
 		newFrame.setLayout(layout);   
 

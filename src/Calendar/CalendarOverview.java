@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -33,6 +34,8 @@ public class CalendarOverview {
 		
 		this.history= history;
 		CalFrame = new JFrame("Calendar");
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		CalFrame.setLocation(dim.width/6-CalFrame.getSize().width/6, dim.height/6-CalFrame.getSize().height/6);
 		CalFrame.setBackground(Color.WHITE);
 		CalFrame.setLayout(new BorderLayout());
 		// get a box Panel 

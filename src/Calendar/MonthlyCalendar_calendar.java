@@ -1,8 +1,10 @@
 package Calendar;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -191,6 +193,11 @@ public class MonthlyCalendar_calendar extends JPanel {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			JFrame frame = new JFrame("Conversation History");
+			
+			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+			frame.setLocation(dim.width/4-frame.getSize().width/4, dim.height/4-frame.getSize().height/4);
+			
+			
 			JTextPane chatPanel = new JTextPane();
 
 			for(MessageData data:messageCollection){
