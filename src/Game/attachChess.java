@@ -120,13 +120,14 @@ public class attachChess extends MouseAdapter
          }
          else if(gameData.getBlack()== false)
          {
-            putChess(Color.WHITE);
             if(gamedata.getReceiveStatus() == true)
             {
                int x = gamedata.getXCoordinate();
                int y = gamedata.getYCoordinate();
                paintChess(x,y,Color.BLACK);
             }
+            putChess(Color.WHITE);
+           
          }
        //decide if the player is winning
          winning = new chessWinningDecisionMaker(getXY(y), 
