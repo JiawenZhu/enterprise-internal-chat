@@ -57,6 +57,7 @@ public class GameView extends JFrame implements MouseMotionListener
    static Graphics oldBoard;
    private Timer time;
    private Timer idleTime;
+   private attachChess listener;
    public GameView( ChatView chat) {
       //main window frame
       setTitle("Gokumu");
@@ -109,7 +110,7 @@ public class GameView extends JFrame implements MouseMotionListener
       oldBoard = chessPanel.getGraphics();
 
       //endGame();
-      attachChess listener = new attachChess( board,chat);
+      listener = new attachChess( board,chat);
       chessPanel.addMouseListener(listener);
       addMouseMotionListener(this);
 
@@ -320,6 +321,10 @@ public class GameView extends JFrame implements MouseMotionListener
       System.out.println("Mouse dragged (" + e.getX() + ',' + e.getY() + ')');
       checkX = e.getX();
       idleTime.start();
+   }
+   public attachChess  getListener()
+   {
+      return listener;
    }
 
 
