@@ -11,12 +11,15 @@ import java.awt.Graphics;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -30,6 +33,10 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 public class GameView extends JFrame implements MouseMotionListener
 {
@@ -54,17 +61,20 @@ public class GameView extends JFrame implements MouseMotionListener
    private JLabel hourLabel;
    private JLabel hourDividor;
    Graphics board;
-   static Graphics oldBoard;
    private Timer time;
    private Timer idleTime;
    private attachChess listener;
+   private gameData gamedata;
    public GameView( ChatView chat) {
       //main window frame
       setTitle("Gokumu");
       setDefaultCloseOperation(3);
       setSize(860, 670);
       setLocationRelativeTo(null);
+      //setUndecorated(true);
       getContentPane().setLayout(null);
+
+      gamedata = new gameData();
 
       JPanel chessPanel = chessPanel();
       getContentPane().add(chessPanel);
@@ -81,36 +91,84 @@ public class GameView extends JFrame implements MouseMotionListener
             dispose();
          }
       });
- 
+
       btnClose.setFont(new Font("Times New Roman", Font.PLAIN, 24));
-     
-         idleTime = new Timer(ONE_MINUTE ,new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-               Object[] options = {"No.Quit Game",
-               "Yes.Continue"};
-               int n = JOptionPane.showOptionDialog(getContentPane(),
-                     "You have be inactive for a while.Would you like "
-                           + "to continue?",
-                           "Question",
-                           JOptionPane.YES_NO_OPTION,
-                           JOptionPane.QUESTION_MESSAGE,
-                           null,     //do not use a custom Icon
-                           options,  //the titles of buttons
-                           options[0]); //default button title
-               if (n == 0)
-               {
-                  setVisible(false);
-                  dispose();
-               }
 
-            }});       
+      idleTime = new Timer(ONE_MINUTE ,new ActionListener() {
+         public void actionPerformed(ActionEvent evt) {
+            Object[] options = {"No.Quit Game",
+            "Yes.Continue"};
+            int n = JOptionPane.showOptionDialog(getContentPane(),
+                  "You have be inactive for a while.Would you like "
+                        + "to continue?",
+                        "Question",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,     //do not use a custom Icon
+                        options,  //the titles of buttons
+                        options[0]); //default button title
+            if (n == 0)
+            {
+               setVisible(false);
+               dispose();
+            }
 
+         }});  
+      if (gamedata.getGameStatus() == 1)
+      {
+         Object[] sideOptions = {"Black Stone",
+         "White Stone"};
+         final JOptionPane optionPane = new JOptionPane(
+               "Welcome to the game!\n"
+                     + "Please discuss among youselves\n"
+                     + "which side do you want to be and choose below.",
+                     JOptionPane.QUESTION_MESSAGE,
+                     JOptionPane.YES_NO_OPTION,
+                     null,
+                     sideOptions); 
+         final JDialog dialog = new JDialog(this, 
+               "Welcome",
+               true);
+         dialog.setContentPane(optionPane);
+         dialog.setDefaultCloseOperation(
+               JDialog.DO_NOTHING_ON_CLOSE);
+         dialog.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent we) {
+
+            }
+         });
+         optionPane.addPropertyChangeListener(
+               new PropertyChangeListener() {
+                  public void propertyChange(PropertyChangeEvent e) {
+                     String prop = e.getPropertyName();
+
+                     if (dialog.isVisible() 
+                           && (e.getSource() == optionPane)
+                           && (prop.equals(JOptionPane.VALUE_PROPERTY))) {
+                        //If you were going to check something
+                        //before closing the window, you'd do
+                        //it here.
+                        dialog.setVisible(false);
+                     }
+                  }
+               });
+         dialog.pack();
+         dialog.setVisible(true);
+
+         String value = (String) optionPane.getValue();
+         if (value == "Black Stone") {
+            gamedata.setPlayerStatus(true);
+            System.out.println("Black Stone Board");
+         } else if (value == "White Stone") {
+            gamedata.setPlayerStatus(false);
+            System.out.println("White Stone Board");
+         }
+      }
       setVisible(true);
       board = chessPanel.getGraphics();
-      oldBoard = chessPanel.getGraphics();
 
       //endGame();
-      listener = new attachChess( board,chat);
+      listener = new attachChess(board,chat,gamedata);
       chessPanel.addMouseListener(listener);
       addMouseMotionListener(this);
 

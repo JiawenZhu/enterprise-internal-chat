@@ -11,7 +11,6 @@ public class gameData
  private int gameStatus;
  public gameData()
  {
-   isBlack = false;
    gameStatus = 1;
  }
  //player status, true if player is black,false if player is white
