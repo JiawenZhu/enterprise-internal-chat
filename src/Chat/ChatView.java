@@ -400,12 +400,12 @@ ActionListener, MessageListener, DocumentListener {
    }
    
    private void saveAttachment(MessageData e) {
-     for(FileData fd : e.getFiles()) {
+      for(FileData fd : e.getFiles()) {
          String home = System.getProperty("user.home");
          home = home+"\\Downloads\\" + fd.getFileName();
          fd.writeTo(home);
          fd.setFilePath(home);
-     }
+      }
    }
    
    /**
