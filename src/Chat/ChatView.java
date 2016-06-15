@@ -413,11 +413,11 @@ ActionListener, MessageListener, DocumentListener {
     */
    private void showHistory() {
       try {
-      CalendarOverview overview = new CalendarOverview(Logger.loadDataOnDisk().getMessages());
-   } catch (Exception e) {
-      System.out.println("could not read the file");
-      e.printStackTrace();
-   }
+         CalendarOverview overview = new CalendarOverview(Logger.loadDataOnDisk().getMessages());
+      } catch (Exception e) {
+         System.out.println("could not read the file");
+         e.printStackTrace();
+      }
    }
    
    private void processGameMessage(MessageData d) {
@@ -428,7 +428,7 @@ ActionListener, MessageListener, DocumentListener {
       x = Integer.parseInt(cord[0]);
       y = Integer.parseInt(cord[1]);
       
-      //game.UpLoadCordinates(x, y);
+      game.getListener().setCoordinate(x, y);
    }
    
    /**
