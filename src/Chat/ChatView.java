@@ -256,8 +256,8 @@ ActionListener, MessageListener, DocumentListener {
                   JLabel lb = (JLabel)me.getSource();
                   FileData file = (FileData)lb.getClientProperty("FileDataObj");
                   try {
-					Desktop.getDesktop().open(new File(file.getFileDir()));
-				  } catch (IOException e) { }
+               Desktop.getDesktop().open(new File(file.getFileDir()));
+              } catch (IOException e) { }
                }
             });
             chatPanel.insertComponent(l);
@@ -312,17 +312,17 @@ ActionListener, MessageListener, DocumentListener {
  * @throws IOException 
     */
    private void saveMessage(MessageData msg) {
-	  System.out.println("try to save message");
+     System.out.println("try to save message");
       MessageData data =new MessageData(txtSendPort.getName(), txtSendPort.getText());
       MessageList list = new MessageList();
       list.addToArrayList(data);
       try {
-		Logger.saveInformationToDisk(list);
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		System.out.println("error saving message");
-		e.printStackTrace();
-	}
+      Logger.saveInformationToDisk(list);
+   } catch (IOException e) {
+      // TODO Auto-generated catch block
+      System.out.println("error saving message");
+      e.printStackTrace();
+   }
    }
    
    /**
@@ -400,12 +400,12 @@ ActionListener, MessageListener, DocumentListener {
    }
    
    private void saveAttachment(MessageData e) {
-	  for(FileData fd : e.getFiles()) {
+     for(FileData fd : e.getFiles()) {
          String home = System.getProperty("user.home");
          home = home+"\\Downloads\\" + fd.getFileName();
          fd.writeTo(home);
          fd.setFilePath(home);
-	  }
+     }
    }
    
    /**
@@ -413,11 +413,11 @@ ActionListener, MessageListener, DocumentListener {
     */
    private void showHistory() {
       try {
-		CalendarOverview overview = new CalendarOverview(Logger.loadDataOnDisk().getMessages());
-	} catch (Exception e) {
-		System.out.println("could not read the file");
-		e.printStackTrace();
-	}
+      CalendarOverview overview = new CalendarOverview(Logger.loadDataOnDisk().getMessages());
+   } catch (Exception e) {
+      System.out.println("could not read the file");
+      e.printStackTrace();
+   }
    }
    
    private void processGameMessage(MessageData d) {
