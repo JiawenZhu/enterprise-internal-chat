@@ -10,6 +10,8 @@ import java.util.Random;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import Chat.ChatView;
+
 public class attachChess extends MouseAdapter
 {
    private static final int ROW = 15;
@@ -24,12 +26,14 @@ public class attachChess extends MouseAdapter
    public static int[][] isBlackWinningArray = new int[15][15];
    public static chessWinningDecisionMaker winning;
    public JPanel chessPanel;
-   gameData gamedata = new gameData();
-   public attachChess(Graphics g)
+   public ChatView chatBoard ;
+   public gameData gamedata = new gameData();
+   
+   public attachChess(Graphics g,ChatView chat)
    {
       this.g = g;
       oldBoard = g;
-     
+      chatBoard = chat;
 
       // this.panel = panel;
    }
@@ -245,6 +249,7 @@ public class attachChess extends MouseAdapter
          }
          gamedata.setReceiveStatus(true);
          gamedata.setCoordinate(x, y);
+         chatBoard.sendGameMessage(x, y );
          for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
                System.out.print(isBlackWinningArray[i][j] + "  ");

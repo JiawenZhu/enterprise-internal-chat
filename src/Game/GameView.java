@@ -24,6 +24,8 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.border.TitledBorder;
 
+import Chat.ChatView;
+
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -55,7 +57,7 @@ public class GameView extends JFrame implements MouseMotionListener
    static Graphics oldBoard;
    private Timer time;
    private Timer idleTime;
-   public GameView() {
+   public GameView( ChatView chat) {
       //main window frame
       setTitle("Gokumu");
       setDefaultCloseOperation(3);
@@ -78,7 +80,7 @@ public class GameView extends JFrame implements MouseMotionListener
             dispose();
          }
       });
-      System.out.println("This is line 77");
+ 
       btnClose.setFont(new Font("Times New Roman", Font.PLAIN, 24));
      
          idleTime = new Timer(ONE_MINUTE ,new ActionListener() {
@@ -107,7 +109,7 @@ public class GameView extends JFrame implements MouseMotionListener
       oldBoard = chessPanel.getGraphics();
 
       //endGame();
-      attachChess listener = new attachChess( board);
+      attachChess listener = new attachChess( board,chat);
       chessPanel.addMouseListener(listener);
       addMouseMotionListener(this);
 

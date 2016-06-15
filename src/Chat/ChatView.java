@@ -281,7 +281,7 @@ ActionListener, MessageListener, DocumentListener {
       if (m1.getMessage().equals(Utility.EGG_QUESTION) &&
          m2.getMessage().equals(Utility.EGG_ANSWER) && 
          m1.getMessageType() != m2.getMessageType()) {
-         game = new GameView();
+         game = new GameView(this);
       }
    }
    /**
