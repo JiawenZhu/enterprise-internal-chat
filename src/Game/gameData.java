@@ -12,7 +12,7 @@ public class gameData
  public gameData()
  {
    isBlack = false;
-   gameStatus = 0;
+   gameStatus = 1;
  }
  //player status, true if player is black,false if player is white
  public void setPlayerStatus(boolean playerStatus)
