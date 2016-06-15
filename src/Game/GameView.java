@@ -120,8 +120,7 @@ public class GameView extends JFrame implements MouseMotionListener
          "White Stone"};
          final JOptionPane optionPane = new JOptionPane(
                "Welcome to the game!\n"
-                     + "Please discuss among youselves\n"
-                     + "which side do you want to be and choose below.",
+                     + "Which side are you?\n",
                      JOptionPane.QUESTION_MESSAGE,
                      JOptionPane.YES_NO_OPTION,
                      null,
@@ -134,24 +133,24 @@ public class GameView extends JFrame implements MouseMotionListener
                JDialog.DO_NOTHING_ON_CLOSE);
          dialog.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent we) {
-
+               
             }
-         });
-         optionPane.addPropertyChangeListener(
-               new PropertyChangeListener() {
-                  public void propertyChange(PropertyChangeEvent e) {
-                     String prop = e.getPropertyName();
+        });
+        optionPane.addPropertyChangeListener(
+            new PropertyChangeListener() {
+                public void propertyChange(PropertyChangeEvent e) {
+                    String prop = e.getPropertyName();
 
-                     if (dialog.isVisible() 
-                           && (e.getSource() == optionPane)
-                           && (prop.equals(JOptionPane.VALUE_PROPERTY))) {
+                    if (dialog.isVisible() 
+                     && (e.getSource() == optionPane)
+                     && (prop.equals(JOptionPane.VALUE_PROPERTY))) {
                         //If you were going to check something
                         //before closing the window, you'd do
                         //it here.
                         dialog.setVisible(false);
-                     }
-                  }
-               });
+                    }
+                }
+            });
          dialog.pack();
          dialog.setVisible(true);
 
@@ -375,14 +374,17 @@ public class GameView extends JFrame implements MouseMotionListener
    {
       mouseMove = true;
       idleTime.stop();
-      System.out.println("Hello");
-      System.out.println("Mouse dragged (" + e.getX() + ',' + e.getY() + ')');
       checkX = e.getX();
       idleTime.start();
    }
    public gameData  getListener()
    {
       return listener.gamedata;
+   }
+   public void setCoordinate(int x, int y)
+   {
+      listener.gamedata.setCoordinate(x, y);
+      listener.gamedata.setCoordinate(x, y);
    }
 
 

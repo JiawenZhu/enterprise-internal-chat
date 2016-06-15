@@ -360,6 +360,7 @@ ActionListener, MessageListener, DocumentListener {
     * @param y
     */
    public void sendGameMessage(int x, int y) {
+      System.out.println("Game coordinates ready for sent:" + x + y);
       String receiver_ip = textField_IPAddress.getText();
       int port = Integer.parseInt(txtSendPort.getText());
       
@@ -427,8 +428,8 @@ ActionListener, MessageListener, DocumentListener {
       String[] cord = d.getMessage().split("|");
       x = Integer.parseInt(cord[0]);
       y = Integer.parseInt(cord[1]);
-      
-      //game.UpLoadCordinates(x, y);
+     System.out.println("Coordinate received:" + x + y);
+     game.setCoordinate(x,y);
    }
    
    /**

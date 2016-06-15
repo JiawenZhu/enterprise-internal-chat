@@ -6,8 +6,6 @@ public class gameData
  private static boolean isBlack;
  private int xCoordinate;
  private int yCoordinate;
- private boolean gameCoordinateSent;
- private boolean gameCoordinateReceived;
  private int gameStatus;
  public gameData()
  {
@@ -24,16 +22,7 @@ public class gameData
     this.xCoordinate = x;
     this.yCoordinate = y;
  }
- //set the sent status to be true if the message is sent
- public void setSentStatus(boolean status)
- {
-    this.gameCoordinateSent = status;
- }
- //set the receive status if coordinates have been received
- public void setReceiveStatus(boolean status)
- {
-    this.gameCoordinateReceived = status;
- }
+
  //gameStatus would be 1 if one player play via chat, 0 if player 
  //play with someone else on the same window.
  public void setGameStatus(int status)
@@ -54,16 +43,6 @@ public class gameData
  public int getYCoordinate()
  {
     return yCoordinate;
- }
- //get sent status
- public boolean getSentStatus()
- {
-    return gameCoordinateSent;
- }
- //get receive status
- public boolean getReceiveStatus()
- {
-    return gameCoordinateReceived;
  }
  public int  getGameStatus()
  {
