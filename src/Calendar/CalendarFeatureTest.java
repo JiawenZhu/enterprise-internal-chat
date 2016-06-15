@@ -1,16 +1,11 @@
 package Calendar;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 
-import org.junit.Test;
 import Chat.MessageData;
-import Chat.MessageList;
 
 public class CalendarFeatureTest {
 
-	@Test
 	public void test() {
 		
 		ArrayList<MessageData> list=  new ArrayList<MessageData>();
