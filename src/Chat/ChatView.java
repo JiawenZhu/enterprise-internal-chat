@@ -410,17 +410,6 @@ ActionListener, MessageListener, DocumentListener {
       CalendarOverview overview = new CalendarOverview(Logger.requestLog());
    }
    
-   private void processGameMessage(MessageData d) {
-      if (game == null)
-         return;
-      int x, y;
-      String[] cord = d.getMessage().split("|");
-      x = Integer.parseInt(cord[0]);
-      y = Integer.parseInt(cord[1]);
-      
-      //game.UpLoadCordinates(x, y);
-   }
-   
    /**
     * event handler to display incoming message
     */
