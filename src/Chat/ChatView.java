@@ -55,6 +55,7 @@ ActionListener, MessageListener, DocumentListener {
    private GameView game;
    private JPanel panel;
    private JButton btnHistory;
+   private MessageList history;
    
    /**
     * Launch the application.
@@ -81,6 +82,9 @@ ActionListener, MessageListener, DocumentListener {
       loadMessage();
       currentMsg = new MessageData();
       msgStore = new ArrayList<MessageData>();
+      try {
+		history = Logger.loadDataOnDisk();
+	  } catch (Exception e) { }
    }
 
    /**
@@ -314,12 +318,9 @@ ActionListener, MessageListener, DocumentListener {
  * @throws IOException 
     */
    private void saveMessage(MessageData msg) {
-     System.out.println("try to save message");
-      MessageData data =new MessageData(txtSendPort.getName(), txtSendPort.getText());
-      MessageList list = new MessageList();
-      list.addToArrayList(data);
+      history.addToArrayList(msg);
       try {
-      Logger.saveInformationToDisk(list);
+      Logger.saveInformationToDisk(history);
    } catch (IOException e) {
       // TODO Auto-generated catch block
       System.out.println("error saving message");
@@ -417,7 +418,7 @@ ActionListener, MessageListener, DocumentListener {
     */
    private void showHistory() {
       try {
-         CalendarOverview overview = new CalendarOverview(Logger.loadDataOnDisk());
+         CalendarOverview overview = new CalendarOverview(history);
       } catch (Exception e) {
          System.out.println("could not read the file");
          e.printStackTrace();
