@@ -434,8 +434,10 @@ ActionListener, MessageListener, DocumentListener {
 
      System.out.println("Coordinate received:" + x + y);
      game.setCoordinate(x,y);
-   }
    
+     
+   }
+ 
    /**
     * event handler to display incoming message
     */

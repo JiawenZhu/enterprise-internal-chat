@@ -7,6 +7,7 @@ public class gameData
  private int xCoordinate;
  private int yCoordinate;
  private int gameStatus;
+ private static boolean dataReceived;
  public gameData()
  {
    gameStatus = 1;
@@ -29,6 +30,10 @@ public class gameData
  {
     this.gameStatus = status;
  }
+public void setDataReceived(boolean status)
+{
+   this.dataReceived = status;
+}
  //get the status of the game player
  public static boolean getBlack()
  {
@@ -47,5 +52,11 @@ public class gameData
  public int  getGameStatus()
  {
     return gameStatus;
+ }
+ 
+ public static boolean getDataReceived()
+ {
+   return dataReceived;
+    
  }
 }
