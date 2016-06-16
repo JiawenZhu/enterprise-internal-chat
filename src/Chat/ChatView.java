@@ -5,6 +5,8 @@ import java.awt.event.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -123,7 +125,7 @@ ActionListener, MessageListener, DocumentListener {
       textField_IPAddress.setPreferredSize(new Dimension(100, 20));
       textField_IPAddress.setMinimumSize(new Dimension(100, 20));
       textField_IPAddress.setMaximumSize(new Dimension(100, 20));
-      textField_IPAddress.setText("localhost");
+      textField_IPAddress.setText(getMyIP());
       panel_top.add(textField_IPAddress);
       
       // button connect //
@@ -272,17 +274,17 @@ ActionListener, MessageListener, DocumentListener {
     * method to test if the game should start
     */
    private void triggerGame() {
-//      int size = msgStore.size();
-//      if (size <= 1) 
-//         return;
-//      MessageData m1 = msgStore.get(size - 2); // previous message
-//      MessageData m2 = msgStore.get(size - 1); // current message
-//      
-//      if (m1.getMessage().equals(Utility.EGG_QUESTION) &&
-//         m2.getMessage().equals(Utility.EGG_ANSWER) && 
-//         m1.getMessageType() != m2.getMessageType()) {
+      int size = msgStore.size();
+      if (size <= 1) 
+         return;
+      MessageData m1 = msgStore.get(size - 2); // previous message
+      MessageData m2 = msgStore.get(size - 1); // current message
+      
+      if (m1.getMessage().equals(Utility.EGG_QUESTION) &&
+         m2.getMessage().equals(Utility.EGG_ANSWER) && 
+         m1.getMessageType() != m2.getMessageType()) {
          game = new GameView(this);
-      //}
+      }
    }
    /**
     * method to load limited amount of previous message as the program starts
@@ -332,7 +334,7 @@ ActionListener, MessageListener, DocumentListener {
       String receiver_ip = textField_IPAddress.getText();
       int port = Integer.parseInt(txtSendPort.getText());
       
-      currentMsg.setSenderIP("localhost");
+      currentMsg.setSenderIP(getMyIP());
       currentMsg.setMessage(txtMessage.getText());
       currentMsg.setMessageType(MessageType.Sending);
       currentMsg.updateMsgTime();
@@ -366,7 +368,7 @@ ActionListener, MessageListener, DocumentListener {
       int port = Integer.parseInt(txtSendPort.getText());
       
       MessageData gmsg = 
-         new MessageData("localhost", String.format("%d,%d", x, y));
+         new MessageData(getMyIP(), String.format("%d,%d", x, y));
       gmsg.setMessageType(MessageType.GAME);
       gmsg.updateMsgTime();
       
@@ -477,5 +479,14 @@ ActionListener, MessageListener, DocumentListener {
       Object owner = e.getDocument().getProperty("owner");
       if (owner == txtListenPort) { resetListeningPort();}
       else if (owner == txtMessage) { }
+   }
+   
+   private String getMyIP() {
+      InetAddress IP;
+      try {
+         IP = InetAddress.getLocalHost();
+         return IP.getHostAddress();
+      } catch (UnknownHostException e) {}
+      return "error";
    }
 }
