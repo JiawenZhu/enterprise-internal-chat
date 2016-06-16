@@ -27,13 +27,13 @@ public class attachChess extends MouseAdapter
    public static chessWinningDecisionMaker winning;
    public JPanel chessPanel;
    public ChatView chatBoard ;
-   public gameData gamedata = new gameData();
+   public gameData gamedata;
    
-   public attachChess(Graphics g,ChatView chat)
+   public attachChess(Graphics g,ChatView chat,gameData gameData)
    {
       this.g = g;
-      oldBoard = g;
-      chatBoard = chat;
+      this.chatBoard = chat;
+      this.gamedata = gameData;
 
       // this.panel = panel;
    }
@@ -112,26 +112,27 @@ public class attachChess extends MouseAdapter
       {
          if(gameData.getBlack()== true)
          {
-            //mouse release black
-            //get coordinate  and paint white
-            putChess(Color.BLACK);
-            if(gamedata.getReceiveStatus() == true)
+            
+            attachBlack();
+            chatBoard.sendGameMessage(x, y);
+            if(gamedata.getXCoordinate() > 0)
             {
-               int x = gamedata.getXCoordinate();
-               int y = gamedata.getYCoordinate();     
-               paintChess(x,y,Color.WHITE);
+               paintWhite(gamedata.getXCoordinate(), gamedata.getYCoordinate());
             }
+            
+            
+
          }
          else if(gameData.getBlack()== false)
          {
-            if(gamedata.getReceiveStatus() == true)
+            if(gamedata.getXCoordinate() > 0)
             {
-               int x = gamedata.getXCoordinate();
-               int y = gamedata.getYCoordinate();
-               paintChess(x,y,Color.BLACK);
+               paintBlack(gamedata.getXCoordinate(), gamedata.getYCoordinate());
+               attachWhite();
+               chatBoard.sendGameMessage(x, y);
             }
-            putChess(Color.WHITE);
-           
+
+            
          }
        //decide if the player is winning
          winning = new chessWinningDecisionMaker(getXY(y), 
@@ -226,67 +227,84 @@ public class attachChess extends MouseAdapter
       return g;
       
    }
-   private void putChess(Color c)
+   private void attachBlack()
    {
-      if (x < 582 && x > 10 && y < 582 && y > 10 && chessBoardArray[x][y] == null) {
-         g.setColor(c);
-         g.fillOval(x, y, PAWN_SIZE ,
-               PAWN_SIZE );
-         //need to change accordingly to the color
-         if(gamedata.getBlack() == true)
-         {
+      if (x < 582 && x > 10 && y < 582 && y > 10 
+            &&  chessBoardArray[x][y] == null) {
+         g.setColor(Color.BLACK);
+         g.fillOval(x,y, PAWN_SIZE ,
+               PAWN_SIZE);
 
-         chessBoardArray[x][y] = "black";
-        
+         chessBoardArray[x][y] = "black"; 
+
          isBlackWinningArray[getXY(y)][getXY(x)] = 1;
-
-         }
-         else
-         {
-            chessBoardArray[x][y] = "white";
-
-            isBlackWinningArray[getXY(y)][getXY(x)] = -1;
-         }
-         gamedata.setReceiveStatus(true);
-         gamedata.setCoordinate(x, y);
-         chatBoard.sendGameMessage(x, y );
          for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
-               System.out.print(isBlackWinningArray[i][j] + "  ");
+               System.out.print(isBlackWinningArray [i][j] + "  ");
             }
             System.out.println("");
          }
          System.out.println("");
-         
-        
+
       }
    }
-   private void paintChess( int x, int y, Color c)
-   
+   private void attachWhite()
    {
-      if (x < 582 && x > 10 && y < 582 && y > 10 && chessBoardArray[x][y] == null) {
+      if (x < 582 && x > 10 && y < 582 && y > 10 
+            &&  chessBoardArray[x][y] == null) {
          g.setColor(Color.WHITE);
-         g.fillOval(x, y, PAWN_SIZE ,
-               PAWN_SIZE );
+         g.fillOval(x,y, PAWN_SIZE ,
+               PAWN_SIZE);
 
-         if(gamedata.getBlack() == false)
-         {
+         chessBoardArray[x][y] = "white"; 
 
-         chessBoardArray[x][y] = "white";
-        
          isBlackWinningArray[getXY(y)][getXY(x)] = -1;
-
-         }
-         else
-         {
-            chessBoardArray[x][y] = "black";
-
-            isBlackWinningArray[getXY(y)][getXY(x)] = 1;
-         }
-
          for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
-               System.out.print(isBlackWinningArray[i][j] + "  ");
+               System.out.print(isBlackWinningArray [i][j] + "  ");
+            }
+            System.out.println("");
+         }
+         System.out.println("");
+
+      }
+   
+   }
+   private void paintBlack(int xCor, int yCor)
+   {
+      if (xCor < 582 && xCor > 10 && yCor < 582 && yCor > 10 
+            &&  chessBoardArray[xCor][yCor] == null) {
+         g.setColor(Color.BLACK);
+         g.fillOval(xCor,yCor, PAWN_SIZE ,
+               PAWN_SIZE);
+
+         chessBoardArray[xCor][yCor] = "black"; 
+
+         isBlackWinningArray[getXY(yCor)][getXY(xCor)] = 1;
+         for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++) {
+               System.out.print(isBlackWinningArray [i][j] + "  ");
+            }
+            System.out.println("");
+         }
+         System.out.println("");
+
+      }
+   }
+   private void paintWhite(int xCor, int yCor)
+   {
+      if (xCor < 582 && xCor > 10 && yCor < 582 && yCor > 10 
+            &&  chessBoardArray[x][y] == null) {
+         g.setColor(Color.WHITE);
+         g.fillOval(xCor,yCor, PAWN_SIZE ,
+               PAWN_SIZE);
+
+         chessBoardArray[xCor][yCor] = "white"; 
+
+         isBlackWinningArray[getXY(yCor)][getXY(xCor)] = -1;
+         for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++) {
+               System.out.print(isBlackWinningArray [i][j] + "  ");
             }
             System.out.println("");
          }
@@ -296,6 +314,9 @@ public class attachChess extends MouseAdapter
    }
 
 }
+
+
+
 
 
 
