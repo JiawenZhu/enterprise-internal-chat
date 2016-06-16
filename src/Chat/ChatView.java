@@ -210,7 +210,7 @@ ActionListener, MessageListener, DocumentListener {
     * method to show new message to user
     * @param msg            message data
     */
-   private void displayMessage(MessageData msg) {
+   public static void displayMessage(MessageData msg, JTextPane chatPanel) {
       try {
          StyledDocument doc = chatPanel.getStyledDocument();
          
@@ -256,8 +256,8 @@ ActionListener, MessageListener, DocumentListener {
                   JLabel lb = (JLabel)me.getSource();
                   FileData file = (FileData)lb.getClientProperty("FileDataObj");
                   try {
-					Desktop.getDesktop().open(new File(file.getFileDir()));
-				  } catch (IOException e) { }
+               Desktop.getDesktop().open(new File(file.getFileDir()));
+              } catch (IOException e) { }
                }
             });
             chatPanel.insertComponent(l);
@@ -266,24 +266,23 @@ ActionListener, MessageListener, DocumentListener {
          doc.insertString(doc.getLength(), "\n", keyWord );
       }
       catch(Exception e) { System.out.println(e); }
-      triggerGame();
    }
    
    /**
     * method to test if the game should start
     */
    private void triggerGame() {
-      int size = msgStore.size();
-      if (size <= 1) 
-         return;
-      MessageData m1 = msgStore.get(size - 2); // previous message
-      MessageData m2 = msgStore.get(size - 1); // current message
-      
-      if (m1.getMessage().equals(Utility.EGG_QUESTION) &&
-         m2.getMessage().equals(Utility.EGG_ANSWER) && 
-         m1.getMessageType() != m2.getMessageType()) {
-         game = new GameView();
-      }
+//      int size = msgStore.size();
+//      if (size <= 1) 
+//         return;
+//      MessageData m1 = msgStore.get(size - 2); // previous message
+//      MessageData m2 = msgStore.get(size - 1); // current message
+//      
+//      if (m1.getMessage().equals(Utility.EGG_QUESTION) &&
+//         m2.getMessage().equals(Utility.EGG_ANSWER) && 
+//         m1.getMessageType() != m2.getMessageType()) {
+         game = new GameView(this);
+      //}
    }
    /**
     * method to load limited amount of previous message as the program starts
@@ -313,17 +312,17 @@ ActionListener, MessageListener, DocumentListener {
  * @throws IOException 
     */
    private void saveMessage(MessageData msg) {
-	  System.out.println("try to save message");
+     System.out.println("try to save message");
       MessageData data =new MessageData(txtSendPort.getName(), txtSendPort.getText());
       MessageList list = new MessageList();
       list.addToArrayList(data);
       try {
-		Logger.saveInformationToDisk(list);
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		System.out.println("error saving message");
-		e.printStackTrace();
-	}
+      Logger.saveInformationToDisk(list);
+   } catch (IOException e) {
+      // TODO Auto-generated catch block
+      System.out.println("error saving message");
+      e.printStackTrace();
+   }
    }
    
    /**
@@ -339,7 +338,7 @@ ActionListener, MessageListener, DocumentListener {
       currentMsg.updateMsgTime();
       msgStore.add(currentMsg);
       
-      displayMessage(currentMsg);
+      displayMessage(currentMsg, chatPanel);
       saveMessage(currentMsg);
       //System.out.println(currentMsg);
       
@@ -355,6 +354,25 @@ ActionListener, MessageListener, DocumentListener {
       
    }
    
+   /**
+    * method used by game to send game specific information
+    * @param x
+    * @param y
+    */
+   public void sendGameMessage(int x, int y) {
+      System.out.println("Game coordinates ready for sent:" + x + y);
+      String receiver_ip = textField_IPAddress.getText();
+      int port = Integer.parseInt(txtSendPort.getText());
+      
+      MessageData gmsg = 
+         new MessageData("localhost", String.format("{0}|{1}", x, y));
+      gmsg.setMessageType(MessageType.GAME);
+      gmsg.updateMsgTime();
+      
+      MessageSender sender = new MessageSender(receiver_ip ,port, gmsg);
+      (new Thread(sender)).start();
+   }
+
    /**
     * method to attach a file to current message
     */
@@ -382,22 +400,13 @@ ActionListener, MessageListener, DocumentListener {
       (new Thread(rec)).start();
    }
    
-   /**
-    * method used by game to send game specific information
-    * @param x        
-    * @param y
-    */
-   public void sendGameMessage(int x, int y) {
-      
-   }
-   
    private void saveAttachment(MessageData e) {
-	  for(FileData fd : e.getFiles()) {
+      for(FileData fd : e.getFiles()) {
          String home = System.getProperty("user.home");
          home = home+"\\Downloads\\" + fd.getFileName();
          fd.writeTo(home);
          fd.setFilePath(home);
-	  }
+      }
    }
    
    /**
@@ -405,11 +414,26 @@ ActionListener, MessageListener, DocumentListener {
     */
    private void showHistory() {
       try {
-		CalendarOverview overview = new CalendarOverview(Logger.loadDataOnDisk());
-	} catch (Exception e) {
-		System.out.println("could not read the file");
-		e.printStackTrace();
-	}
+         CalendarOverview overview = new CalendarOverview(Logger.loadDataOnDisk().getMessages());
+      } catch (Exception e) {
+         System.out.println("could not read the file");
+         e.printStackTrace();
+      }
+   }
+   
+   private void processGameMessage(MessageData d) {
+      if (game == null)
+         return;
+      int x, y;
+      String[] cord = d.getMessage().split("|");
+      x = Integer.parseInt(cord[0]);
+      y = Integer.parseInt(cord[1]);
+
+     System.out.println("Coordinate received:" + x + y);
+     game.setCoordinate(x,y);
+
+      
+
    }
    
    /**
@@ -417,10 +441,15 @@ ActionListener, MessageListener, DocumentListener {
     */
    @Override
    public void processMessage(MessageData e) {
-      msgStore.add(e);
-      saveMessage(e);
-      saveAttachment(e);
-      displayMessage(e);
+      if (e.getMessageType() == MessageType.GAME) {
+         processGameMessage(e);
+      } else {
+         msgStore.add(e);
+         saveMessage(e);
+         saveAttachment(e);
+         ChatView.displayMessage(e, chatPanel);
+         triggerGame();
+      }
    }
    
    /**
