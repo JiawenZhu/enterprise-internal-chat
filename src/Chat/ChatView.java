@@ -366,7 +366,7 @@ ActionListener, MessageListener, DocumentListener {
       int port = Integer.parseInt(txtSendPort.getText());
       
       MessageData gmsg = 
-         new MessageData("localhost", String.format("%d|%d", x, y));
+         new MessageData("localhost", String.format("%d,%d", x, y));
       gmsg.setMessageType(MessageType.GAME);
       gmsg.updateMsgTime();
       
@@ -426,7 +426,7 @@ ActionListener, MessageListener, DocumentListener {
       if (game == null)
          return;
       int x, y;
-      String[] cord = d.getMessage().split("|");
+      String[] cord = d.getMessage().split(",");
       x = Integer.parseInt(cord[0]);
       y = Integer.parseInt(cord[1]);
 
