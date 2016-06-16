@@ -115,55 +115,53 @@ public class attachChess extends MouseAdapter
             
             attachBlack();
             chatBoard.sendGameMessage(x, y);
-            if(gamedata.getXCoordinate() > 0)
-            {
+           
                paintWhite(gamedata.getXCoordinate(), gamedata.getYCoordinate());
-            }
+            
             
             
 
          }
          else if(gameData.getBlack()== false)
          {
-            if(gamedata.getXCoordinate() > 0)
-            {
+            
                paintBlack(gamedata.getXCoordinate(), gamedata.getYCoordinate());
                attachWhite();
                chatBoard.sendGameMessage(x, y);
-            }
+            
 
             
          }
-       //decide if the player is winning
-         winning = new chessWinningDecisionMaker(getXY(y), 
-               getXY(x), isBlackWinningArray);
-         if (winning.chessWinning(getXY(y), getXY(x), 
-               isBlackWinningArray) == 1) {
-            //result = new chessWinningResult(1);
-            System.out.println("Black Wins");
-            GameView.setResult(1);
-            JPanel chessPanel = GameView.chessPanel();
-           
-            JOptionPane.showMessageDialog(null,
-                  "Black Stone Wins!",
-                  "Congratulations",
-                  JOptionPane.INFORMATION_MESSAGE,
-                  null);
-            g = this.clear(g);
-            
-         } else if (winning.chessWinning(getXY(y), getXY(x), 
-               isBlackWinningArray) == -1) {
-            //result = new chessWinningResult(-1);
-            System.out.println("White Wins");
-            GameView.setResult(-1);
-            JOptionPane.showMessageDialog(null,
-                  "White Stone Wins!",
-                  "Congratulations",
-                  JOptionPane.INFORMATION_MESSAGE,
-                  null);
-            g = this.clear(g);
-         
-      }
+//       //decide if the player is winning
+//         winning = new chessWinningDecisionMaker(getXY(y), 
+//               getXY(x), isBlackWinningArray);
+//         if (winning.chessWinning(getXY(y), getXY(x), 
+//               isBlackWinningArray) == 1) {
+//            //result = new chessWinningResult(1);
+//            System.out.println("Black Wins");
+//            GameView.setResult(1);
+//            JPanel chessPanel = GameView.chessPanel();
+//           
+//            JOptionPane.showMessageDialog(null,
+//                  "Black Stone Wins!",
+//                  "Congratulations",
+//                  JOptionPane.INFORMATION_MESSAGE,
+//                  null);
+//            g = this.clear(g);
+//            
+//         } else if (winning.chessWinning(getXY(y), getXY(x), 
+//               isBlackWinningArray) == -1) {
+//            //result = new chessWinningResult(-1);
+//            System.out.println("White Wins");
+//            GameView.setResult(-1);
+//            JOptionPane.showMessageDialog(null,
+//                  "White Stone Wins!",
+//                  "Congratulations",
+//                  JOptionPane.INFORMATION_MESSAGE,
+//                  null);
+//            g = this.clear(g);
+//         
+//      }
       }
 
    }  

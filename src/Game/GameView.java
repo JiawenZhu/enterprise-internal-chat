@@ -384,10 +384,8 @@ public class GameView extends JFrame implements MouseMotionListener
    public void setCoordinate(int x, int y)
    {
       listener.gamedata.setCoordinate(x, y);
-      //listener.gamedata.setCoordinate(x, y);
-      this.repaint();
+
    }
 
 
 }
-
