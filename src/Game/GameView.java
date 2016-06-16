@@ -65,6 +65,7 @@ public class GameView extends JFrame implements MouseMotionListener
    private Timer idleTime;
    private attachChess listener;
    private gameData gamedata;
+//   private JFrame CloseGame;
    public GameView( ChatView chat) {
       //main window frame
       setTitle("Gokumu");
@@ -87,6 +88,8 @@ public class GameView extends JFrame implements MouseMotionListener
       getContentPane().add(btnClose);
       btnClose.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
+        	// (other end close the game) dialog //
+        	
             setVisible(false);
             dispose();
          }
