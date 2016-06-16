@@ -32,13 +32,14 @@ import Chat.ChatView;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class GameView extends JFrame implements MouseMotionListener
+public class GameView extends JFrame implements MouseMotionListener,MouseListener
 {
 
    private static  int result = 0;
@@ -64,7 +65,17 @@ public class GameView extends JFrame implements MouseMotionListener
    private Timer time;
    private Timer idleTime;
    private attachChess listener;
-   private gameData gamedata;
+
+   private int x;
+   private int y;
+   public gameData gamedata;
+   public ChatView chat;
+   public static int[][] isBlackWinningArray = new int[15][15];
+   public static String[][] chessBoardArray = new String[700][700];
+   public static chessWinningDecisionMaker winning;
+
+//   private JFrame CloseGame;
+
    public GameView( ChatView chat) {
       //main window frame
       setTitle("Gokumu");
@@ -75,7 +86,7 @@ public class GameView extends JFrame implements MouseMotionListener
       getContentPane().setLayout(null);
 
       gamedata = new gameData();
-
+      this.chat = chat;
       JPanel chessPanel = chessPanel();
       getContentPane().add(chessPanel);
 
@@ -87,6 +98,8 @@ public class GameView extends JFrame implements MouseMotionListener
       getContentPane().add(btnClose);
       btnClose.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
+         // (other end close the game) dialog //
+         
             setVisible(false);
             dispose();
          }
@@ -165,12 +178,9 @@ public class GameView extends JFrame implements MouseMotionListener
       }
       setVisible(true);
       board = chessPanel.getGraphics();
+      addMouseListener(this);
 
-      //endGame();
-      listener = new attachChess(board,chat,gamedata);
-      chessPanel.addMouseListener(listener);
-      addMouseMotionListener(this);
-
+      
 
 
    }
@@ -383,9 +393,257 @@ public class GameView extends JFrame implements MouseMotionListener
    }
    public void setCoordinate(int x, int y)
    {
-      listener.gamedata.setCoordinate(x, y);
+  
+    this.x = x;
+    this.y = y;
+    if (gamedata.getBlack() == true)
+    {
+       paintWhite(x,y);
+    }
+    paintBlack(x,y);
+    
+   }
+   //correct xy coordinate
+   private int correctXY(int x) {
+      x = x / 40;
 
+      return x * 40;
+   }
+   //get XY coordinate
+   private int getXY(int x) {
+      x = x / 40;
+      return x;
+   }
+   @Override
+   public void mouseClicked(MouseEvent e)
+   {
+      x = correctXY(e.getX());
+      y = correctXY(e.getY());
+      System.out.println("x:"+x+"   y:"+y);
+      if (gamedata.getGameStatus() == 1)
+      {
+         if(gameData.getBlack()== true)
+         {
+            
+            attachBlack();
+            chat.sendGameMessage(x, y);
+            this.winning();
+            for (int i = 0; i < 15; i++) {
+               for (int j = 0; j < 15; j++) {
+                  System.out.print(isBlackWinningArray [i][j] + "  ");
+               }
+               System.out.println("");
+            }
+            System.out.println("");
+            
+
+         }
+         else if(gameData.getBlack()== false)
+         {
+            
+               attachWhite();
+              chat.sendGameMessage(x, y);
+              this.winning();
+               for (int i = 0; i < 15; i++) {
+                  for (int j = 0; j < 15; j++) {
+                     System.out.print(isBlackWinningArray [i][j] + "  ");
+                  }
+                  System.out.println("");
+               }
+               System.out.println("");
+         }
+      }
+      
    }
 
+   @Override
+   public void mousePressed(MouseEvent e)
+   {
+      // TODO Auto-generated method stub
+      
+   }
 
+   @Override
+   public void mouseReleased(MouseEvent e)
+   {
+      // TODO Auto-generated method stub
+      
+   }
+
+   @Override
+   public void mouseEntered(MouseEvent e)
+   {
+      // TODO Auto-generated method stub
+      
+   }
+
+   @Override
+   public void mouseExited(MouseEvent e)
+   {
+      // TODO Auto-generated method stub
+      
+   }
+   private void attachBlack()
+   {
+      if (x < 582 && x > 10 && y < 582 && y > 10 
+            &&  chessBoardArray[x][y] == null) {
+         board.setColor(Color.BLACK);
+         board.fillOval(x,y, PAWN_SIZE ,
+               PAWN_SIZE);
+
+         chessBoardArray[x][y] = "black"; 
+
+         isBlackWinningArray[getXY(y)][getXY(x)] = 1;
+         for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++) {
+               System.out.print(isBlackWinningArray [i][j] + "  ");
+            }
+            System.out.println("");
+         }
+         System.out.println("");
+
+      }
+   }
+   private void attachWhite()
+   {
+      if (x < 582 && x > 10 && y < 582 && y > 10 
+            &&  chessBoardArray[x][y] == null) {
+         board.setColor(Color.WHITE);
+         board.fillOval(x,y, PAWN_SIZE ,
+               PAWN_SIZE);
+
+         chessBoardArray[x][y] = "white"; 
+
+         isBlackWinningArray[getXY(y)][getXY(x)] = -1;
+         for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++) {
+               System.out.print(isBlackWinningArray [i][j] + "  ");
+            }
+            System.out.println("");
+         }
+         System.out.println("");
+
+      }
+   
+   }
+   private void paintBlack(int xCor, int yCor)
+   {
+      if (xCor < 582 && xCor > 10 && yCor < 582 && yCor > 10 
+            &&  chessBoardArray[xCor][yCor] == null) {
+         board.setColor(Color.BLACK);
+         board.fillOval(xCor,yCor, PAWN_SIZE ,
+               PAWN_SIZE);
+
+         chessBoardArray[xCor][yCor] = "black"; 
+
+         isBlackWinningArray[getXY(yCor)][getXY(xCor)] = 1;
+         for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++) {
+               System.out.print(isBlackWinningArray [i][j] + "  ");
+            }
+            System.out.println("");
+         }
+         System.out.println("");
+
+      }
+   }
+   private void paintWhite(int xCor, int yCor)
+   {
+      if (xCor < 582 && xCor > 10 && yCor < 582 && yCor > 10 
+            &&  chessBoardArray[x][y] == null) {
+         board.setColor(Color.WHITE);
+         board.fillOval(xCor,yCor, PAWN_SIZE ,
+               PAWN_SIZE);
+
+         chessBoardArray[xCor][yCor] = "white"; 
+
+         isBlackWinningArray[getXY(yCor)][getXY(xCor)] = -1;
+         for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++) {
+               System.out.print(isBlackWinningArray [i][j] + "  ");
+            }
+            System.out.println("");
+         }
+         System.out.println("");
+
+      }
+   }
+   private Graphics clear(Graphics g)
+   {
+      for (int i = 0; i < 15; i++) {
+         for (int j = 0; j < 15; j++) {
+            if (isBlackWinningArray [i][j] == 1 ||
+                  isBlackWinningArray [i][j] == -1)
+            {
+               isBlackWinningArray [i][j] = 0;
+               int y = i * 40;
+               int x = j * 40;
+               Color myColour = new Color(209, 167, 78);
+               g.setColor(myColour);
+               g.fillRect(10, 10, 602, 602);
+               chessBoardArray[x][y] = null;
+               g.setColor(Color.BLACK);
+               // rows
+               for (int k = 0; k < 15; k++) 
+               {
+                  g.drawLine(20, 20 + k * SQUARE_SIZE, 20
+                        + (COLUMN - 1) *SQUARE_SIZE,
+                        20 + k * SQUARE_SIZE);
+               }
+               // columns
+               for (int l = 0; l < 15; l++) 
+               {
+                  g.drawLine(20 + l * SQUARE_SIZE, 20, 20 + l
+                        * SQUARE_SIZE, 20
+                        + (COLUMN - 1) * SQUARE_SIZE);
+               }
+               g.setColor(Color.BLACK);
+               //this is the pointer/decoration on the board
+               g.fillOval(133, 133, 15, 15);
+               g.fillOval(293, 133, 15, 15);
+               g.fillOval(453, 133, 15, 15);
+               g.fillOval(133, 293, 15, 15);
+               g.fillOval(293, 293, 15, 15);
+               g.fillOval(453, 293, 15, 15);
+               g.fillOval(133, 453, 15, 15);
+               g.fillOval(293, 453, 15, 15);
+               g.fillOval(453, 453, 15, 15);
+
+            }
+         }
+      }
+      return g;
+      
+   }
+public void winning()
+{
+   winning = new chessWinningDecisionMaker(getXY(y), 
+         getXY(x), isBlackWinningArray);
+   if (winning.chessWinning(getXY(y), getXY(x), 
+         isBlackWinningArray) == 1) {
+      //result = new chessWinningResult(1);
+      System.out.println("Black Wins");
+      GameView.setResult(1);
+      JPanel chessPanel = GameView.chessPanel();
+     
+      JOptionPane.showMessageDialog(null,
+            "Black Stone Wins!",
+            "Congratulations",
+            JOptionPane.INFORMATION_MESSAGE,
+            null);
+      board = this.clear(board);
+      
+   } else if (winning.chessWinning(getXY(y), getXY(x), 
+         isBlackWinningArray) == -1) {
+      //result = new chessWinningResult(-1);
+      System.out.println("White Wins");
+      GameView.setResult(-1);
+      JOptionPane.showMessageDialog(null,
+            "White Stone Wins!",
+            "Congratulations",
+            JOptionPane.INFORMATION_MESSAGE,
+            null);
+      board = this.clear(board);
+}
+}
 }
