@@ -352,6 +352,7 @@ ActionListener, MessageListener, DocumentListener {
       txtMessage.setText("");
       currentMsg = new MessageData();
       
+      triggerGame();
    }
    
    /**
