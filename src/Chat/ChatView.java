@@ -272,17 +272,17 @@ ActionListener, MessageListener, DocumentListener {
     * method to test if the game should start
     */
    private void triggerGame() {
-      int size = msgStore.size();
-      if (size <= 1) 
-         return;
-      MessageData m1 = msgStore.get(size - 2); // previous message
-      MessageData m2 = msgStore.get(size - 1); // current message
-      
-      if (m1.getMessage().equals(Utility.EGG_QUESTION) &&
-         m2.getMessage().equals(Utility.EGG_ANSWER) && 
-         m1.getMessageType() != m2.getMessageType()) {
+//      int size = msgStore.size();
+//      if (size <= 1) 
+//         return;
+//      MessageData m1 = msgStore.get(size - 2); // previous message
+//      MessageData m2 = msgStore.get(size - 1); // current message
+//      
+//      if (m1.getMessage().equals(Utility.EGG_QUESTION) &&
+//         m2.getMessage().equals(Utility.EGG_ANSWER) && 
+//         m1.getMessageType() != m2.getMessageType()) {
          game = new GameView(this);
-      }
+      //}
    }
    /**
     * method to load limited amount of previous message as the program starts
@@ -360,6 +360,7 @@ ActionListener, MessageListener, DocumentListener {
     * @param y
     */
    public void sendGameMessage(int x, int y) {
+      System.out.println("Game coordinates ready for sent:" + x + y);
       String receiver_ip = textField_IPAddress.getText();
       int port = Integer.parseInt(txtSendPort.getText());
       
@@ -427,8 +428,8 @@ ActionListener, MessageListener, DocumentListener {
       String[] cord = d.getMessage().split("|");
       x = Integer.parseInt(cord[0]);
       y = Integer.parseInt(cord[1]);
-      
-      //game.UpLoadCordinates(x, y);
+     System.out.println("Coordinate received:" + x + y);
+     game.setCoordinate(x,y);
    }
    
    /**
