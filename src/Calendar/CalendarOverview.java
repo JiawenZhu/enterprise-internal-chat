@@ -28,9 +28,9 @@ public class CalendarOverview {
 	static JFrame CalFrame; 
 	static ComboBox x;
     static CalendarOverview_calendar currentCalendar;
-	static ArrayList<MessageData> history;
+	static MessageList history;
 
-	public CalendarOverview( ArrayList<MessageData> history){
+	public CalendarOverview(MessageList history){
 		
 		this.history= history;
 		CalFrame = new JFrame("Calendar");
@@ -45,7 +45,6 @@ public class CalendarOverview {
 		// set annual calendar
 		initializeAnnualCalendar();
 	}
-
 	/**
 	 * the default year is 2016, so when there is no request,
 	 * the calendar for year 2016 is created.

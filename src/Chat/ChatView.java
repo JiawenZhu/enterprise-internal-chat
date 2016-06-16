@@ -414,11 +414,11 @@ ActionListener, MessageListener, DocumentListener {
     */
    private void showHistory() {
       try {
-         CalendarOverview overview = new CalendarOverview(Logger.loadDataOnDisk().getMessages());
+         CalendarOverview overview = new CalendarOverview(Logger.loadDataOnDisk());
       } catch (Exception e) {
          System.out.println("could not read the file");
          e.printStackTrace();
-      }
+      }	
    }
    
    private void processGameMessage(MessageData d) {

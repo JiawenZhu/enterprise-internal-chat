@@ -153,7 +153,7 @@ public class MonthlyCalendar_calendar extends JPanel {
 
 		// this ArrayList is from the MessageList class and stores 
 		// all the history and not categorized by time
-		ArrayList<MessageData> message = CalendarOverview.history;
+		MessageList message = CalendarOverview.history;
 
 		int count=0;
 		for (int i=0; i<message.size(); i++){
