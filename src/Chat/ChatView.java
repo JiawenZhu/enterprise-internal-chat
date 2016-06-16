@@ -401,12 +401,12 @@ ActionListener, MessageListener, DocumentListener {
    }
    
    private void saveAttachment(MessageData e) {
-     for(FileData fd : e.getFiles()) {
+      for(FileData fd : e.getFiles()) {
          String home = System.getProperty("user.home");
          home = home+"\\Downloads\\" + fd.getFileName();
          fd.writeTo(home);
          fd.setFilePath(home);
-     }
+      }
    }
    
    /**
@@ -414,11 +414,11 @@ ActionListener, MessageListener, DocumentListener {
     */
    private void showHistory() {
       try {
-      CalendarOverview overview = new CalendarOverview(Logger.loadDataOnDisk().getMessages());
-   } catch (Exception e) {
-      System.out.println("could not read the file");
-      e.printStackTrace();
-   }
+         CalendarOverview overview = new CalendarOverview(Logger.loadDataOnDisk().getMessages());
+      } catch (Exception e) {
+         System.out.println("could not read the file");
+         e.printStackTrace();
+      }
    }
    
    private void processGameMessage(MessageData d) {
@@ -428,8 +428,12 @@ ActionListener, MessageListener, DocumentListener {
       String[] cord = d.getMessage().split("|");
       x = Integer.parseInt(cord[0]);
       y = Integer.parseInt(cord[1]);
+
      System.out.println("Coordinate received:" + x + y);
      game.setCoordinate(x,y);
+
+      
+
    }
    
    /**
