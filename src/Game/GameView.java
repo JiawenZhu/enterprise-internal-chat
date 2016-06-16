@@ -179,7 +179,6 @@ public class GameView extends JFrame implements MouseMotionListener,MouseListene
       setVisible(true);
       board = chessPanel.getGraphics();
       addMouseListener(this);
-
       
 
 
@@ -417,63 +416,7 @@ public class GameView extends JFrame implements MouseMotionListener,MouseListene
    @Override
    public void mouseClicked(MouseEvent e)
    {
-      x = correctXY(e.getX());
-      y = correctXY(e.getY());
-      System.out.println("x:"+x+"   y:"+y);
-      if (gamedata.getGameStatus() == 1)
-      {
-         if(gameData.getBlack()== true)
-         {
-            
-            attachBlack();
-            chat.sendGameMessage(x, y);
-            this.winning();
-            for (int i = 0; i < 15; i++) {
-               for (int j = 0; j < 15; j++) {
-                  System.out.print(isBlackWinningArray [i][j] + "  ");
-               }
-               System.out.println("");
-            }
-            System.out.println("");
-            
-
-         }
-         else if(gameData.getBlack()== false)
-         {
-            
-               attachWhite();
-              chat.sendGameMessage(x, y);
-              this.winning();
-               for (int i = 0; i < 15; i++) {
-                  for (int j = 0; j < 15; j++) {
-                     System.out.print(isBlackWinningArray [i][j] + "  ");
-                  }
-                  System.out.println("");
-               }
-               System.out.println("");
-         }
-      }
-      
-   }
-
-   @Override
-   public void mousePressed(MouseEvent e)
-   {
-      // TODO Auto-generated method stub
-      
-   }
-
-   @Override
-   public void mouseReleased(MouseEvent e)
-   {
-      // TODO Auto-generated method stub
-      
-   }
-
-   @Override
-   public void mouseEntered(MouseEvent e)
-   {
-      // TODO Auto-generated method stub
+   // TODO Auto-generated method stub
       
    }
 
@@ -485,8 +428,6 @@ public class GameView extends JFrame implements MouseMotionListener,MouseListene
    }
    private void attachBlack()
    {
-      if (x < 582 && x > 10 && y < 582 && y > 10 
-            &&  chessBoardArray[x][y] == null) {
          board.setColor(Color.BLACK);
          board.fillOval(x,y, PAWN_SIZE ,
                PAWN_SIZE);
@@ -502,12 +443,11 @@ public class GameView extends JFrame implements MouseMotionListener,MouseListene
          }
          System.out.println("");
 
-      }
+      
    }
    private void attachWhite()
    {
-      if (x < 582 && x > 10 && y < 582 && y > 10 
-            &&  chessBoardArray[x][y] == null) {
+    
          board.setColor(Color.WHITE);
          board.fillOval(x,y, PAWN_SIZE ,
                PAWN_SIZE);
@@ -523,7 +463,7 @@ public class GameView extends JFrame implements MouseMotionListener,MouseListene
          }
          System.out.println("");
 
-      }
+      
    
    }
    private void paintBlack(int xCor, int yCor)
@@ -535,7 +475,7 @@ public class GameView extends JFrame implements MouseMotionListener,MouseListene
                PAWN_SIZE);
 
          chessBoardArray[xCor][yCor] = "black"; 
-
+         this.winning();
          isBlackWinningArray[getXY(yCor)][getXY(xCor)] = 1;
          for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
@@ -554,6 +494,7 @@ public class GameView extends JFrame implements MouseMotionListener,MouseListene
          board.setColor(Color.WHITE);
          board.fillOval(xCor,yCor, PAWN_SIZE ,
                PAWN_SIZE);
+         this.winning();
 
          chessBoardArray[xCor][yCor] = "white"; 
 
@@ -567,6 +508,7 @@ public class GameView extends JFrame implements MouseMotionListener,MouseListene
          System.out.println("");
 
       }
+      
    }
    private Graphics clear(Graphics g)
    {
@@ -645,5 +587,62 @@ public void winning()
             null);
       board = this.clear(board);
 }
+}
+
+@Override
+public void mousePressed(MouseEvent e)
+{
+   // TODO Auto-generated method stub
+   
+}
+
+@Override
+public void mouseReleased(MouseEvent e)
+{
+   x = correctXY(e.getX());
+   y = correctXY(e.getY() - 40);
+   System.out.println("x:"+x+"   y:"+y);
+   if (gamedata.getGameStatus() == 1)
+   {
+      if(gameData.getBlack()== true)
+      {
+         
+         attachBlack();
+         chat.sendGameMessage(x, y);
+         this.winning();
+         for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++) {
+               System.out.print(isBlackWinningArray [i][j] + "  ");
+            }
+            System.out.println("");
+         }
+         System.out.println("");
+         
+
+      }
+      else if(gameData.getBlack()== false)
+      {
+         
+            attachWhite();
+           chat.sendGameMessage(x, y);
+           this.winning();
+            for (int i = 0; i < 15; i++) {
+               for (int j = 0; j < 15; j++) {
+                  System.out.print(isBlackWinningArray [i][j] + "  ");
+               }
+               System.out.println("");
+            }
+            System.out.println("");
+      }
+   }
+   
+   
+}
+
+@Override
+public void mouseEntered(MouseEvent e)
+{
+   // TODO Auto-generated method stub
+   
 }
 }
