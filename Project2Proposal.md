@@ -59,13 +59,13 @@ The main window is the chat window. It allows users to connect to other party by
 ![](/Design/ChatView.png)
 
 This is the window that pops up if the user press attachment button in the Chat window. It allow users to send local files.
-![Image of Send Folder Page ](https://github.com/FH-Sp16-CS40A-40820/team02-project02/blob/GameV/Design/FolderView.png)
+![](/Design/Attachment.png)
 
 This is the Calendar that the user could check the different logs saved in the different dates.This window would show up if the User press the history button.
-![Image of the Calendar](https://github.com/FH-Sp16-CS40A-40820/team02-project02/blob/GameV/Design/CalendarView.png)
+![](/Design/Calendar.png)
 
 This is the easter egg window that would pop up if both party types in a command.Both party could play a simple Go game called Gomuku.
-![Image of the Gomuku](https://github.com/FH-Sp16-CS40A-40820/team02-project02/blob/GameV/Design/GameView.png)
+![](/Design/GameView.png)
 
 
 ---
