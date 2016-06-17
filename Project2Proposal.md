@@ -1,8 +1,8 @@
 
 
-###Project 1 Proposal###
+###Project 2 Proposal###
 
-####iChat####
+####IP Chat####
 
 __Team Composition:__<br>
 Rong Huang,Shuai Huang,Jiawen Zhu,Tianrong Xiao
@@ -33,30 +33,29 @@ Rong Huang,Shuai Huang,Jiawen Zhu,Tianrong Xiao
 ## 1.0	Project Overview
 ### 1.1 Abstract
 
-In some companies with high security concern,it is important to keep all the communications within the company. This chatting software helps to achieve this by allowing peer to peer connection via IP address. It allows both one to one chatting and also group chatting. 
-It has other features such as file sending and chat log saving that would better help the employee during work.
+In some companies with high security concern,it is important to keep all the communications within the company. This chatting software helps to achieve this by allowing peer to peer connection via IP address. It allows one to one chatting. Besides that, it has other features such as file transfering and chat history that would better help the employee during work.
 
 
-### 1.2. Target Customer [LOOK LATER]
+### 1.2. Target Customer
 
-The client is companies with concern of their security.This software helps to keep the security while allowing their employees to have conversations with each other.Our direct customers are employees in the comapanies. They will use this for their daily conversations.
-
+Our clients include but not limited to companies and individuals.The software provide users secured communication and data transfering. Our direct customers are employees of companies and individuals.
 
 
 ### 1.3.	Search Words 
-Chatting Application, Peer to Peer Connection, IP Connection, File Sending
+Chatting Application, Peer to Peer Connection, IP Connection, File Sending, hidden game
 
-### 1.4.	Assumptions [NOT SURE NEED CHANGE]
-  * There is multiples ports for connection.
+
+### 1.4.	Assumptions
+  * The user has access to the internet and basic knowledge of internet technology.
   * Employee prefer chatting via the internet instead of face to face.
 
 
 ###1.5.	Scope and Objectives 
-This software allow users to chat with others by finding other person's IP address. It allows for both one-to-one chatting and group chatting. It also allows users to sent file to the other party. Everyday, the chatting history would be saved as a .txt file where users could access to daily chat log via a calendar. The software also support other thing such as gaming.
+This software allow users to chat with others by knowing other person's IP address and port number. The primary usage of the software is one-to-one chatting. It also allows users to sent file to the other party. The chatting history would be saved, and users could access to daily chat log via a calendar. The software also support other thing such as hidden entertainment feature.
 
 The design of the software is the following:
 
-The first window is the chat window. It allows users find other party via port and IP address by typing in the other party's IP adress and port. When the other party is connected,both party could chat by typing into the text box. The user could also sent file to other party by pressing the sent file button. Lastly, the user could check past coversation by pressing the Log button
+The main window is the chat window. It allows users to connect to other party by providing the other party's IP adress and port. When the other party is connected, both party could chat by typing into the text box. The user could also sent file to other party by pressing the attachment button. Lastly, the user could check past coversation by pressing the history button
 ![Image of Chat page](https://github.com/FH-Sp16-CS40A-40820/team02-project02/blob/GameV/Design/ChatView.png)
 
 This is the window that pops up if the user press "File" button in the Chat window. It allow users to find a file from directory and pick the file to open and sent.
