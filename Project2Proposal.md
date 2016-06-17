@@ -58,22 +58,14 @@ The design of the software is the following:
 The main window is the chat window. It allows users to connect to other party by providing the other party's IP adress and port. When the other party is connected, both party could chat by typing into the text box. The user could also sent file to other party by pressing the attachment button. Lastly, the user could check past coversation by pressing the history button
 ![Image of Chat page](https://github.com/FH-Sp16-CS40A-40820/team02-project02/blob/GameV/Design/ChatView.png)
 
-This is the window that pops up if the user press "File" button in the Chat window. It allow users to find a file from directory and pick the file to open and sent.
+This is the window that pops up if the user press attachment button in the Chat window. It allow users to send local files.
 ![Image of Send Folder Page ](https://github.com/FH-Sp16-CS40A-40820/team02-project02/blob/GameV/Design/FolderView.png)
 
-This is the Calendar that the user could check the different logs saved in the different dates.This window would show up if the User press the log button.
+This is the Calendar that the user could check the different logs saved in the different dates.This window would show up if the User press the history button.
 ![Image of the Calendar](https://github.com/FH-Sp16-CS40A-40820/team02-project02/blob/GameV/Design/CalendarView.png)
 
-The last part of the design is the rank board which ranks users with the rate. The techniques that we could use during the project include building up a database, connecting the database to the java program, coding the GUI of the software, and developing algorithms:
-
-![Image of the rankboard](https://github.com/FH-Sp16-CS40A-40820/team02-project01/blob/master/Design-Document/gui/4.png)
-
 This is the easter egg window that would pop up if both party types in a command.Both party could play a simple Go game called Gomuku.
-
-![Image of the rankboard](https://github.com/FH-Sp16-CS40A-40820/team02-project02/blob/GameV/Design/GameView.png)
-We would document the progress of our project through meeting minutes and work on each part of project on our own and share our code on the Github repository.
-The priority task we have right now is to design a database that could hold the data and also designing the GUI of the software.
-
+![Image of the Gomuku](https://github.com/FH-Sp16-CS40A-40820/team02-project02/blob/GameV/Design/GameView.png)
 
 
 ---
@@ -102,12 +94,11 @@ The priority task we have right now is to design a database that could hold the 
   *There is little time to fully develop to a grand project
 * Technical Constraints:
   * We will use researched open source code and used it in our code
-  *The software is developed using Java and thus can be run under any operating system
+  * The software is developed using Java and thus can be run under any operating system
 
 ### 2.3. Challenges
 * Design a connection tool to do peer to peer connection
 * Design a calendar interface
-
 
 
 ---
