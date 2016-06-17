@@ -56,7 +56,7 @@ This software allow users to chat with others by knowing other person's IP addre
 The design of the software is the following:
 
 The main window is the chat window. It allows users to connect to other party by providing the other party's IP adress and port. When the other party is connected, both party could chat by typing into the text box. The user could also sent file to other party by pressing the attachment button. Lastly, the user could check past coversation by pressing the history button
-![Image of Chat page](https://github.com/FH-Sp16-CS40A-40820/team02-project02/tree/master/Design/ChatView.png)
+![](/Design/ChatView.png)
 
 This is the window that pops up if the user press attachment button in the Chat window. It allow users to send local files.
 ![Image of Send Folder Page ](https://github.com/FH-Sp16-CS40A-40820/team02-project02/blob/GameV/Design/FolderView.png)
