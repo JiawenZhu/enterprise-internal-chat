@@ -1,0 +1,32 @@
+@author: ShuaiHuang
+
+
+-CalendarOverview.java
+CalendarOverview class starts the window of Calendar where 
+user can see a panel to select the year(comes from combox.java) and a
+panel that is the calendar body itself(comes from CalendarOverView_calendar.java) 
+
+-ComboBox.java
+this class extends JPanel, which will be added into CalendarOverview and is manually implemented.This class
+aims to give options of what year of calendar one wants to view
+
+-CalendarOverview_calendar.java
+CalendarOverview_calendar is a panel that specifies the layout of 12 months calendar
+for one year. It calls the AnnualSingleCalendar.java to make calendars for each month to 
+fill in the spots specified by the layout.  
+
+-AnnualSingleCalendar.java
+This class makes calendar for each month. it is called 12 times
+for each year and then added to CalendarOverview_calendar, and then 
+shown to the user on CalendarOverview.java
+
+-MonthlyCalendarMaker.java
+this is a new Window that is initiated by the user's interaction 
+with the months on the yearly calendar. it is also the frame of the
+new monthly calendar, and the body part is from the MonthlyCalendar_calendar.java
+
+-MonthlyCalendar_calendar.java
+It shows a bigger version of the selected month, and also, this class gets 
+info from MessageList.java and assign the events in the list to each specific day and mark on that day  
+inside this class, each day (Panel) has a mouseListenser so that when user clicks specific day, 
+the history will be shown in a new window
