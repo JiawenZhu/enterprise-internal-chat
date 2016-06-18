@@ -21,8 +21,8 @@ Before you can chat with each other, you need to make sure you have a valid inte
 - Step 4. enter user name and password
 - ![](/Design/NetgearConfig1.png)
 - 
-- Step 5. click. 
-
+- Step 5. click attached devices option on the left panel to open up the page where you can find your device and its local IP address
+- Step 6. click port forwarding/port triggering option on the left panel
 
 
 ### Let’s Chat
