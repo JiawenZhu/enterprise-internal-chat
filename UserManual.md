@@ -14,16 +14,18 @@ The IP chat is peer-to-peer chatting software which allows user to communicate w
 ### Router Setup
 Before you can chat with each other, you need to make sure you have a valid internet connection or correct router setup if you are inside a local network. The demo below shows how to configure a Netgear router for the software to work properly, and your router should be similar to the demo.
 
-#### Login to configuration page of the router
 - Step 1. make sure your computer is connected to the router
 - Step 2. open browser
 - Step 3. type in http://www.routerlogin.net/ and hit enter will open the configuration page
 - Step 4. enter user name and password
 - ![](/Design/NetgearConfig1.png)
 - 
-- Step 5. click attached devices option on the left panel to open up the page where you can find your device and its local IP address
-- Step 6. click port forwarding/port triggering option on the left panel
-
+- Step 5. click attached devices option on the left panel to open up the page where you can find your device and its local IP address. Note it down for later use
+- Step 6. click port forwarding/port triggering option on the left panel to open up the page
+- ![](/Design/NetgearConfig2.png)
+- 
+- Step 7. click add custom service to add new port forwarding config. Enter your port number and IP address and click apply.
+- ![](/Design/NetgearConfig3.png)
 
 ### Let’s Chat
 
