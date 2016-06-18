@@ -356,7 +356,7 @@ public class GameView extends JFrame implements MouseMotionListener, MouseListen
    public void mouseReleased(MouseEvent e)
    {
       x = correctXY(e.getX());
-      y = correctXY(e.getY() - 40);
+      y = correctXY(e.getY());
       System.out.println("x:"+x+"   y:"+y);
       if (gamedata.getGameStatus() == 1)
       {  if (x < 582 && x >= 0 && y < 582 && y >= 0)
