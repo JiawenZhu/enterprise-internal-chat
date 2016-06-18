@@ -159,9 +159,12 @@ public class MonthlyCalendar_calendar extends JPanel {
 		for (int i=0; i<message.size(); i++){
 			MessageData currentMessage= message.get(i);
 			Date currentDate=currentMessage.getDateTime();
-			int month=currentDate.getMonth();
+			Calendar c=Calendar.getInstance();
+			c.setTime(currentDate);
+			
+			int month=c.get(Calendar.MONTH);
 			int year = currentDate.getYear();
-			int dayNum= currentDate.getDay();
+			int dayNum= c.get(Calendar.DAY_OF_MONTH);
 
 			if(month==monthInt && (year+1900)==this.year && dayNum==day){
 				count++;
