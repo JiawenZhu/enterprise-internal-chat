@@ -8,16 +8,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -25,12 +17,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import javax.swing.border.TitledBorder;
-
 import Chat.ChatView;
-
 import java.awt.Font;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -39,21 +27,14 @@ import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class GameView extends JFrame implements MouseMotionListener,MouseListener
+public class GameView extends JFrame implements MouseMotionListener, MouseListener
 {
 
-   private static  int result = 0;
-   private static  int resultSet = 0;
-   private static final int ROW = 15;
    private static final int COLUMN = 15;
-   private static final int PAWN_X_POSITION = 30;
-   private static final int PAWN_Y_POSITION  = 60;
    private static final int PAWN_SIZE = 35;
    private static final int SQUARE_SIZE= 40;
    public static final int ONE_SEC = 1000;
    public static final int ONE_MINUTE =60000;
-   private static boolean mouseMove ;
-   private int checkX = 0;
    private int hour = 0;
    private int minute = 0;
    private int second = 0;
@@ -61,11 +42,9 @@ public class GameView extends JFrame implements MouseMotionListener,MouseListene
    private JLabel minuteLabel;
    private JLabel hourLabel;
    private JLabel hourDividor;
-   Graphics board;
+   private Graphics board;
    private Timer time;
    private Timer idleTime;
-   private attachChess listener;
-
    private int x;
    private int y;
    public gameData gamedata;
@@ -74,7 +53,6 @@ public class GameView extends JFrame implements MouseMotionListener,MouseListene
    public static String[][] chessBoardArray = new String[700][700];
    public static chessWinningDecisionMaker winning;
 
-//   private JFrame CloseGame;
 
    public GameView( ChatView chat) {
       //main window frame
@@ -98,8 +76,8 @@ public class GameView extends JFrame implements MouseMotionListener,MouseListene
       getContentPane().add(btnClose);
       btnClose.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
-         // (other end close the game) dialog //
-         
+            // (other end close the game) dialog //
+
             setVisible(false);
             dispose();
          }
@@ -146,24 +124,24 @@ public class GameView extends JFrame implements MouseMotionListener,MouseListene
                JDialog.DO_NOTHING_ON_CLOSE);
          dialog.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent we) {
-               
-            }
-        });
-        optionPane.addPropertyChangeListener(
-            new PropertyChangeListener() {
-                public void propertyChange(PropertyChangeEvent e) {
-                    String prop = e.getPropertyName();
 
-                    if (dialog.isVisible() 
-                     && (e.getSource() == optionPane)
-                     && (prop.equals(JOptionPane.VALUE_PROPERTY))) {
+            }
+         });
+         optionPane.addPropertyChangeListener(
+               new PropertyChangeListener() {
+                  public void propertyChange(PropertyChangeEvent e) {
+                     String prop = e.getPropertyName();
+
+                     if (dialog.isVisible() 
+                           && (e.getSource() == optionPane)
+                           && (prop.equals(JOptionPane.VALUE_PROPERTY))) {
                         //If you were going to check something
                         //before closing the window, you'd do
                         //it here.
                         dialog.setVisible(false);
-                    }
-                }
-            });
+                     }
+                  }
+               });
          dialog.pack();
          dialog.setVisible(true);
 
@@ -178,8 +156,9 @@ public class GameView extends JFrame implements MouseMotionListener,MouseListene
       }
       setVisible(true);
       board = chessPanel.getGraphics();
-      addMouseListener(this);
-      
+      chessPanel.addMouseListener(this);
+      addMouseMotionListener(this);
+
 
 
    }
@@ -218,20 +197,20 @@ public class GameView extends JFrame implements MouseMotionListener,MouseListene
             g.fillOval(293, 453, 15, 15);
             g.fillOval(453, 453, 15, 15);
 
-            //repaint chess
-            //            for (int i = 0; i < 650; i++) {
-            //               for (int j = 0; j < 650; j++) {
-            //                  if (attachChess.chessBoardArray[i][j] == "black") {
-            //                     g.setColor(Color.BLACK);
-            //                     g.fillOval(i, j,  PAWN_SIZE ,
-            //                           PAWN_SIZE );
-            //                  } else if (attachChess.chessBoardArray[i][j] == "white") {
-            //                     g.setColor(Color.WHITE);
-            //                     g.fillOval(i, j, PAWN_SIZE ,
-            //                           PAWN_SIZE );
-            //                  }
-            //               }
-            //            }
+            //jjjo  repaint chess
+            for (int i = 0; i < 650; i++) {
+               for (int j = 0; j < 650; j++) {
+                  if (chessBoardArray[i][j] == "black") {
+                     g.setColor(Color.BLACK);
+                     g.fillOval(i, j,  PAWN_SIZE ,
+                           PAWN_SIZE );
+                  } else if (chessBoardArray[i][j] == "white") {
+                     g.setColor(Color.WHITE);
+                     g.fillOval(i, j, PAWN_SIZE ,
+                           PAWN_SIZE );
+                  }
+               }
+            }
          }
       };
 
@@ -359,48 +338,77 @@ public class GameView extends JFrame implements MouseMotionListener,MouseListene
       });
       return timerPanel;
    }
-
-
-   public static  void setResult(int i)
-   { 
-      if (i != 0)
-         result = i;
-
-   }
-
    @Override
    public void mouseDragged(MouseEvent e)
    {
-      mouseMove = true;
-      System.out.println("Mouse dragged (" + e.getX() + ',' + e.getY() + ')');
       idleTime.stop();
-      checkX = e.getX();
       idleTime.start();
    }
 
    @Override
    public void mouseMoved(MouseEvent e)
    {
-      mouseMove = true;
       idleTime.stop();
-      checkX = e.getX();
       idleTime.start();
    }
-   public gameData  getListener()
+
+   @Override
+   public void mouseReleased(MouseEvent e)
    {
-      return listener.gamedata;
+      x = correctXY(e.getX());
+      y = correctXY(e.getY() - 40);
+      System.out.println("x:"+x+"   y:"+y);
+      if (gamedata.getGameStatus() == 1)
+      {  if (x < 582 && x >= 0 && y < 582 && y >= 0)
+      {
+         if(gameData.getBlack()== true)
+         {
+
+            attachBlack();
+            chat.sendGameMessage(x, y);
+            this.winning();
+            for (int i = 0; i < 15; i++) {
+               for (int j = 0; j < 15; j++) {
+                  System.out.print(isBlackWinningArray [i][j] + "  ");
+               }
+               System.out.println("");
+            }
+            System.out.println("");
+
+
+         }
+         else if(gameData.getBlack()== false)
+         {
+
+            attachWhite();
+            chat.sendGameMessage(x, y);
+            this.winning();
+            for (int i = 0; i < 15; i++) {
+               for (int j = 0; j < 15; j++) {
+                  System.out.print(isBlackWinningArray [i][j] + "  ");
+               }
+               System.out.println("");
+            }
+            System.out.println("");
+         }
+      }
+      }
+
    }
+
    public void setCoordinate(int x, int y)
    {
-  
-    this.x = x;
-    this.y = y;
-    if (gamedata.getBlack() == true)
-    {
-       paintWhite(x,y);
-    }
-    paintBlack(x,y);
-    
+
+      this.x = x;
+      this.y = y;
+      if (gameData.getBlack() == true)
+      {
+         paintWhite(x,y);
+         this.winning();
+      }
+      paintBlack(x,y);
+      this.winning();
+
    }
    //correct xy coordinate
    private int correctXY(int x) {
@@ -413,58 +421,48 @@ public class GameView extends JFrame implements MouseMotionListener,MouseListene
       x = x / 40;
       return x;
    }
-   @Override
-   public void mouseClicked(MouseEvent e)
-   {
-   // TODO Auto-generated method stub
-      
-   }
 
-   @Override
-   public void mouseExited(MouseEvent e)
-   {
-      // TODO Auto-generated method stub
-      
-   }
    private void attachBlack()
    {
-         board.setColor(Color.BLACK);
-         board.fillOval(x,y, PAWN_SIZE ,
-               PAWN_SIZE);
+      board.setColor(Color.BLACK);
+      board.fillOval(x,y, PAWN_SIZE ,
+            PAWN_SIZE);
 
-         chessBoardArray[x][y] = "black"; 
+      chessBoardArray[x][y] = "black"; 
 
-         isBlackWinningArray[getXY(y)][getXY(x)] = 1;
-         for (int i = 0; i < 15; i++) {
-            for (int j = 0; j < 15; j++) {
-               System.out.print(isBlackWinningArray [i][j] + "  ");
-            }
-            System.out.println("");
+      isBlackWinningArray[getXY(y)][getXY(x)] = 1;
+      this.winning();
+      for (int i = 0; i < 15; i++) {
+         for (int j = 0; j < 15; j++) {
+            System.out.print(isBlackWinningArray [i][j] + "  ");
          }
          System.out.println("");
+      }
+      System.out.println("");
 
-      
+
    }
    private void attachWhite()
    {
-    
-         board.setColor(Color.WHITE);
-         board.fillOval(x,y, PAWN_SIZE ,
-               PAWN_SIZE);
 
-         chessBoardArray[x][y] = "white"; 
+      board.setColor(Color.WHITE);
+      board.fillOval(x,y, PAWN_SIZE ,
+            PAWN_SIZE);
 
-         isBlackWinningArray[getXY(y)][getXY(x)] = -1;
-         for (int i = 0; i < 15; i++) {
-            for (int j = 0; j < 15; j++) {
-               System.out.print(isBlackWinningArray [i][j] + "  ");
-            }
-            System.out.println("");
+      chessBoardArray[x][y] = "white"; 
+
+      isBlackWinningArray[getXY(y)][getXY(x)] = -1;
+      this.winning();
+      for (int i = 0; i < 15; i++) {
+         for (int j = 0; j < 15; j++) {
+            System.out.print(isBlackWinningArray [i][j] + "  ");
          }
          System.out.println("");
+      }
+      System.out.println("");
 
-      
-   
+
+
    }
    private void paintBlack(int xCor, int yCor)
    {
@@ -475,8 +473,8 @@ public class GameView extends JFrame implements MouseMotionListener,MouseListene
                PAWN_SIZE);
 
          chessBoardArray[xCor][yCor] = "black"; 
-         this.winning();
          isBlackWinningArray[getXY(yCor)][getXY(xCor)] = 1;
+         this.winning();
          for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
                System.out.print(isBlackWinningArray [i][j] + "  ");
@@ -494,11 +492,12 @@ public class GameView extends JFrame implements MouseMotionListener,MouseListene
          board.setColor(Color.WHITE);
          board.fillOval(xCor,yCor, PAWN_SIZE ,
                PAWN_SIZE);
-         this.winning();
 
          chessBoardArray[xCor][yCor] = "white"; 
 
          isBlackWinningArray[getXY(yCor)][getXY(xCor)] = -1;
+         this.winning();
+
          for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
                System.out.print(isBlackWinningArray [i][j] + "  ");
@@ -508,7 +507,35 @@ public class GameView extends JFrame implements MouseMotionListener,MouseListene
          System.out.println("");
 
       }
-      
+
+   }
+
+   public void winning()
+   {
+      winning = new chessWinningDecisionMaker(getXY(y), 
+            getXY(x), isBlackWinningArray);
+      if (winning.chessWinning(getXY(y), getXY(x), 
+            isBlackWinningArray) == 1) {
+         //result = new chessWinningResult(1);
+         System.out.println("Black Wins");
+         JOptionPane.showMessageDialog(null,
+               "Black Stone Wins!",
+               "Congratulations",
+               JOptionPane.INFORMATION_MESSAGE,
+               null);
+         board = this.clear(board);
+
+      } else if (winning.chessWinning(getXY(y), getXY(x), 
+            isBlackWinningArray) == -1) {
+         //result = new chessWinningResult(-1);
+         System.out.println("White Wins");
+         JOptionPane.showMessageDialog(null,
+               "White Stone Wins!",
+               "Congratulations",
+               JOptionPane.INFORMATION_MESSAGE,
+               null);
+         board = this.clear(board);
+      }
    }
    private Graphics clear(Graphics g)
    {
@@ -522,7 +549,7 @@ public class GameView extends JFrame implements MouseMotionListener,MouseListene
                int x = j * 40;
                Color myColour = new Color(209, 167, 78);
                g.setColor(myColour);
-               g.fillRect(10, 10, 602, 602);
+               g.fillRect(0, 0, 613, 613);
                chessBoardArray[x][y] = null;
                g.setColor(Color.BLACK);
                // rows
@@ -555,94 +582,32 @@ public class GameView extends JFrame implements MouseMotionListener,MouseListene
          }
       }
       return g;
-      
+
    }
-public void winning()
-{
-   winning = new chessWinningDecisionMaker(getXY(y), 
-         getXY(x), isBlackWinningArray);
-   if (winning.chessWinning(getXY(y), getXY(x), 
-         isBlackWinningArray) == 1) {
-      //result = new chessWinningResult(1);
-      System.out.println("Black Wins");
-      GameView.setResult(1);
-      JPanel chessPanel = GameView.chessPanel();
-     
-      JOptionPane.showMessageDialog(null,
-            "Black Stone Wins!",
-            "Congratulations",
-            JOptionPane.INFORMATION_MESSAGE,
-            null);
-      board = this.clear(board);
-      
-   } else if (winning.chessWinning(getXY(y), getXY(x), 
-         isBlackWinningArray) == -1) {
-      //result = new chessWinningResult(-1);
-      System.out.println("White Wins");
-      GameView.setResult(-1);
-      JOptionPane.showMessageDialog(null,
-            "White Stone Wins!",
-            "Congratulations",
-            JOptionPane.INFORMATION_MESSAGE,
-            null);
-      board = this.clear(board);
-}
-}
-
-@Override
-public void mousePressed(MouseEvent e)
-{
-   // TODO Auto-generated method stub
-   
-}
-
-@Override
-public void mouseReleased(MouseEvent e)
-{
-   x = correctXY(e.getX());
-   y = correctXY(e.getY() - 40);
-   System.out.println("x:"+x+"   y:"+y);
-   if (gamedata.getGameStatus() == 1)
+   @Override
+   public void mousePressed(MouseEvent e)
    {
-      if(gameData.getBlack()== true)
-      {
-         
-         attachBlack();
-         chat.sendGameMessage(x, y);
-         this.winning();
-         for (int i = 0; i < 15; i++) {
-            for (int j = 0; j < 15; j++) {
-               System.out.print(isBlackWinningArray [i][j] + "  ");
-            }
-            System.out.println("");
-         }
-         System.out.println("");
-         
+      // TODO Auto-generated method stub
 
-      }
-      else if(gameData.getBlack()== false)
-      {
-         
-            attachWhite();
-           chat.sendGameMessage(x, y);
-           this.winning();
-            for (int i = 0; i < 15; i++) {
-               for (int j = 0; j < 15; j++) {
-                  System.out.print(isBlackWinningArray [i][j] + "  ");
-               }
-               System.out.println("");
-            }
-            System.out.println("");
-      }
    }
-   
-   
-}
 
-@Override
-public void mouseEntered(MouseEvent e)
-{
-   // TODO Auto-generated method stub
-   
-}
+   @Override
+   public void mouseEntered(MouseEvent e)
+   {
+      // TODO Auto-generated method stub
+
+   }
+   @Override
+   public void mouseClicked(MouseEvent e)
+   {
+      // TODO Auto-generated method stub
+
+   }
+
+   @Override
+   public void mouseExited(MouseEvent e)
+   {
+      // TODO Auto-generated method stub
+
+   }
 }
