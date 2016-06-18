@@ -26,8 +26,22 @@ Before you can chat with each other, you need to make sure you have a valid inte
 - 
 - Step 7. click add custom service to add new port forwarding config. Enter your port number and IP address and click apply.
 - ![](/Design/NetgearConfig3.png)
+- 
+
 
 ### Let’s Chat
+The chat window is the main window of the software. User can enter his listening port on the top right textbox. The IP address and port of the receiving side are at the top left of the window.
+![](/Design/ChatView.png)
+
+User can enter message in the textbox at the bottom and click **Send** button to send the message. 
+![](/Design/ChatView1.png)
+
+The **Attachment** button allows user to send file(s). Once received file(s), user can click the file icons and the folder contains the file will pop open. The default path for the received files is the **Downloads** folder.
+![](/Design/ChatView2.png)
+
+User can click **history** button to view calendar window where chat history is shown. 
+
+
 
 ### Share Files
 
