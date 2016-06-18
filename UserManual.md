@@ -19,9 +19,11 @@ Before you can chat with each other, you need to make sure you have a valid inte
 - Step 2. open browser
 - Step 3. type in http://www.routerlogin.net/ and hit enter will open the configuration page
 - Step 4. enter user name and password
+- ![](/Design/NetgearConfig1.png)
+- 
 - Step 5. click. 
 
-![](/Desgin/NetgearConfig1.png)
+
 
 ### Let’s Chat
 
